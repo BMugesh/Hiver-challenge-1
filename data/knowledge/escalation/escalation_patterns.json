@@ -1,0 +1,43 @@
+{
+  "catalog_overview": "Empirical patterns explaining why AppleSupport ceased public troubleshooting.",
+  "top_escalation_triggers": [
+    {
+      "trigger": "PRIVATE_CREDENTIALS_AND_ACCOUNT_SECURITY",
+      "frequency": 1135,
+      "description": "Apple ID, iCloud password, two-factor auth, and billing requests require private identity verification.",
+      "policy_guidance": "Escalate immediately to secure DM or official Apple ID recovery flow."
+    },
+    {
+      "trigger": "CUSTOMER_UNRESPONSIVE_TO_DIAGNOSTIC",
+      "frequency": 4013,
+      "description": "Customer did not answer diagnostic query (device model, iOS version).",
+      "policy_guidance": "Do not hallucinate resolution; prompt for diagnostic parameter before advancing."
+    },
+    {
+      "trigger": "HARDWARE_SERVICE_AND_REPAIR_TRIAGE",
+      "frequency": 925,
+      "description": "Physical cracks, water damage, swollen battery, or component failure.",
+      "policy_guidance": "Escalate to Apple Store Genius Bar or Authorized Service Provider."
+    },
+    {
+      "trigger": "FAILED_PUBLIC_TROUBLESHOOTING",
+      "frequency": 684,
+      "description": "Customer already attempted basic restart/reset steps with no success.",
+      "policy_guidance": "Avoid repeating failed instructions; escalate to human specialist."
+    }
+  ],
+  "category_distribution": {
+    "ESCALATED_TO_DM": 49876,
+    "UNCLEAR": 5611,
+    "ABANDONED": 4013,
+    "UNRESOLVED": 12825
+  },
+  "frequent_patterns": {
+    "Direct message redirect initiated for individualized support.": 47132,
+    "Dialogue ended prematurely without diagnostic progression or resolution.": 12825,
+    "Complex, noisy, or multi-party conversation without clear support outcome.": 5611,
+    "AppleSupport asked diagnostic question -> Customer stopped responding before troubleshooting.": 4013,
+    "Customer requested account/billing help -> AppleSupport shifted to DM to protect private info.": 1135,
+    "Hardware failure or repair need -> AppleSupport directed to private DM/Store triage.": 925
+  }
+}

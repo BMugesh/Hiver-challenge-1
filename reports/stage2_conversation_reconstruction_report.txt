@@ -1,0 +1,415 @@
+============================================================
+APPLE SUPPORT DATASET
+STAGE 2 — CONVERSATION RECONSTRUCTION REPORT
+============================================================
+
+1. Input Dataset
+------------------------------
+Primary Raw Source: data/raw/apple_support_filtered_threads.csv
+Total Raw Rows    : 233,977 tweets
+
+2. Reconstruction Method
+------------------------------
+ - In-memory O(1) hash lookup mapping tweet_id -> tweet record.
+ - Upward parent pointer traversal (in_response_to_tweet_id) to locate root ancestors.
+ - Visited-set cycle detection during traversal.
+ - Deterministic Breadth-First Tree traversal from root to assign hierarchical turn_index.
+ - Preserves parent-before-child ordering across all branches.
+
+3. Thread Statistics
+------------------------------
+Total Reconstructed Threads : 80,247
+Minimum Turns per Thread    : 2
+Maximum Turns per Thread    : 125
+Average Turns per Thread    : 2.92
+Median Turns per Thread     : 2.0
+
+Thread Length Distribution:
+ - 1 turn   :      0 ( 0.00%)
+ - 2 turns  : 52,475 (65.39%)
+ - 3 turns  :  7,881 ( 9.82%)
+ - 4 turns  : 10,512 (13.10%)
+ - 5+ turns :  9,379 (11.69%)
+
+4. Turn Statistics
+------------------------------
+Total Reconstructed Turns   : 233,977
+Customer Turns (inbound)    : 129,146 (55.20%)
+AppleSupport Turns (outbound): 104,831 (44.80%)
+
+5. Customer vs AppleSupport Analysis
+------------------------------
+Mixed Threads (Customer + AppleSupport) : 80,247 (100.00%)
+Customer-only Threads                   : 0 (0.00%)
+AppleSupport-only Threads                : 0 (0.00%)
+ -> Verification: 100% of reconstructed threads represent genuine brand-customer support dialogues.
+
+6. Missing Parent References
+------------------------------
+Total Parent References Stated : 153,730
+Missing Parent References      : 0 (0.00%)
+ -> Every stated parent reference resolves directly to a tweet within this dataset.
+
+7. Missing Child References
+------------------------------
+Total Child References Stated  : 164,457
+Missing Child References       : 10,727 (6.52%)
+ -> Missing child references point to filtered/external tweets outside the AppleSupport corpus.
+
+8. Branching Analysis
+------------------------------
+Threads Containing Branches    : 4,719 (5.88%)
+Linear Threads (No Branching)  : 75,528 (94.12%)
+ -> Deterministic handling: Sibling branches are sorted chronologically with hierarchical turn indices.
+
+9. Cycle Detection
+------------------------------
+Cycles Detected                : 0
+ -> The dataset forms a strictly acyclic forest of directed conversation trees.
+
+10. Reconstruction Integrity Check
+------------------------------
+Raw tweet count                        : 233,977
+Tweets in reconstructed threads        : 233,977
+Difference                             : 0
+Unique tweets across reconstructed threads: 233,977
+Duplicate tweets across threads        : 0
+Missing tweets                         : 0
+Integrity Status                       : PASSED (100% exact 1:1 match)
+
+11. Sample Reconstructed Conversations (10+ Examples)
+------------------------------
+--- SAMPLE CONVERSATION #1 ---
+THREAD ROOT: 2299401 (Total Turns: 2, Branching: False)
+  TURN 0
+  Speaker  : Customer (Author: 562776, Inbound: True)
+  Tweet ID : 2299401
+  Text     : I'm done with #iOS11 and @115858. Worst experience with iOS ever! Ending my 5yr liking for this company today. 12 crashes and reboots in 15min usage. #Disappointed #switch2razer @213709 #RazerPhone
+
+  TURN 1
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 2299400
+  Parent ID: 2299401
+  Text     : @562776 We want to help.  Send us a DM letting us know which country you are located in https://t.co/GDrqU22YpT
+
+--- SAMPLE CONVERSATION #2 ---
+THREAD ROOT: 666268 (Total Turns: 2, Branching: False)
+  TURN 0
+  Speaker  : Customer (Author: 278731, Inbound: True)
+  Tweet ID : 666268
+  Text     : @AppleSupport hi I can’t access any of my orders to see their status in the store app or online. Help?
+
+  TURN 1
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 666267
+  Parent ID: 666268
+  Text     : @278731 We want to help you. DM us, and let us know what happens exactly when you try to check order status. We'll look into this. https://t.co/GDrqU22YpT
+
+--- SAMPLE CONVERSATION #3 ---
+THREAD ROOT: 184563 (Total Turns: 2, Branching: False)
+  TURN 0
+  Speaker  : Customer (Author: 159446, Inbound: True)
+  Tweet ID : 184563
+  Text     : @AppleSupport yooo! My phone freezes literally 70% on apps and gets stuck for half an hour to load. This is ridiculous.
+
+  TURN 1
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 184562
+  Parent ID: 184563
+  Text     : @159446 We want you to enjoy your iPhone; we'll do all we can to help. To get started, let us know your iOS version via DM: https://t.co/GDrqU22YpT
+
+--- SAMPLE CONVERSATION #4 ---
+THREAD ROOT: 2212808 (Total Turns: 3, Branching: False)
+  TURN 0
+  Speaker  : Customer (Author: 211455, Inbound: True)
+  Tweet ID : 2212808
+  Text     : I️ apologize for my behavior this evening. I️ am TIRED
+
+  TURN 1
+  Speaker  : Customer (Author: 211455, Inbound: True)
+  Tweet ID : 2212807
+  Parent ID: 2212808
+  Text     : Also @AppleSupport can go screw themselves. I️ am so SICK of this glitch. It’s ugly as hell
+
+  TURN 2
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 2212806
+  Parent ID: 2212807
+  Text     : @211455 iOS 11.1.1 was released today to assist with the auto correct issue. If you haven’t yet, please back up your device and update. DM us for any questions. For more info, check out: https://t.co/ui8Itz8ESg https://t.co/GDrqU22YpT
+
+--- SAMPLE CONVERSATION #5 ---
+THREAD ROOT: 1368859 (Total Turns: 3, Branching: False)
+  TURN 0
+  Speaker  : Customer (Author: 438624, Inbound: True)
+  Tweet ID : 1368859
+  Text     : @AppleSupport Is there any way to roll my iPhone’s iOS back to 10? So many issues, battery life, Bluetooth, display, freezing etc. since 11. https://t.co/4il93FNuG3
+
+  TURN 1
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 1368857
+  Parent ID: 1368859
+  Text     : @438624 We want to help with the issues you're experiencing. Send us a DM and we'll go from there. https://t.co/GDrqU22YpT
+
+  TURN 2
+  Speaker  : Customer (Author: 438624, Inbound: True)
+  Tweet ID : 1368858
+  Parent ID: 1368857
+  Text     : @AppleSupport Will do. Cheers.
+
+--- SAMPLE CONVERSATION #6 ---
+THREAD ROOT: 1224431 (Total Turns: 3, Branching: False)
+  TURN 0
+  Speaker  : Customer (Author: 124003, Inbound: True)
+  Tweet ID : 1224431
+  Text     : Fucking ridiculous I️ can’t type the letter I️ since upgrading my perfectly fine phone. FUCK YOU, @115858. #iosupdate #iphone
+
+  TURN 1
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 1224429
+  Parent ID: 1224431
+  Text     : @124003 We want to get this issue resolved. DM us your current iOS version and we'll get started. https://t.co/GDrqU22YpT
+
+  TURN 2
+  Speaker  : Customer (Author: 124003, Inbound: True)
+  Tweet ID : 1224430
+  Parent ID: 1224429
+  Text     : @AppleSupport 11.1. Sick and tired of this happening every time you put out a new product.
+
+--- SAMPLE CONVERSATION #7 ---
+THREAD ROOT: 1138029 (Total Turns: 4, Branching: False)
+  TURN 0
+  Speaker  : Customer (Author: 388048, Inbound: True)
+  Tweet ID : 1138029
+  Text     : HEY @AppleSupport LET ME BE ABLE TO TURN OFF THE DAMN AUTOBRIGHTNESS. #problemswithios11
+
+  TURN 1
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 1138028
+  Parent ID: 1138029
+  Text     : @388048 Certainly. Tap Settings &gt; General &gt; Accessibility &gt; Display Accommodations &gt; Auto-Brightness.
+
+  TURN 2
+  Speaker  : Customer (Author: 388048, Inbound: True)
+  Tweet ID : 1138027
+  Parent ID: 1138028
+  Text     : @AppleSupport THANK YOU 😊
+
+  TURN 3
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 1138026
+  Parent ID: 1138027
+  Text     : @388048 You're most welcome!
+
+--- SAMPLE CONVERSATION #8 ---
+THREAD ROOT: 707988 (Total Turns: 4, Branching: False)
+  TURN 0
+  Speaker  : Customer (Author: 289247, Inbound: True)
+  Tweet ID : 707988
+  Text     : @AppleSupport my Apple Smart Keyboard is not responding every time my iPad wakes up. I just got the two a couple of days back.
+
+  TURN 1
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 707987
+  Parent ID: 707988
+  Text     : @289247 Let's look into this together. Which iOS version is installed on your iPad? Has it been restarted since you noticed the issue?
+
+  TURN 2
+  Speaker  : Customer (Author: 289247, Inbound: True)
+  Tweet ID : 707986
+  Parent ID: 707987
+  Text     : @AppleSupport I've got iOS 11.0.2 installed. No the device has not been restarted
+
+  TURN 3
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 707985
+  Parent ID: 707986
+  Text     : @289247 OK, thanks. Please restart and test to see if the same occurs. If so, DM us and we'll continue there. https://t.co/GDrqU22YpT
+
+--- SAMPLE CONVERSATION #9 ---
+THREAD ROOT: 506515 (Total Turns: 7, Branching: True)
+  TURN 0
+  Speaker  : Customer (Author: 236223, Inbound: True)
+  Tweet ID : 506515
+  Text     : @115858 #iphoneX 
+
+iPhone X screen is flickering, Apple better fix it.
+
+  TURN 1
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 506512
+  Parent ID: 506515
+  Text     : @236223 We want to help. Which iOS version is your device running right now?
+
+  TURN 2
+  Speaker  : Customer (Author: 236223, Inbound: True)
+  Tweet ID : 506514
+  Parent ID: 506512
+  Text     : @AppleSupport My device is running on iOS 11.1.2
+
+  TURN 3
+  Speaker  : Customer (Author: 236223, Inbound: True)
+  Tweet ID : 506513
+  Parent ID: 506512
+  Text     : @AppleSupport https://t.co/InfhbKZjIm
+
+  TURN 4
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 506516
+  Parent ID: 506514
+  Text     : @236223 Thanks. Let's look into that further. Send us a DM and we'll go from there. https://t.co/GDrqU22YpT
+
+  TURN 5
+  Speaker  : Customer (Author: 236223, Inbound: True)
+  Tweet ID : 506517
+  Parent ID: 506516
+  Text     : @AppleSupport What did you mean by DM?
+
+  TURN 6
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 506518
+  Parent ID: 506517
+  Text     : @236223 DM stands for Direct Message. You can send us one using the following link: https://t.co/GDrqU22YpT
+
+--- SAMPLE CONVERSATION #10 ---
+THREAD ROOT: 2790696 (Total Turns: 6, Branching: False)
+  TURN 0
+  Speaker  : Customer (Author: 778876, Inbound: True)
+  Tweet ID : 2790696
+  Text     : Well apparently there is an iOS 11 bug that prevents your alarms from going off. Happened to me today.
+
+Another day, another iOS 11 bug. What the hell @115858 #DontWakeUpGate
+
+Also found this reddit thread: https://t.co/yjkpYmMbLM
+
+  TURN 1
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 2790695
+  Parent ID: 2790696
+  Text     : @778876 We definitely need your alarms to work as intended, and we'll be happy to help. To start, can you tell us if this is happening to just one specific alarm, or is this happening to all the alarms you've set? Can you also tell us which iOS device you're using? https://t.co/GDrqU22YpT
+
+  TURN 2
+  Speaker  : Customer (Author: 778876, Inbound: True)
+  Tweet ID : 2790694
+  Parent ID: 2790695
+  Text     : @AppleSupport Sure ! 
+- iPhone X (iOS 11.1.2)
+- I have 2 alarms set:
+  - 1x Bedtime alarm: 5AM
+  - 1x Normal Alarm 5.30AM
+
+Both definitely didn't go off today. I have updated my iPhone yesterday so maybe there is an issue with that. (1/2)
+
+  TURN 3
+  Speaker  : Customer (Author: 778876, Inbound: True)
+  Tweet ID : 2790693
+  Parent ID: 2790694
+  Text     : @AppleSupport The reddit thread also suggested that a restart would help so I restarted my iPhone and created a test alarm and it worked now.
+
+Let's hope that it will keep working until tomorrow :) 
+
+I will get back in touch if the problem persists.
+
+(2/2)
+
+  TURN 4
+  Speaker  : Customer (Author: 778876, Inbound: True)
+  Tweet ID : 2790692
+  Parent ID: 2790693
+  Text     : @AppleSupport Just a little addition:
+
+I tested to set an alarm before rebooting and it didn't work. No pop up notification. No sound. Nothing.
+
+Seems to work now after the reboot 🤷‍♂️ (3/2)
+
+  TURN 5
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 2790691
+  Parent ID: 2790692
+  Text     : @778876 We're glad to hear rebooting helped with this. If it happens again, or you have any other concerns, please don't hesitate to reach back out to us.
+
+--- SAMPLE CONVERSATION #11 ---
+THREAD ROOT: 411155 (Total Turns: 6, Branching: False)
+  TURN 0
+  Speaker  : Customer (Author: 166341, Inbound: True)
+  Tweet ID : 411155
+  Text     : @AppleSupport why are some of my photos blurry but when I first take the picture it’s not blurry
+
+  TURN 1
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 411154
+  Parent ID: 411155
+  Text     : @166341 We're here to help. Are you using iCloud Photo Library and Optimize Storage? Check in Settings &gt; Your Name &gt; iCloud &gt; Photos
+
+  TURN 2
+  Speaker  : Customer (Author: 166341, Inbound: True)
+  Tweet ID : 411152
+  Parent ID: 411154
+  Text     : @AppleSupport Yeah using both
+
+  TURN 3
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 411150
+  Parent ID: 411152
+  Text     : @166341 Great. Optimize Storage saves space by saving smaller photos and videos on the device. Learn more here: https://t.co/j1xchNl9UN
+
+  TURN 4
+  Speaker  : Customer (Author: 166341, Inbound: True)
+  Tweet ID : 411151
+  Parent ID: 411150
+  Text     : @AppleSupport It doesn’t say why it’s blurry
+
+  TURN 5
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 411153
+  Parent ID: 411151
+  Text     : @166341 Send us a DM and we can look into making sure that everything is working appropriately per that information. https://t.co/GDrqU22YpT
+
+--- SAMPLE CONVERSATION #12 ---
+THREAD ROOT: 2179115 (Total Turns: 5, Branching: False)
+  TURN 0
+  Speaker  : Customer (Author: 638627, Inbound: True)
+  Tweet ID : 2179115
+  Text     : No lie, I love the new IOS update for iPhone
+
+  TURN 1
+  Speaker  : Customer (Author: 638627, Inbound: True)
+  Tweet ID : 2179113
+  Parent ID: 2179115
+  Text     : Nvm. You fucken suck @115858. My phones never been worse
+
+  TURN 2
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 2179111
+  Parent ID: 2179113
+  Text     : @638627 That's not the experience we want you to have. What's going on?
+
+  TURN 3
+  Speaker  : Customer (Author: 638627, Inbound: True)
+  Tweet ID : 2179112
+  Parent ID: 2179111
+  Text     : @AppleSupport All my apps are lagging, at least once per day no buttons will work and will stay on same page for 4-5 mins, when calling someone I can’t hear them and they can’t hear me...etc. It’s not like I have an old phone, it’s the 7 Plus.
+
+  TURN 4
+  Speaker  : AppleSupport (Author: AppleSupport, Inbound: False)
+  Tweet ID : 2179114
+  Parent ID: 2179112
+  Text     : @638627 DM us and we'll get a closer look at what's going on and what we can do from here. https://t.co/GDrqU22YpT
+
+12. Data Quality Observations
+------------------------------
+- Exactly 80,247 conversation threads were successfully reconstructed from 233,977 tweets.
+- 100% of threads (80,247) contain both Customer and AppleSupport turns.
+- 65.39% of threads are clean 2-turn exchanges (Customer Question -> AppleSupport Answer).
+- 34.61% of threads contain extended multi-turn interactions (3 to 125 turns).
+- Zero parent references are broken; all 153,730 parent links resolve to valid tweet IDs.
+- 4,719 threads (5.88%) contain conversation branching (e.g., multiple support replies or user follow-ups).
+
+13. Known Limitations
+------------------------------
+ - Multi-turn threads with branches are serialized using chronological BFS tree traversal.
+ - 10,727 child pointers refer to external/untracked tweets not present in this filtered dataset.
+ - Stage 2 strictly reconstructs dialogue graphs; conversation resolution status (resolved vs unresolved) is deferred to later evaluation stages.
+
+============================================================
+END OF STAGE 2 REPORT
+============================================================

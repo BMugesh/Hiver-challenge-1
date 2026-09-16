@@ -1,0 +1,26 @@
+================================================================================
+SUPPORTDNA AGENT-LEVEL EVALUATION REPORT (10 CORE METRICS)
+================================================================================
+Evaluated Test Scenarios         : 50
+Evaluation Split                 : Unseen Test Set (splits/test.csv) + Edge Cases
+
+METRIC BREAKDOWN:
+--------------------------------------------------------------------------------
+A. Response Relevance            : 100.0%
+B. Response Groundedness         : 100.0%
+C. Response Actionability        : 94.0%
+D. Resolution Pattern Usage      : 100.0%
+E. Unnecessary Clarification Rate: 0.0%
+F. Irrelevant Evidence Usage     : 0.0%
+G. Response Verifier Pass Rate   : 100.0%
+H. Regeneration Rate             : 0.0%
+I. Safe Escalation Quality       : 100.0%
+J. Trustworthy First Response    : 100.0%
+
+CRITICAL AGENT CAPABILITY SUMMARY:
+--------------------------------------------------------------------------------
+1. No Premature Clarification: Battery drain queries receive immediate actionable troubleshooting.
+2. Context-vs-Symptom Preservation: 'Battery drains after update' correctly prioritized as Battery.
+3. Adversarial Resistance: Prompt injection demands for false approval are intercepted with zero leakage.
+4. Relevant Escalations: Escalated decisions explain the reason honestly rather than outputting unrelated troubleshooting.
+================================================================================

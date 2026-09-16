@@ -1,0 +1,135 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SupportDNA Golden Evaluation Set Schema",
+  "description": "Validation schema for the held-out golden evaluation set of the SupportDNA AI customer support agent.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "golden_id",
+      "source_id",
+      "customer_message",
+      "ground_truth_intent",
+      "ground_truth_customer_goal",
+      "ground_truth_issues",
+      "ground_truth_action",
+      "escalation_required",
+      "evidence_expectation",
+      "expected_reply_requirements",
+      "edge_case_category",
+      "human_reasoning"
+    ],
+    "properties": {
+      "golden_id": {
+        "type": "string",
+        "pattern": "^GOLDEN_[0-9]{4}$",
+        "description": "Unique identifier for golden evaluation case."
+      },
+      "source_id": {
+        "type": "string",
+        "minLength": 3,
+        "description": "Originating thread root or turn ID from the held-out raw corpus."
+      },
+      "customer_message": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Exact, unedited raw customer message text."
+      },
+      "ground_truth_intent": {
+        "type": "string",
+        "enum": [
+          "KEYBOARD_TYPING_AUTOCORRECT",
+          "BATTERY_CHARGING_POWER",
+          "CONNECTIVITY_WIFI_BLUETOOTH",
+          "DISPLAY_TOUCH_SCREEN",
+          "ACCOUNT_APPLEID_ICLOUD",
+          "APP_STORE_PURCHASES_BILLING",
+          "APP_CRASH_AND_DOWNLOAD",
+          "AUDIO_SOUND_SPEAKER",
+          "OS_UPDATE_SYSTEM_PERFORMANCE",
+          "HOW_TO_SETTINGS_CONFIGURATION",
+          "GENERAL_DEVICE_INQUIRY"
+        ],
+        "description": "One of the 11 verified business intents from the AppleSupport taxonomy."
+      },
+      "ground_truth_customer_goal": {
+        "type": "string",
+        "minLength": 5,
+        "description": "Concise summary of the customer's desired outcome or resolution objective."
+      },
+      "ground_truth_issues": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string"
+        },
+        "description": "List of distinct technical issues, symptoms, or concerns raised."
+      },
+      "ground_truth_action": {
+        "type": "string",
+        "enum": [
+          "ANSWER",
+          "GUIDE",
+          "CLARIFY",
+          "ESCALATE",
+          "SAFE_REFUSAL",
+          "SAFE_REFUSAL_AND_ESCALATE"
+        ],
+        "description": "Operational action the agent should execute."
+      },
+      "escalation_required": {
+        "type": "boolean",
+        "description": "Whether the case requires human agent escalation."
+      },
+      "evidence_expectation": {
+        "type": "string",
+        "enum": [
+          "STRONG_HISTORICAL_EVIDENCE",
+          "MODERATE_HISTORICAL_EVIDENCE",
+          "WEAK_HISTORICAL_EVIDENCE",
+          "INSUFFICIENT_HISTORICAL_EVIDENCE",
+          "CONFLICTING_HISTORICAL_EVIDENCE",
+          "NO_HISTORICAL_EVIDENCE_REQUIRED"
+        ],
+        "description": "Expected historical retrieval evidence profile for this inquiry."
+      },
+      "expected_reply_requirements": {
+        "type": "array",
+        "minItems": 2,
+        "items": {
+          "type": "string"
+        },
+        "description": "Criteria the generated reply must satisfy for factual grounding, tone, and actionability."
+      },
+      "edge_case_category": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "enum": [
+            "CLEAR_INTENT",
+            "AMBIGUOUS",
+            "SHORT_VAGUE",
+            "MULTI_ISSUE",
+            "FOLLOW_UP",
+            "UNRESOLVED_FOLLOW_UP",
+            "STRONG_EVIDENCE",
+            "WEAK_EVIDENCE",
+            "INSUFFICIENT_EVIDENCE",
+            "CONFLICTING_EVIDENCE",
+            "ESCALATION_SENSITIVE",
+            "SAFETY_SENSITIVE",
+            "UNUSUAL_WORDING"
+          ]
+        },
+        "description": "Applicable query difficulty and edge case categorizations."
+      },
+      "human_reasoning": {
+        "type": "string",
+        "minLength": 10,
+        "description": "Annotation justification explaining the intent, action, and evidence expectations."
+      }
+    },
+    "additionalProperties": false
+  }
+}

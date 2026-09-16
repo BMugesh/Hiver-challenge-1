@@ -1,0 +1,9 @@
+category,count,percentage_of_errors,percentage_of_test_set,description
+SEMANTICALLY_SIMILAR_INTENTS,156,31.52,13.12,"The predicted intent is closely related and semantically adjacent to the expected intent, causing the bi-encoder to place the query near an overlapping intent cluster."
+MULTI_ISSUE_QUERY,129,26.06,10.85,"The query describes multiple distinct customer problems simultaneously, causing dense embedding vector averaging to focus on the secondary issue."
+WRONG_KNOWLEDGE_REPRESENTATION,64,12.93,5.38,"Relevant historical cases exist in Top-10, but the single customer-turn problem text representation ranked a distractor case higher due to lack of lexical discrimination."
+POST_UPDATE_OR_CONTEXT_MISMATCH,64,12.93,5.38,"The customer framed a functional/hardware symptom around an iOS update event (e.g. 'since iOS 11 update'), falsely pulling general OS update cases."
+TERMINOLOGY_MISMATCH,47,9.49,3.95,"The query uses non-English words, heavy colloquialisms/slang, emotional venting, or atypical vocabulary divergent from curated historical cases."
+INSUFFICIENT_TRAINING_EXAMPLES,19,3.84,1.6,"The expected intent has very few historical training cases in the index (<200 cases), creating sparse vector coverage for that support domain."
+OTHER,13,2.63,1.09,Unique edge-case failure where symptom description does not align with standard error clusters.
+SHORT_OR_AMBIGUOUS_QUERY,3,0.61,0.25,"The query is too short or lacks specific diagnostic keywords (e.g. <=8 words or vague requests), placing its vector near generic dense centroids."

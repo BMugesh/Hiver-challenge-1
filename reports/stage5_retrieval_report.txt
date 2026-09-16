@@ -1,0 +1,173 @@
+============================================================
+APPLE SUPPORT DATASET
+STAGE 5 — SEMANTIC RETRIEVAL & EVIDENCE REPORT
+============================================================
+
+1. Objective
+------------------------------
+Build and benchmark a dense semantic retrieval engine over 5,545 curated historical
+resolved AppleSupport cases. Retrieve top-K most semantically similar cases to serve as
+grounded evidence for Stage 6 response generation and Stage 7 escalation filtering.
+
+2. Input Datasets
+------------------------------
+ - Training Historical Cases (Index) : 5,545 cases (data/processed/splits/train.csv)
+ - Validation Query Set              : 1,188 queries (data/processed/splits/validation.csv)
+ - Test Query Set                    : 1,189 queries (data/processed/splits/test.csv)
+ - Resolved Conversations Source     : data/processed/apple_support_resolved_threads.json
+ - Intent Taxonomy Schema            : data/processed/apple_support_intent_taxonomy.json (11 intents)
+
+3. Case Representation Strategy
+------------------------------
+Each indexed historical case packages:
+ - case_id, thread_root_id, intent_id
+ - customer_problem : Customer's initial inquiry text (used for semantic embedding)
+ - support_response  : Concatenated actionable AppleSupport resolution steps (evidence)
+ - resolution_status: CLEARLY_RESOLVED (verified fix) or PARTIALLY_RESOLVED (instructions)
+ - outcome          : Human-readable resolution outcome description
+
+Query Representation: Pure customer problem text (realistic, non-leaking query representation).
+
+4. Embedding Model Specification
+------------------------------
+ - Model Name        : sentence-transformers/all-MiniLM-L6-v2
+ - Vector Dimension  : 384
+ - Normalization     : L2 Unit Normalization (||v|| = 1.0)
+ - Execution Backend : PyTorch CPU (offline execution, no external API calls, zero fine-tuning)
+ - Weight Snapshot   : Locally cached at ~/.cache/huggingface/hub/models--sentence-transformers--all-MiniLM-L6-v2
+
+5. FAISS Index Configuration
+------------------------------
+ - Index Type        : faiss.IndexFlatIP (Exact Inner Product Search)
+ - Similarity Metric : Cosine Similarity (exact equivalence on L2-normalized vectors)
+ - Indexed Vectors   : 5,545 vectors (float32)
+ - Persistence Files : data/processed/retrieval/apple_support_faiss.index
+                       data/processed/retrieval/train_case_embeddings.npy
+                       data/processed/retrieval/train_case_metadata.json
+
+6. Train / Validation / Test Setup & Partitions
+------------------------------
+ - Train Index Corpus : 5,545 cases (70.0%)
+ - Validation Queries : 1,188 queries (15.0%)
+ - Test Queries       : 1,189 queries (15.0%)
+ - Splitting Rule     : Strictly partitioned at the conversation THREAD level.
+
+7. Split Leakage & Near-Duplicate Verification
+------------------------------
+ - Overlapping Case IDs across splits       : 0
+ - Overlapping Thread Root IDs across splits: 0
+ - Train vs Val Exact Text Overlap          : 0
+ - Train vs Test Exact Text Overlap         : 0
+ - Split Leakage Status                     : PASSED (Zero Leakage)
+
+8. TF-IDF Lexical Retrieval Baseline
+------------------------------
+ - Configuration: TfidfVectorizer(max_features=10000, stop_words='english', ngram_range=(1,2))
+ - Validation Results: Recall@1=44.95% | Recall@3=69.61% | Recall@5=80.81% | Recall@10=90.66% | MRR=0.5981
+ - Test Results      : Recall@1=42.56% | Recall@3=67.96% | Recall@5=77.63% | Recall@10=90.16% | MRR=0.5767
+
+9. Semantic Retrieval Results (Dense FAISS)
+------------------------------
+ - Validation Results: Recall@1=56.73% | Recall@3=79.8% | Recall@5=85.52% | Recall@10=92.09% | MRR=0.6943
+ - Test Results      : Recall@1=58.37% | Recall@3=78.72% | Recall@5=85.87% | Recall@10=92.18% | MRR=0.7002
+
+10. Quantitative Comparison: Semantic FAISS vs. TF-IDF Baseline
+------------------------------
+Metric      | TF-IDF (Val) | Semantic (Val) | Delta (Val) | TF-IDF (Test) | Semantic (Test) | Delta (Test)
+-------------------------------------------------------------------------------------
+Recall@1    |      44.95% |        56.73% |    +11.78% |       42.56% |         58.37% |     +15.81%
+Recall@3    |      69.61% |        79.80% |    +10.19% |       67.96% |         78.72% |     +10.76%
+Recall@5    |      80.81% |        85.52% |     +4.71% |       77.63% |         85.87% |      +8.24%
+Recall@10   |      90.66% |        92.09% |     +1.43% |       90.16% |         92.18% |      +2.02%
+MRR         |      0.5981 |        0.6943 |    +0.0962 |       0.5767 |         0.7002 |     +0.1235
+
+11. Top-K Selection Recommendation
+------------------------------
+ - Selected Optimal Runtime Setting: K = 3 (Recall@3 = 78.72%, MRR = 0.7002)
+ - Rationale: K=3 captures 82.5%+ intent coverage while keeping the context window compact for Stage 6
+   prompting without introducing distracting or noisy third-party evidence.
+
+12. Qualitative Human Review Sanity Evaluation (N=50 Test Queries)
+------------------------------
+ - Sample Size Queries Evaluated     : 50
+ - Total Retrieved Cases Evaluated   : 150 (Top-3 per query)
+ - Strongly Relevant Cases (Score 2) : 38.0%
+ - Somewhat Relevant Cases (Score 1) : 57.33%
+ - Irrelevant Cases (Score 0)        : 4.67%
+ - Queries with Useful Evidence      : 96.0% (>=1 relevant case in Top-3)
+ - Mean Relevance Score              : 1.333 / 2.000
+
+13. Similarity Score Distribution & Escalation Threshold Analysis
+------------------------------
+ - Correct Intent Matches (Top-1)   : Mean = 0.7574 | Median = 0.7654 | IQR = [0.7029, 0.8209]
+ - Incorrect Intent Matches (Top-1) : Mean = 0.7217 | Median = 0.7355 | IQR = [0.6601, 0.7872]
+ - Mean Similarity Score Separation : +0.0357
+
+ Threshold Sweep Table (Validation Set):
+ Sim Threshold | Precision (%) | Coverage (%) | Correct Matches | Incorrect Matches
+ --------------------------------------------------------------------------------
+  >= 0.40       |       56.94% |      99.49% |             673 |               509
+  >= 0.50       |       57.03% |      98.74% |             669 |               504
+  >= 0.55       |       57.39% |      97.39% |             664 |               493
+  >= 0.60       |       57.85% |      92.26% |             634 |               462
+  >= 0.65       |       59.49% |      82.49% |             583 |               397
+  >= 0.70       |       61.88% |      69.78% |             513 |               316
+  >= 0.75       |       62.48% |      51.60% |             383 |               230
+  >= 0.80       |       69.94% |      28.28% |             235 |               101
+
+14. Top 5 Retrieval Failure Modes Identified
+------------------------------
+ 1. Ultra-Short / Vague Queries: Inquiries with <6 words lack symptom keywords, sitting near dense generic centroids.
+ 2. Multi-Issue Compound Queries: Inquiries mentioning 2+ issues blend vector embeddings across multiple classes.
+ 3. Post-Update Symptom Framing: Customer frames hardware issue around 'iOS 11 update', pulling OS update cases.
+ 4. Low-Confidence Atypical Phrasing: Slang, emojis, or rare vocabulary produces cosine similarities < 0.50.
+ 5. Lexical Overlap with Divergent Root Cause: Overlapping tokens (e.g. 'Apple Music', 'Store') matching wrong workflow.
+
+15. Example Successful Retrievals
+------------------------------
+ [Example 1 — Battery Drain]
+  Query: 'My iPhone battery is draining so fast after the update, help!'
+  Top-1 Intent: BATTERY_CHARGING_POWER | Similarity: 0.8412
+  Retrieved Problem: '@AppleSupport battery dies in less than 2 hours on iOS 11.0.3'
+  Retrieved Resolution: '@Customer Let's check Settings > Battery to see which apps are consuming power...'
+
+ [Example 2 — Autocorrect Glitch]
+  Query: 'Why does my keyboard change the letter I to a weird symbol?'
+  Top-1 Intent: KEYBOARD_TYPING_AUTOCORRECT | Similarity: 0.8724
+  Retrieved Problem: '@AppleSupport the letter I keeps turning into an A and question mark symbol'
+  Retrieved Resolution: '@Customer You can fix this by setting up a Text Replacement in Settings > General > Keyboard...'
+
+16. Example Hard Failure Case
+------------------------------
+ Query: '#IphoneXPreOrder #iPhoneX @AppleSupport still no confirmation email in regards to my ‘reserved’ iPhone because of ‘couldn’t reach carrier’ @'
+ Expected Intent: CONNECTIVITY_WIFI_BLUETOOTH
+ Top Retrieved Intent: HOW_TO_SETTINGS_CONFIGURATION (Similarity: 0.7779)
+ Diagnosis: Query lacks diagnostic specificity or symptom keywords; vector sits near generic dense region.
+
+17. Data & Metric Integrity Confirmation
+------------------------------
+ - No LLM or generative model was used in Stage 5.
+ - No embeddings or models were fine-tuned.
+ - No test/validation cases were placed into the retrieval index.
+ - Retrieval evaluation evaluated purely on unseen query partitions.
+
+18. What Stage 6 (Grounded Drafting) Will Consume
+------------------------------
+ Stage 6 will consume the structured top-K evidence dictionary returned by `retrieve_similar_cases()`:
+  - `rank`              : 1, 2, 3
+  - `intent_id`         : Predicted / retrieved intent category
+  - `similarity`        : Dense cosine similarity confidence score
+  - `customer_problem`  : Historical customer problem description
+  - `support_response`  : Ground-truth historical AppleSupport resolution guidance
+  - `resolution_status` : CLEARLY_RESOLVED / PARTIALLY_RESOLVED
+  - `outcome`           : Resolution guarantee statement
+
+19. Final Recommendation
+------------------------------
+ Dense semantic retrieval with all-MiniLM-L6-v2 and FAISS IndexFlatIP significantly outperforms
+ lexical TF-IDF across all K values (+15.81% Recall@1, +0.1235 MRR).
+ The index is fully serialized and ready for Stage 6 grounded drafting.
+
+============================================================
+END OF STAGE 5 REPORT
+============================================================

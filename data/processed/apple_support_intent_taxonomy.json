@@ -1,0 +1,145 @@
+[
+  {
+    "intent_id": "KEYBOARD_TYPING_AUTOCORRECT",
+    "description": "Keyboard unresponsiveness, predictive text malfunctions, and autocorrect glyph glitches (including the iOS 11 letter 'I' substitution bug).",
+    "example_customer_messages": [
+      "Just updated to iOS 11.2 and my keyboard is completely screwed up and glitchy now 🤦‍♂️ @115858 @AppleSupport",
+      "Sooooooo is @115858 ever going to fix this annoying glitch for when I type the letter I️ it does that annoying box with the ? Thing! This is stupid. I️m just going to switch over to Android soon.",
+      "Can y’all fix the I character please?! I️m tired of seeing this I️ @AppleSupport",
+      "Hey @115858 where’s my October Challenge award? Challenged to burn 42813 cals &amp; I worked my butt off to burn 43081 but no badge.",
+      "@AppleSupport can you help me yo you literally replying to everyone else except me 👋🏼 https://t.co/AG3KoDLJ7e"
+    ],
+    "sample_count": 585,
+    "source": "historical AppleSupport conversations"
+  },
+  {
+    "intent_id": "BATTERY_CHARGING_POWER",
+    "description": "Rapid battery drain, slow or failed charging, device overheating, or unexpected power shutdown.",
+    "example_customer_messages": [
+      "Hola @AppleSupport necesito urgente la actualización de software. La batería me dura literal medio día 🙍🏼🙇🏼‍♀️",
+      "iOS 11 is killing my battery @115858. Fix it.",
+      "FOCO AQUI @AppleSupport Q Q TÁ ACONTECENDO ~ iOS 11 guloso https://t.co/Eonz2w9xPi",
+      "@AppleSupport IOS 11 has been a nightmare since I downloaded it. Battery SOC is all over the board and slower than ever before",
+      "@AppleSupport iOS 11 is draining the battery on my iPhone 7 twice as fast as iOS 10. Help!"
+    ],
+    "sample_count": 743,
+    "source": "historical AppleSupport conversations"
+  },
+  {
+    "intent_id": "CONNECTIVITY_WIFI_BLUETOOTH",
+    "description": "Inability to connect to, maintain connection with, or discover WiFi networks, Bluetooth accessories, Cellular data, or AirDrop.",
+    "example_customer_messages": [
+      "@AppleSupport HELP ME. I have a problem with my iPhone 7😑",
+      "@AppleSupport I can’t download songs. Progress icon keeps spinning. On both data + WiFi. Stream works though. Can’t add songs to playlists. https://t.co/x7uUxSqO9u",
+      "I updated to iOS 11 and my iPhone 6 stopped connecting to wi-fi. Already restored the phone and the network connections @AppleSupport",
+      "@AppleSupport I have updated my WatchOS but cannot stream the radio on LTE  (@115911) . Wi Fi (both tethered and direct from watch) works",
+      "@AppleSupport I decided to download IOS 11. Now I can’t download anything from the App Store. Is this problem being fixed soon? I’ve tried all the options to make it work. #worstdecisionever"
+    ],
+    "sample_count": 587,
+    "source": "historical AppleSupport conversations"
+  },
+  {
+    "intent_id": "DISPLAY_TOUCH_SCREEN",
+    "description": "Touchscreen unresponsiveness, display freezing, screen flickering, brightness adjustments, or biometric authentication (Face ID / Touch ID).",
+    "example_customer_messages": [
+      "@AppleSupport I can’t change lock screen anymore from ‘wallpaper’ in settings. How do I do it now?",
+      "@AppleSupport is that safe if we disable passcode for unlock iphone? i mean,is the fingerprint still worked out? i think dat would be enough",
+      "Bienvenida sea la multi tarea al 3D touch en iphone, gracias @AppleSupport  #newupdate",
+      "@AppleSupport  Dear team, after update my iPhone 6 Plus its hang in the Apple logo screen.",
+      "@115858 the latest update is very glitchy! Did you do away with the double tap home button to bring the screen down for the PLUS? #notworking"
+    ],
+    "sample_count": 654,
+    "source": "historical AppleSupport conversations"
+  },
+  {
+    "intent_id": "ACCOUNT_APPLEID_ICLOUD",
+    "description": "Apple ID account login issues, password reset, two-factor authentication verification, activation lock, and iCloud storage management.",
+    "example_customer_messages": [
+      "@AppleSupport Hello, I need some help regarding the region change on my Apple ID",
+      "@AppleSupport Hello I have iPhone 5s which since 11.0.3 update is constantly saying storage full even though its not! Please help! Thank you",
+      "@AppleSupport Hey Apple! Having issues with my ID and already changed my password. Trying to update my computer but says ID is disabled?",
+      "@AppleSupport Hi, guys. It’s me again. I bought my old work computer. It was wiped. It turns on but gives me a password hint that doesn’t work, so I can’t get it open. Ideas? Thanks!",
+      "Dear @AppleSupport I’ve tried to enter my password a few times now and it keeps kicking back to my iPhone. This is really aggravating https://t.co/OynUUzWA0t"
+    ],
+    "sample_count": 401,
+    "source": "historical AppleSupport conversations"
+  },
+  {
+    "intent_id": "APP_STORE_PURCHASES_BILLING",
+    "description": "App Store purchases, in-app billing, Apple Music subscriptions, duplicate charges, payment methods, and refund requests.",
+    "example_customer_messages": [
+      "@118721 @AppleSupport my iPhone is not syncing and stuck on 'Copying diagnostic information'? 6s, latest version iOS and iTunes.",
+      "@AppleSupport, why do I keep getting charged over £20 for anything I buy from iTunes? Bought an album for £4.99 and got charged £20.67. Same thing happened a couple of weeks ago to. Why?! https://t.co/0fIDOKovNP",
+      "@115948 @AppleSupport help? https://t.co/jq11xG12w0",
+      "Anyone else secure the 11/3 launch date on their #iPhoneX order only to receive a receipt from @115858 w/ a 3-4 week away delivery date? 😱😩😤😪",
+      "@AppleSupport I got refunded for an in app purchase on Monday &amp; got a conformation email, but there’s no sign of it in my account yet..."
+    ],
+    "sample_count": 558,
+    "source": "historical AppleSupport conversations"
+  },
+  {
+    "intent_id": "APP_CRASH_AND_DOWNLOAD",
+    "description": "First-party and third-party applications freezing, crashing on launch, or failing to download/install from the App Store.",
+    "example_customer_messages": [
+      "@AppleSupport  fix my phone, just bc y’all got a new phone out doesn’t mean everyone’s 7+ needs to freeze constantly and shit.",
+      "My phone will not stop freezing @AppleSupport",
+      "@115858 @AppleSupport everytime I open Snapchat, it freezes. Thus causing every other app to freeze when I open it. This new iOS is ass..",
+      "@AppleSupport the new IOS software has completely screwed my phone up - slow, crashes, calls don't get recognised...",
+      "Hey @115858, very concerning  that both my iPhone 5s iPhones started a restart cycle every minute with spinning gear at midnight Dec 2, 2017 after no changes in software for several days. Is this a poison pill to get me to upgrade for Christmas? #FixIOS11"
+    ],
+    "sample_count": 192,
+    "source": "historical AppleSupport conversations"
+  },
+  {
+    "intent_id": "AUDIO_SOUND_SPEAKER",
+    "description": "Speaker distortion, microphone input failure, call audio issues, volume controls, or AirPods audio disconnects.",
+    "example_customer_messages": [
+      "@AppleSupport ios 11.0.3 on 6s. Cannot adjust alarm volume so waking up all in my house and neighbours despite ringer being set to minimum!",
+      "@AppleSupport AirPods are connected but don’t play audio anymore any troubleshooting tips?",
+      "Dear @115858, what you've done to my iPhone 6 w/ IOS 11 should be a crime. Thanks 4 updating 2 useless. Makes me want 2 cancel my X pre-order",
+      "Dear @115858 I can turn my own Bluetooth&amp;wifi on/off.. and please give me back my ringer volume buttons. K thanks",
+      "Neither iPhone alarm went off this morning, had to make a 5:30 AM flight. The 2am alarm on one phone finally went off at 5:40 on it's own. United just charged $640 per person to get on a later flight today 😠 @AppleSupport"
+    ],
+    "sample_count": 328,
+    "source": "historical AppleSupport conversations"
+  },
+  {
+    "intent_id": "OS_UPDATE_SYSTEM_PERFORMANCE",
+    "description": "General system performance degradation, software update installation errors, device restore, and operating system bugs.",
+    "example_customer_messages": [
+      "why won’t my apps fuccin download or update @AppleSupport",
+      "@AppleSupport this is my top bar every time I open messages on my SE after updating to iOS 11.1 https://t.co/Lzge3qzc7w",
+      "You dropped an update and I️ still see boxed question marks. Fix this shit @AppleSupport @115858.",
+      "I️ can’t believe that @115858 &amp; @AppleSupport has not fixed the vowel text issue. It’s very annoying and takes extra time to write something👎",
+      "What’s with the I️ I️ I️ I️ I️ I️? @AppleSupport I️ just want to write an I️ (eye)"
+    ],
+    "sample_count": 1403,
+    "source": "historical AppleSupport conversations"
+  },
+  {
+    "intent_id": "HOW_TO_SETTINGS_CONFIGURATION",
+    "description": "Questions on how to locate, configure, or customize specific iOS features, control center items, and device settings.",
+    "example_customer_messages": [
+      "@AppleSupport how can I change my third-party email to my Apple email? I read that it’s now possible… Can you please help?",
+      "Hi @AppleSupport Pls can you explain the 8-10% discrepancy with the steps recorded daily on my AppleWatch and those logged on AppleHealth app? (See pic for just 1 example) This error is affecting my @4987 member benefits. Thanks https://t.co/WpyrmSbm5v",
+      "@AppleSupport My Apple Mail just changed its look to this. Did I do this accidentally and how do I change it back, or did this happen to everybody? I prefer the old look (no summaries) and want it back. https://t.co/GAkS3EyBJf",
+      "Why is the Messenger app so glitchy on the @115858 Watch?! That is my main “text” app. 🤔😫",
+      "@AppleSupport hi, since upgrading iOS I can no longer take screenshots. Has this feature been removed?"
+    ],
+    "sample_count": 212,
+    "source": "historical AppleSupport conversations"
+  },
+  {
+    "intent_id": "GENERAL_DEVICE_INQUIRY",
+    "description": "Miscellaneous device inquiries, general hardware questions, or complex multi-symptom inquiries.",
+    "example_customer_messages": [
+      "Every time I watch a live broadcast or video it skips or repeats a few seconds since updating @AppleSupport https://t.co/ufl7yqidmb",
+      "@AppleSupport this is the second Fishing email that I have gotten in 2 days https://t.co/WG3DvyKLSj",
+      "@AppleSupport why are my I ‘s changing into I️ ?!!!!!",
+      "@applesupport just updated Apple Watch to 4.1. Is ESPN radio etc only available in USA, can’t get it on my watch in the UK",
+      "@115858 why everytime I️ type an “I️” this extra A and box pops up ??"
+    ],
+    "sample_count": 2259,
+    "source": "historical AppleSupport conversations"
+  }
+]

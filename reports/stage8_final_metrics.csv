@@ -1,0 +1,43 @@
+stage,metric,value,dataset,notes
+Dataset,test_set_size,1189,test.csv,Unseen test split (15%)
+Stage 4 (Intent),accuracy,80.24%,test.csv,Overall classification accuracy across 11 classes
+Stage 4 (Intent),macro_precision,81.61%,test.csv,Unweighted mean precision
+Stage 4 (Intent),macro_recall,70.74%,test.csv,Unweighted mean recall
+Stage 4 (Intent),macro_f1,0.7473,test.csv,Key intent classification metric
+Stage 4 (Per-Intent),intent_battery_charging_power,"F1=0.8857, Prec=0.9490, Rec=0.8304, Support=112",test.csv,Class support N=112
+Stage 4 (Per-Intent),intent_general_device_inquiry,"F1=0.8522, Prec=0.7767, Rec=0.9440, Support=339",test.csv,Class support N=339
+Stage 4 (Per-Intent),intent_account_appleid_icloud,"F1=0.8136, Prec=0.8276, Rec=0.8000, Support=60",test.csv,Class support N=60
+Stage 4 (Per-Intent),intent_os_update_system_performance,"F1=0.8043, Prec=0.7430, Rec=0.8768, Support=211",test.csv,Class support N=211
+Stage 4 (Per-Intent),intent_display_touch_screen,"F1=0.7957, Prec=0.8409, Rec=0.7551, Support=98",test.csv,Class support N=98
+Stage 4 (Per-Intent),intent_connectivity_wifi_bluetooth,"F1=0.7730, Prec=0.8400, Rec=0.7159, Support=88",test.csv,Class support N=88
+Stage 4 (Per-Intent),intent_keyboard_typing_autocorrect,"F1=0.7517, Prec=0.9180, Rec=0.6364, Support=88",test.csv,Class support N=88
+Stage 4 (Per-Intent),intent_app_store_purchases_billing,"F1=0.7389, Prec=0.7838, Rec=0.6988, Support=83",test.csv,Class support N=83
+Stage 4 (Per-Intent),intent_audio_sound_speaker,"F1=0.6923, Prec=0.9310, Rec=0.5510, Support=49",test.csv,Class support N=49
+Stage 4 (Per-Intent),intent_how_to_settings_configuration,"F1=0.6129, Prec=0.6333, Rec=0.5938, Support=32",test.csv,Class support N=32
+Stage 4 (Per-Intent),intent_app_crash_and_download,"F1=0.5000, Prec=0.7333, Rec=0.3793, Support=29",test.csv,Class support N=29
+Stage 5 (Baseline Retrieval),retrieval_recall_at_1,58.37%,test.csv,Dense FAISS IndexFlatIP (all-MiniLM-L6-v2)
+Stage 5 (Baseline Retrieval),retrieval_recall_at_3,78.72%,test.csv,Dense FAISS (Runtime K=3)
+Stage 5 (Baseline Retrieval),retrieval_recall_at_5,85.87%,test.csv,Top-5 candidate recall
+Stage 5 (Baseline Retrieval),retrieval_recall_at_10,92.18%,test.csv,Top-10 candidate recall
+Stage 5 (Baseline Retrieval),retrieval_mrr,0.7002,test.csv,Mean Reciprocal Rank
+Stage 5 (Domain-Aware Ranking),domain_aware_recall_at_1,71.24%,test.csv,Domain-Aware Intent Ranking (+12.87% over baseline)
+Stage 5 (Domain-Aware Ranking),domain_aware_recall_at_3,81.83%,test.csv,Domain-Aware Top-3 Candidate Pool
+Stage 5 (Domain-Aware Ranking),domain_aware_recall_at_5,86.12%,test.csv,Domain-Aware Top-5 Candidates
+Stage 5 (Domain-Aware Ranking),domain_aware_recall_at_10,92.18%,test.csv,Domain-Aware Top-10 Candidates
+Stage 5 (Domain-Aware Ranking),domain_aware_mrr,0.7767,test.csv,Domain-Aware Mean Reciprocal Rank (0.7767)
+Stage 5 (Multi-Issue Detection),multi_issue_detected_pct,11.86%,test.csv,"174 / 1,189 multi-symptom queries flagged for human review"
+Stage 5 (Baseline),tfidf_recall_at_3_baseline,67.96%,test.csv,Lexical Baseline (K=3)
+Stage 6 (Generation),generation_success_rate,100.00%,test.csv,100% template-guided generation
+Stage 6 (Grounding),evidence_insufficient_rate,15.90%,test.csv,Diagnostic inquiry trigger when similarity < 0.55
+Stage 6 (Grounding),grounding_pass_rate,100.00%,test.csv,Independent Stage 6 Verifier
+Stage 6 (Grounding),unsupported_claim_rate,0.00%,test.csv,Key Stage 6 grounding metric (Target 0.0%)
+Stage 6 (Safety),prompt_injection_defense_rate,100.00%,adversarial_suite,5/5 adversarial attacks neutralized
+Stage 7 (Decision),auto_handle_percentage,27.25%,test.csv,"174 / 1,189 automated"
+Stage 7 (Decision),escalation_percentage,72.75%,test.csv,"1,015 / 1,189 routed to human queue"
+Stage 7 (Decision),auto_handle_precision,96.60%,test.csv,170 / 174 auto-handles are strictly safe & correct
+Stage 7 (Decision),false_auto_handle_rate,3.40%,test.csv,Key Stage 7 safety metric (<5.0% target satisfied)
+Stage 7 (Decision),escalation_recall,95.15%,test.csv,Proportion of unsafe/uncertain cases intercepted
+Stage 7 (Decision),overall_decision_accuracy,44.49%,test.csv,(TP + TN) / N
+Human Audit (N=50),human_agreement_pct,78.00%,test_sample_50,N=50 human adjudication sample
+Human Audit (N=50),human_cohen_kappa,0.5669,test_sample_50,Reflects intentional conservative AI bias
+LLM Judge (N=50),llm_judge_mean_overall_score,4.24 / 5.0,test_sample_50,Structured 5-point quality rubric

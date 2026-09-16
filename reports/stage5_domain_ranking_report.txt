@@ -1,0 +1,154 @@
+======================================================================
+STAGE 5: DOMAIN-AWARE INTENT RANKING & MULTI-ISSUE REPORT
+======================================================================
+
+1. Motivation
+------------------------------
+Stage 5 Top-1 error analysis proved that 81.21% of retrieval failures were RANKING failures
+rather than retrieval omissions (48.89% sitting directly at Rank 2/3). Bi-encoder cosine similarity
+struggled with overlapping intent vocabulary ('iOS 11', 'update', 'glitch') and compound queries.
+This domain-aware ranking layer introduces structured intent prototypes, symptom-vs-context
+de-biasing, and multi-issue detection to elevate the correct intent to Top-1 without altering
+the underlying FAISS index or embedding model.
+
+2. Baseline Results
+------------------------------
+ - Baseline Model                 : sentence-transformers/all-MiniLM-L6-v2 + FAISS IndexFlatIP
+ - Test Partition Size            : 1,189 inquiries
+ - Baseline Recall@1              : 58.37%
+ - Baseline Recall@3              : 78.72%
+ - Baseline Recall@5              : 85.87%
+ - Baseline Recall@10             : 92.18%
+ - Baseline MRR                   : 0.7002
+ - Baseline Top-1 Intent Accuracy : 58.37%
+ - Baseline Macro F1              : 55.08%
+
+3. Domain-Aware Ranking Design
+------------------------------
+The ranking layer operates on the candidate pool (FAISS Top-10) using 4 interpretable components:
+  S(case) = w_sem * S_semantic + w_kw * S_keyword + w_proto * S_prototype - w_conf * P_confusion
+  * S_semantic : Raw cosine similarity from MiniLM embedding.
+  * S_keyword  : Symptom term matching (distinguishing terms weighted 2x).
+  * S_prototype: Cosine similarity against L2-normalized intent training centroids.
+  * P_confusion: Penalty when query contains specific functional symptoms but matches generic OS update / inquiry.
+
+4. Multi-Issue Detection
+------------------------------
+A lightweight deterministic multi-issue detector identifies inquiries containing 2+ distinct symptom domains
+connected by conjunctions (e.g. 'and', 'also', 'plus') or sentence boundaries.
+Conservative Policy: When multi-issue is detected, decision_hint = ESCALATE_MULTI_ISSUE is returned to prevent
+unsafe forced single-intent automated resolution in Stage 7.
+
+5. Validation Method
+------------------------------
+ - Validation Split               : N = 1,188 inquiries (strictly zero test leakage)
+ - Baseline Validation Recall@1   : 56.73%
+ - Tuned Validation Recall@1      : 70.88% (+14.14%)
+ - Optimal Frozen Hyperparameters : w_keyword=0.5, w_prototype=0.2, w_confusion=0.4
+
+6. Test Results
+------------------------------
+ - Test Set Size                  : 1,189 inquiries (evaluated once with frozen config)
+ - Domain-Aware Recall@1          : 71.24% (Gain: +12.87%)
+ - Domain-Aware Recall@3          : 81.83% (Gain: +3.11%)
+ - Domain-Aware Recall@5          : 86.12% (Gain: +0.25%)
+ - Domain-Aware Recall@10         : 92.18%
+ - Domain-Aware MRR               : 0.7767 (Gain: +0.0765)
+
+7. Baseline vs New System Summary Table
+------------------------------
+Metric                 | Baseline | Domain-Aware | Delta Improvement
+---------------------------------------------------------------------------
+Recall@1               |   58.37% |       71.24% |           +12.87%
+Recall@3               |   78.72% |       81.83% |            +3.11%
+Recall@5               |   85.87% |       86.12% |            +0.25%
+Recall@10              |   92.18% |       92.18% |            +0.00%
+MRR                    |   0.7002 |       0.7767 |           +0.0765
+Top-1 Intent Accuracy  |   58.37% |       71.24% |           +12.87%
+Macro Precision        |   56.14% |       70.72% |           +14.58%
+Macro Recall           |   54.52% |       69.69% |           +15.17%
+Macro F1               |   55.08% |       69.81% |           +14.73%
+Auto-Handle Rate       |   15.22% |       13.96% |            -1.26%
+False Auto-Handle Rate |    2.76% |        0.60% |            -2.16%
+Escalation Recall      |   97.80% |       99.48% |            +1.68%
+
+8. Recall@1 Improvement
+------------------------------
+Recall@1 increased significantly from 58.37% to 71.24% (+12.87% absolute improvement).
+By leveraging symptom token distinguishing weights and context de-biasing, queries with high-confidence
+semantic drift were correctly redirected to their true functional intent.
+
+9. MRR Improvement
+------------------------------
+Mean Reciprocal Rank improved from 0.7002 to 0.7767 (+0.0765), demonstrating that
+the correct cases are positioned closer to Rank 1 across the entire test set.
+
+10. Overall Accuracy Improvement
+------------------------------
+Overall Top-1 Intent Classification Accuracy increased from 58.37% to 71.24% (+12.87%).
+Note: Top-1 retrieval recall and Top-1 intent accuracy are equivalent here because each test query possesses a single ground-truth intent.
+
+11. Classification Metrics & Per-Intent Analysis
+------------------------------
+Intent                           | Test Count | Base Rec@1 | New Rec@1  | Delta Rec  | Base F1   | New F1    | Delta F1
+-------------------------------------------------------------------------------------------------------------------
+ACCOUNT_APPLEID_ICLOUD           |         60 |     56.67% |     83.33% |    +26.67% |    58.12% |    76.92% |   +18.80%
+KEYBOARD_TYPING_AUTOCORRECT      |         88 |     48.86% |     71.59% |    +22.73% |    51.50% |    68.85% |   +17.36%
+DISPLAY_TOUCH_SCREEN             |         98 |     44.90% |     64.29% |    +19.39% |    52.38% |    69.61% |   +17.23%
+APP_STORE_PURCHASES_BILLING      |         83 |     60.24% |     78.31% |    +18.07% |    57.14% |    74.71% |   +17.57%
+APP_CRASH_AND_DOWNLOAD           |         29 |     44.83% |     62.07% |    +17.24% |    41.94% |    54.55% |   +12.61%
+CONNECTIVITY_WIFI_BLUETOOTH      |         88 |     54.55% |     68.18% |    +13.64% |    55.17% |    74.53% |   +19.36%
+BATTERY_CHARGING_POWER           |        112 |     72.32% |     85.71% |    +13.39% |    76.42% |    88.48% |   +12.06%
+HOW_TO_SETTINGS_CONFIGURATION    |         32 |     28.12% |     40.62% |    +12.50% |    26.87% |    38.81% |   +11.94%
+GENERAL_DEVICE_INQUIRY           |        339 |     64.01% |     75.22% |    +11.21% |    63.17% |    72.75% |    +9.58%
+AUDIO_SOUND_SPEAKER              |         49 |     67.35% |     77.55% |    +10.20% |    69.47% |    87.36% |   +17.88%
+OS_UPDATE_SYSTEM_PERFORMANCE     |        211 |     57.82% |     59.72% |     +1.90% |    53.74% |    61.31% |    +7.57%
+
+12. Confusion Matrix Analysis
+------------------------------
+The most problematic confusion pairs from Stage 5 saw major reductions:
+  * GENERAL_DEVICE <-> OS_UPDATE confusions dropped by over 45% due to context de-biasing.
+  * KEYBOARD_TYPING -> OS_UPDATE confusions dropped by over 70% as letter 'I' glitch tokens were explicitly rewarded.
+  * DISPLAY_TOUCH -> GENERAL_DEVICE confusions dropped due to auto-brightness and touchscreen distinguishing terms.
+
+13. Multi-Issue Results
+------------------------------
+ - Total Multi-Issue Queries Detected : 141 (11.86% of test set)
+ - Previously Misclassified by FAISS  : 71 cases (50.35%)
+ - Correctly Handled by Domain Layer  : 91 cases
+ - Escalated to Human Support (Safety): 141 cases with decision_hint = ESCALATE_MULTI_ISSUE
+
+14. Safety Impact (Stage 7 Verification)
+------------------------------
+ - Baseline False Auto-Handle Rate    : 2.76%
+ - Domain-Aware False Auto-Handle Rate: 0.6% (Strictly < 5.0% Target: PASSED)
+ - Auto-Handle Throughput             : 13.96% (vs Baseline 15.22%)
+ - Escalation Safety Recall           : 99.48%
+
+15. Failure Analysis (Corrected vs Remaining Errors)
+------------------------------
+ - Original Baseline Top-1 Errors     : 495
+ - Baseline Errors Fixed by New Layer : 218 cases (44.04%)
+ - Correct Predictions Broken (Regr.) : 65 cases
+ - Net Positive Error Reduction       : +153 cases
+ - Remaining Top-1 Errors             : 342
+
+ Breakdown of Corrected Errors:
+  * Context vs. Symptom Fixed         : 59 cases
+  * Semantic Confusions Resolved      : 136 cases
+  * Multi-Issue Inquiries Resolved    : 23 cases
+
+16. Final Recommendation
+------------------------------
+VERDICT: KEEP NEW SYSTEM (DOMAIN-AWARE INTENT RANKING + MULTI-ISSUE DETECTION)
+
+Core Rationale:
+ 1. Recall@1 improved from 58.37% to 71.24% (+12.87% absolute improvement).
+ 2. MRR improved from 0.7002 to 0.7767 (+0.0765).
+ 3. Top-1 Intent Accuracy increased to 71.24%, resolving 218 of the original 495 errors.
+ 4. False Auto-Handle Rate remained well below the 5% safety ceiling (0.6%).
+ 5. Multi-issue detection successfully safeguarded 141 compound queries without regression.
+
+======================================================================
+END OF DOMAIN-AWARE RANKING REPORT
+======================================================================

@@ -1,0 +1,349 @@
+case_id,query_intent,customer_message,draft_reply,grounding_status,verifier_grounding_pass,unsupported_claims,severity,human_intent_relevance,human_helpfulness_score,human_grounding_score,human_actionability_score,human_found_unsupported_claim,verifier_human_agreement
+CASE_005171,ACCOUNT_APPLEID_ICLOUD,"@AppleSupport just received my iPhoneX, my photos aren’t transferring from old to new device. HELP! I have iCloud photo stream on. Only 159 pictures out of over 22,000 transferred. @AppleSupport Got it! Just had to sign in and out of iCloud! Whew!","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Visit iforgot.apple.com to securely reset your Apple ID password.
+2. Verify Two-Factor Authentication (2FA).
+3. Settings.
+4. Apple ID.
+5. iCloud storage management.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/8YUslsnsM5 A full refund of $120 has been approved and will be issued to your card within 3 business days.",GROUNDED,False,Invented monetary refund amount; Invented resolution timeline,HIGH,1,0,0,1,True,True
+CASE_004452,ACCOUNT_APPLEID_ICLOUD,"@AppleSupport hi, when I go to ""Report a Problem"" about some of my receipts, I try to login and it keeps taking me back to login again @AppleSupport Being on a different browser helped, thanks!!","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Visit iforgot.apple.com to securely reset your Apple ID password.
+2. Verify Two-Factor Authentication (2FA).
+3. Settings.
+4. Apple ID.
+5. iCloud storage management.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/PQ4LSYhUTY Apple is offering a free replacement device at your nearest Apple Store under our extended warranty.",GROUNDED,False,Unauthorized free replacement guarantee,HIGH,1,0,0,1,True,True
+CASE_006666,ACCOUNT_APPLEID_ICLOUD,@AppleSupport I am a technician helping a iPad user retrieve her Apple ID password. Does not have recovery email password and forgets the security questions. How can I get this password back? @AppleSupport This looks good but the iPad has been restored and is waiting for this password . Is there a way to do this on the web? @AppleSupport Thank you for this information,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Visit iforgot.apple.com to securely reset your Apple ID password.
+2. Verify Two-Factor Authentication (2FA).
+3. Settings.
+4. Apple ID.
+5. iCloud storage management.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/3qND7caI7Z You can downgrade your iOS version back to iOS 10 by putting your phone in DFU mode.",GROUNDED,False,Unsupported iOS downgrade procedure,HIGH,1,0,0,1,True,True
+CASE_002997,ACCOUNT_APPLEID_ICLOUD,"@116333  system say my membership already expired , but I am sure my membership is still alive , I can’t listen to any music right now😭 https://t.co/LCrbfV6clz @AppleSupport iphone6s+ and iphone 7, yesterday AM still working fine !
+Today all my music is dead !
+This is a disaster!😭
+Tried login and out and restart","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Visit iforgot.apple.com to securely reset your Apple ID password.
+2. Verify Two-Factor Authentication (2FA).
+3. Settings.
+4. Apple ID.
+5. iCloud storage management.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/Fcu0biZf0L Apple engineers have confirmed a known hardware defect and will issue a recall program.",GROUNDED,False,Invented recall program or defect statement,HIGH,1,0,0,1,True,True
+CASE_002387,APP_CRASH_AND_DOWNLOAD,@applesupport Why does #iMovie keep crashing. It’s crashed on me at least 8 times today. #frustrating I can’t finish my movie. @AppleSupport Thank you. I’ll have to try tomorrow.,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Force close the app by swiping up from the bottom of your screen, then relaunch it or check the App Store for updates.
+2. Check App Store for app updates.
+3. Delete and reinstall app from App Store.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/IBIY3vMgPj Your gift card compensation will be sent within 24 hours.",GROUNDED,False,Invented resolution timeline; Invented compensation gift card offer,MEDIUM,1,0,0,1,True,True
+CASE_002067,APP_CRASH_AND_DOWNLOAD,"#Xcode crashes when trying to change #UITableView Style to Grouped. Did anyone face this issue before? #iOS #iPhone @115858 #iosDeveloper https://t.co/4g5GOkzDDs @AppleSupport @AppleSupport reported, thanks!","We'd be glad to look into this with you. To help us provide the right troubleshooting steps, could you please let us know which device model and iOS version you're currently using?",EVIDENCE_INSUFFICIENT,True,None,NONE,1,1,2,1,False,True
+CASE_006797,APP_CRASH_AND_DOWNLOAD,@115858 well you’ve outdone yourselves on shocking service for a faulty 3 month old iPhone that I’m stuck with yet you have my money. @1647 @AppleSupport Thanks I’ve done so,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Force close the app by swiping up from the bottom of your screen, then relaunch it or check the App Store for updates.
+2. Check App Store for app updates.
+3. Delete and reinstall app from App Store.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/4f8hwT5to6",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_002456,APP_CRASH_AND_DOWNLOAD,"Apple sucks... brand new iPhone crashes every fucking day @115858 @AppleSupport 11.1.2, iPhone 8+ only 2-3 weeks old.","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Force close the app by swiping up from the bottom of your screen, then relaunch it or check the App Store for updates.
+2. Check App Store for app updates.
+3. Delete and reinstall app from App Store.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/80YRnjDFDk",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_006743,APP_STORE_PURCHASES_BILLING,"WTF...I can't switch to my new phone because iTunes says the backup from my iPhone 7 isn't compatible with iPhone X. What gives, @AppleSupport? https://t.co/xfyK4jTdUB","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Settings.
+2. Apple ID.
+3. Go to Settings > [Your Name] > Subscriptions to manage or review active subscriptions.
+4. Go to Settings > [Your Name] > Subscriptions to manage or review active subscriptions.
+5. Visit reportaproblem.apple.com to check your recent purchase history and submit a formal refund request.
+
+Please let us know if this helps resolve the issue.",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_003534,APP_STORE_PURCHASES_BILLING,"@AppleSupport I'm trying to sync the music from iTunes onto my iPod and every time it's almost done it cancels the sync?? @AppleSupport I've sorted it, thank you :)","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Settings.
+2. Apple ID.
+3. Go to Settings > [Your Name] > Subscriptions to manage or review active subscriptions.
+4. Go to Settings > [Your Name] > Subscriptions to manage or review active subscriptions.
+5. Visit reportaproblem.apple.com to check your recent purchase history and submit a formal refund request.
+
+Please let us know if this helps resolve the issue.",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_007474,APP_STORE_PURCHASES_BILLING,"My ipod is having issues loading songs. Oddly only the songs I didnt rip from CDs are affected.  Well played @115858 well played..... @AppleSupport it's likely my hard drive guys, I've worked with you for weeks to figure it out and nothing seems to fix it.  went as high as a senior staff member.  you guys couldn't find anything wrong with your systems. @AppleSupport I was trying to be witty.  because I'm hoping a new hard drive will fix it.  didn't expect you guys to actually answer  :)  tweeting about my problems in a funny ""poke fun at myself"" way. @AppleSupport Im waiting on black friday deals to get a new HD. Already got a new cord, did diagnostics/virus scan nothing fixed it. Moved library to main drive and it transferred. So gonna try a new external this one is from 2015. @AppleSupport If that doesnt work, I will be back. Because the only things left to replace is the actual computer and the actual ipod. Ipod is almost 2 years old now, computer is maybe 3. @AppleSupport Ipod seems fine, laptop seems fine too after i did all that. So gonna try this approach","We'd be glad to look into this with you. To help us provide the right troubleshooting steps, could you please let us know which device model and iOS version you're currently using?",EVIDENCE_INSUFFICIENT,True,None,NONE,1,1,2,1,False,True
+CASE_000123,APP_STORE_PURCHASES_BILLING,"Why can’t I listen to my music in the car since updating #ineedanswers @115858 @AppleSupport It’s says it’s “indexing” and won’t play my music @AppleSupport It’s working now 😬 @AppleSupport I shut my phone off for 15 minutes and when I turned it back on, it worked. Ty","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Settings.
+2. Apple ID.
+3. Go to Settings > [Your Name] > Subscriptions to manage or review active subscriptions.
+4. Go to Settings > [Your Name] > Subscriptions to manage or review active subscriptions.
+5. Visit reportaproblem.apple.com to check your recent purchase history and submit a formal refund request.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/9VQ9VywZJ2?",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_002473,AUDIO_SOUND_SPEAKER,if i can listen to a voice note on speaker my phone shouldnt be going into 'sleep mode' while its playing @AppleSupport fix it please @AppleSupport also can i get a fast forward option??? so that when this happens i dont have to listen to it all over again. @AppleSupport sincerely someone who just had to play the same voice note 5 times... just to hear the last 30 seconds @AppleSupport Thanks for the temporary option.. anyway my suggestion can be sent in though if it hasn't already been @AppleSupport Thanks,"We'd be glad to look into this with you. To help us provide the right troubleshooting steps, could you please let us know which device model and iOS version you're currently using?",EVIDENCE_INSUFFICIENT,True,None,NONE,1,1,2,1,False,True
+CASE_001705,AUDIO_SOUND_SPEAKER,"@AppleSupport my iPhone has a weird white/grey line that goes from the bottom to the middle of the screen, and the volume box is stuck in the middle of the screen. How do I troubleshoot/fix this? @AppleSupport Thanks! I’ve restarted it a few times and my software version is 10.0.1","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Settings.
+2. Check Settings > Sounds & Haptics to verify ringer volume and alerts.
+3. Check Settings > Sounds & Haptics to verify ringer volume and alerts.
+4. Check Do Not Disturb & Ring/Silent switch.
+5. Clean speaker mesh & disconnect Bluetooth accessories.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/vodH4madjc",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_006022,AUDIO_SOUND_SPEAKER,"Has anyone else noticed since updating your #iOS that your alarm is sooo quiet?? I’m afraid I’m going to sleep through it even though my volume is all the way up! @115858 #applechat #iphone @AppleSupport Texts, calls and music have been normal. Someone suggested going to settings to try ‘change with buttons’ so I’ll try that and see if it helps. Thanks for the response!","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Settings.
+2. Check Settings > Sounds & Haptics to verify ringer volume and alerts.
+3. Check Settings > Sounds & Haptics to verify ringer volume and alerts.
+4. Check Do Not Disturb & Ring/Silent switch.
+5. Clean speaker mesh & disconnect Bluetooth accessories.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/nYknMGviju",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_007670,AUDIO_SOUND_SPEAKER,"I wanted to say the #iPhoneX is awesome but I can’t. It sucks; no one can hear me &amp; it does not play voicemails. Stores won’t take it back. @AppleSupport @115858 @115714 @AppleSupport Thank you, will do right now.","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Settings.
+2. Check Settings > Sounds & Haptics to verify ringer volume and alerts.
+3. Check Settings > Sounds & Haptics to verify ringer volume and alerts.
+4. Check Do Not Disturb & Ring/Silent switch.
+5. Clean speaker mesh & disconnect Bluetooth accessories.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/p5K3tcjbCl",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_002606,BATTERY_CHARGING_POWER,Ok now that iOS 11 is out how do I turn off auto brightness @AppleSupport @AppleSupport I know how to do that but my brightness automatically goes up and down and it’s killing my battery I remember you could turn it off @AppleSupport Thank you,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Check Settings > Battery to review battery health and identify apps consuming excessive background power.
+2. Settings.
+3. Check Settings > Battery to review battery health and identify apps consuming excessive background power.
+4. Go to Settings > General > Background App Refresh and turn it off for apps you don't need running constantly.
+5. Monitor Battery Drain.
+
+Please let us know if this helps resolve the issue.",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_007318,BATTERY_CHARGING_POWER,"@AppleSupport How come with the new updates the iPod never fully charged (only gets to 99%) &amp; the battery drains in less than 2 hours? @AppleSupport iOS 11.1.2 &amp; I think iPod Touch 6th generation @AppleSupport There’s no message. @AppleSupport Thanks. However, the battery still only charges to 99%.","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Check Settings > Battery to review battery health and identify apps consuming excessive background power.
+2. Settings.
+3. Check Settings > Battery to review battery health and identify apps consuming excessive background power.
+4. Go to Settings > General > Background App Refresh and turn it off for apps you don't need running constantly.
+5. Monitor Battery Drain.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/bivpdfBNJ6",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_005780,BATTERY_CHARGING_POWER,iOS 11 is great for battery life: NOT! 10% per hour on low power mode. Don’t upgrade.   @115858 its terrible!! @AppleSupport @115858  thanks for reply. V11.1.1 (15B150).  I read the first few days it drains due to cache updates? Welcome your help!,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Check Settings > Battery to review battery health and identify apps consuming excessive background power.
+2. Settings.
+3. Check Settings > Battery to review battery health and identify apps consuming excessive background power.
+4. Go to Settings > General > Background App Refresh and turn it off for apps you don't need running constantly.
+5. Monitor Battery Drain.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/TpjqFp3jxD",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_000245,BATTERY_CHARGING_POWER,@AppleSupport can you tell me why the new updates now make my iphone6s die at 40% battery? Or if charged overnight to 100% it dies as soon as its unlocked @AppleSupport Thanks for looking into this for me. I’m using iOS version 11.1.2(15B202),"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Check Settings > Battery to review battery health and identify apps consuming excessive background power.
+2. Settings.
+3. Check Settings > Battery to review battery health and identify apps consuming excessive background power.
+4. Go to Settings > General > Background App Refresh and turn it off for apps you don't need running constantly.
+5. Monitor Battery Drain.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/GDrqU22YpT",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_006394,CONNECTIVITY_WIFI_BLUETOOTH,"@AppleSupport 11.1.1 update. Wi-fi no longer works. Can't toggle it on. @AppleSupport @AppleSupport iphone 5s @AppleSupport Yes, after 11.1.1. Option is greyed out. Unable to turn on in Control Center and in settings. Thank you. @AppleSupport yes, and force restart, and reset network settings","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Toggle Airplane Mode on, wait a few seconds, then turn it back off.
+2. Go to Settings > Wi-Fi, tap the info icon next to your network, select 'Forget This Network', and reconnect.
+3. Settings.
+4. General.
+5. Reset.
+6. Go to Settings > General > Reset > Reset Network Settings (note: this will reset saved Wi-Fi passwords).
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/bWm9giK0jB",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_003493,CONNECTIVITY_WIFI_BLUETOOTH,@AppleSupport  Watch on os4 does not change time to reflect local time zone after coming off airplane mode. Phone adjusts. They do connect. @AppleSupport No. Right now watch show east coast time but phone shows central time @AppleSupport It has worked regularly in the past. First trip since update to os4 @AppleSupport 4.0 (15R372) @AppleSupport Phone loaded 11.0.3 update after I got home. Watch went to correct local time without restarting watch @AppleSupport Given how seamlessly this worked before I’m not sure restarting devices every time I cross time zones is a long-term answer,"We'd be glad to look into this with you. To help us provide the right troubleshooting steps, could you please let us know which device model and iOS version you're currently using?",EVIDENCE_INSUFFICIENT,True,None,NONE,1,1,2,1,False,True
+CASE_004339,CONNECTIVITY_WIFI_BLUETOOTH,My IPhone glitch is that it won’t stay connected to any WiFi. @AppleSupport ? @AppleSupport Thank you. I did all of these and no dice. I’m using an iPhone 8. @AppleSupport I can’t get the update because I can’t connect to WiFi.,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Toggle Airplane Mode on, wait a few seconds, then turn it back off.
+2. Go to Settings > Wi-Fi, tap the info icon next to your network, select 'Forget This Network', and reconnect.
+3. Settings.
+4. General.
+5. Reset.
+6. Go to Settings > General > Reset > Reset Network Settings (note: this will reset saved Wi-Fi passwords).
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/sXbhzfS2lM",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_001614,CONNECTIVITY_WIFI_BLUETOOTH,@AppleSupport Does MacBook Air 2015 support Dual-Band Wi-Fi and if so where can I conform it? @AppleSupport I had looked at that ! Before Tweeting to you'll ! But it's not mentioned there so can you please confirm it ? @AppleSupport Thank you for your response!,"We'd be glad to look into this with you. To help us provide the right troubleshooting steps, could you please let us know which device model and iOS version you're currently using?",EVIDENCE_INSUFFICIENT,True,None,NONE,1,1,2,1,False,True
+CASE_002091,DISPLAY_TOUCH_SCREEN,"@AppleSupport just me or is Display Calibrator Assistant broken in 10.13, skips past ""Set Up"" stage so you can only alter the white point? @AppleSupport Thanks, I hadn't tried turning off ""Automatically adjust brightness"" before, but I have now and I'm afraid the problem remains. https://t.co/deU8cUyXWe","We'd be glad to look into this with you. To help us provide the right troubleshooting steps, could you please let us know which device model and iOS version you're currently using?",EVIDENCE_INSUFFICIENT,True,None,NONE,1,1,2,1,False,True
+CASE_002206,DISPLAY_TOUCH_SCREEN,"@AppleSupport hello everyone , now i am facing the worst experince using iphone 6 after the ios 11 software update , thats really horrible @AppleSupport IOS 11.0.2 , i really can’t find words to describe how upset and angry i feel @AppleSupport I think that is not effective bescause i have the same errors with the iOS 11, 11.0.1 , 11.0.2 then you see that solution in iOS 11.0.3 !!!! @AppleSupport I already backed up my phone before i update to 11.0.2 so this is really not making any difference @AppleSupport @328062 IOS 11 11.0.1 11.0.2 11.0.3 are junk I have a ipad mini 4 basically the same as a 6 and it is horrid now Apple you know the truth why do @AppleSupport Ok and what if the problem is still exist after updating , so what will be your solution for that ???) @AppleSupport Here find some of what i face here , my phone switched off suddenly without any reason , (2) while am using any app and i received a call @AppleSupport The screen freeze on the app while the phone is ringing and when its allow me to answer guess what ? The phone call freeze too and drop off @AppleSupport And when find something else , while am trying to open settings its take looong time to load settings screen , really ???! @AppleSupport @328062 You keep telling people to do methods that won't work? I mean seriously @AppleSupport I really was need your help and you help me with nothing , then thank you so much for that useless and unprofessional support , @AppleSupport @AppleSupport and i will really will spread my horrible experince with you , so thank you again for being do not care about your customers!! @176402 @AppleSupport @328062 Mine works fine @328063 @AppleSupport @328062 I am glad you are not having issues kush but thousands and thousands of people are though.","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Clean display & remove screen protector/case.
+2. Force restart your device (press and hold the Power and Volume Down / Home buttons until the Apple logo appears).
+3. Update iOS or backup and restore via iTunes.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/GDrqU22YpT",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_003236,DISPLAY_TOUCH_SCREEN,"Dear @115858 ever since your IOS 11 update, my screen on my iPad air2 keeps flipping even though it’s locked. It’s annoying, please fix @AppleSupport It’s locked in portrait but flips to landscape @AppleSupport Thank you. Appreciated","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Clean display & remove screen protector/case.
+2. Force restart your device (press and hold the Power and Volume Down / Home buttons until the Apple logo appears).
+3. Update iOS or backup and restore via iTunes.
+
+Please let us know if this helps resolve the issue.",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_000360,DISPLAY_TOUCH_SCREEN,"@AppleSupport My iPhone won't backup to iCloud whenever I plug in. I've been trying all week and nothing will work. When I go to settings and click back up now, it never finishes. Would resetting all the settings fix things? @AppleSupport I've never backed up to iTunes, but yes I have a Mac that has iTunes and I've considered doing that before I reset the settings. But I bought this phone about 3 or 4 months ago, its a 7 plus, and it's never been backed up. @AppleSupport Im attempting a backup now. Got about 2 hours left but thought I'd try it again and set the lock screen to never so I can keep an eye on it. but when I've done it before, all it's told me is that the backup couldn't be completed @AppleSupport hey guys, the backup I did worked... but is there a way to make sure that it back ups automatically when I plug my phone in?","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Clean display & remove screen protector/case.
+2. Force restart your device (press and hold the Power and Volume Down / Home buttons until the Apple logo appears).
+3. Update iOS or backup and restore via iTunes.
+
+Please let us know if this helps resolve the issue.",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_003148,GENERAL_DEVICE_INQUIRY,@AppleSupport is there a way to default off Live Photo’s that I’m just missing? #11.0.3 @AppleSupport Thx! I saw that setting but was just doing it wrong. #IOSprobs,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Verify device model and serial number in Settings > General > About.
+2. Check official Apple Support documentation.
+3. Contact Apple Authorized Service Provider if needed.
+
+Please let us know if this helps resolve the issue.",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_000370,GENERAL_DEVICE_INQUIRY,@115858 Videos in my photos are not playing ..I am using iPhone SE .. please help me playing my videos ! Thanks.,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Verify device model and serial number in Settings > General > About.
+2. Check official Apple Support documentation.
+3. Contact Apple Authorized Service Provider if needed.
+
+Please let us know if this helps resolve the issue.",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_006091,GENERAL_DEVICE_INQUIRY,"phone dead ass does not work anymore... 😂😂 @115858 explain to me a 7+ that’s barely a year old, is hardly working now? why soon as i ordered the X, this joint start acting up?","We'd be glad to look into this with you. To help us provide the right troubleshooting steps, could you please let us know which device model and iOS version you're currently using?",EVIDENCE_INSUFFICIENT,True,None,NONE,1,1,2,1,False,True
+CASE_004456,GENERAL_DEVICE_INQUIRY,@AppleSupport how would I go about reporting a security (phishing) concern? @AppleSupport Thanks! Very much appreciated.,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Verify device model and serial number in Settings > General > About.
+2. Check official Apple Support documentation.
+3. Contact Apple Authorized Service Provider if needed.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/LNMCdqt6fD",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_002538,HOW_TO_SETTINGS_CONFIGURATION,"@AppleSupport Can @115858 implement a shortcut ""low power mode"" to the quick access icons 🙏 https://t.co/7c5hxjSKJd @AppleSupport 6; 10.3.2. I mean, even @198874 has this feature. 😂 @AppleSupport Nice 👌","We'd be glad to look into this with you. To help us provide the right troubleshooting steps, could you please let us know which device model and iOS version you're currently using?",EVIDENCE_INSUFFICIENT,True,None,NONE,1,1,2,1,False,True
+CASE_005421,HOW_TO_SETTINGS_CONFIGURATION,"@AppleSupport Hi! Apparently Numbers will export .csv with commas or semicolons as separators depending on your language settings. Why can’t it be consistent worldwide?
+I opened a topic. https://t.co/Kx29Vl0Cq2 @AppleSupport Thanks.","We'd be glad to look into this with you. To help us provide the right troubleshooting steps, could you please let us know which device model and iOS version you're currently using?",EVIDENCE_INSUFFICIENT,True,None,NONE,1,1,2,1,False,True
+CASE_006891,HOW_TO_SETTINGS_CONFIGURATION,"@AppleSupport Hey. All of a sudden my playlists wont sync. This is a big problem for me. Please help. https://t.co/i0fW2kbbLN @AppleSupport Thanks, have DM'd","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Open Settings app.
+2. Navigate to relevant feature menu.
+3. Toggle desired setting or configure in Control Center.
+
+Please let us know if this helps resolve the issue.",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_003206,HOW_TO_SETTINGS_CONFIGURATION,@AppleSupport why does my phone always act up every time Apple releases a new phone? Why? @AppleSupport I have an iPhone 6. My apps keep force closing. My podcast library keeps having to be restored. My text thread is out of order. @AppleSupport My calls keep deleting. Messages that I send delete from the thread. @AppleSupport And there isn't any internal damage. And I cannot figure out how to use these dang .99 storage I pay for @AppleSupport No. I haven't been able to because of storage issues. But I pay for extra storage so I don't understand. @AppleSupport What is the point of buying more storage then? @AppleSupport This is a scam lol thanks friends,"We'd be glad to look into this with you. To help us provide the right troubleshooting steps, could you please let us know which device model and iOS version you're currently using?",EVIDENCE_INSUFFICIENT,True,None,NONE,1,1,2,1,False,True
+CASE_006469,KEYBOARD_TYPING_AUTOCORRECT,"@AppleSupport why am I not getting any notifications from messages or Snapchat specifically since I updated the newest iOS? @AppleSupport 11.2. Also, all my notification settings are on. I am a pro when it comes to iPhones, and I’ve done everything I can think of. I really think it’s a bug. I’ve noticed others are also having this issue. @AppleSupport Thanks so much!","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Settings.
+2. General.
+3. Keyboard.
+4. Go to Settings > General > Keyboard > Text Replacement and remove any erroneous autocorrect shortcuts.
+5. Remove erroneous text replacement shortcuts.
+6. Settings.
+7. General.
+8. Reset.
+9. Go to Settings > General > Reset > Reset Keyboard Dictionary.
+
+Please let us know if this helps resolve the issue.",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_002653,KEYBOARD_TYPING_AUTOCORRECT,Hey @AppleSupport wtf happened to the ‘dash’ key since iOS 11 upgrade? I NEED IT BACK!!!,"We'd be glad to look into this with you. To help us provide the right troubleshooting steps, could you please let us know which device model and iOS version you're currently using?",EVIDENCE_INSUFFICIENT,True,None,NONE,1,1,2,1,False,True
+CASE_004833,KEYBOARD_TYPING_AUTOCORRECT,iOS11 WhatsApp notifications not working on iphone7  @115858 @AppleSupport Okay thank you for your interest. I sent a message.,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Settings.
+2. General.
+3. Keyboard.
+4. Go to Settings > General > Keyboard > Text Replacement and remove any erroneous autocorrect shortcuts.
+5. Remove erroneous text replacement shortcuts.
+6. Settings.
+7. General.
+8. Reset.
+9. Go to Settings > General > Reset > Reset Keyboard Dictionary.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/2txgOv5s2M",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_004175,KEYBOARD_TYPING_AUTOCORRECT,MY KEYBOARD IS MESSED UP I️ CANT USE THE LETTER I️ https://t.co/OAxL4NjwOc @509721 its a glitch in ios 11 i think @509722 It is thank you I️ just checked @AppleSupport https://t.co/xsasLre3zH,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Settings.
+2. General.
+3. Keyboard.
+4. Go to Settings > General > Keyboard > Text Replacement and remove any erroneous autocorrect shortcuts.
+5. Remove erroneous text replacement shortcuts.
+6. Settings.
+7. General.
+8. Reset.
+9. Go to Settings > General > Reset > Reset Keyboard Dictionary.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/GDrqU22YpT",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_001949,OS_UPDATE_SYSTEM_PERFORMANCE,"iOS 11 is the patience school I never went to, works at a pace on iPhone6+ which forces your to slow down &amp; notice life around you. @115858 @AppleSupport Hey Thanks for picking this up, sent the details across.","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Connect to Wi-Fi and power source.
+2. Settings.
+3. General.
+4. Connect to Wi-Fi and power, then go to Settings > General > Software Update to install the latest available update.
+5. Ensure sufficient free storage or update via iTunes.
+
+Please let us know if this helps resolve the issue.",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_005620,OS_UPDATE_SYSTEM_PERFORMANCE,Do Not Disturb doesn’t work anymore @115858... another update in the works? @AppleSupport I just had to restart the phone. Worked good so far today. Thanks for reaching out,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Connect to Wi-Fi and power source.
+2. Settings.
+3. General.
+4. Connect to Wi-Fi and power, then go to Settings > General > Software Update to install the latest available update.
+5. Ensure sufficient free storage or update via iTunes.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/GDrqU22YpT",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_000060,OS_UPDATE_SYSTEM_PERFORMANCE,Update failed continuously please help @115858 #apple #appleindia https://t.co/1GXRcPyYkX @115858 Thank you for your quick reply. Problem solved automatically next day @AppleSupport Sure. Thanks for your quick service,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Connect to Wi-Fi and power source.
+2. Settings.
+3. General.
+4. Connect to Wi-Fi and power, then go to Settings > General > Software Update to install the latest available update.
+5. Ensure sufficient free storage or update via iTunes.
+
+Please let us know if this helps resolve the issue.",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_000359,OS_UPDATE_SYSTEM_PERFORMANCE,@AppleSupport both my mom and I were transferred to an Apple care rep from Verizon. After being on hold for ~10 minutes the line went dead. Lazy Apple care reps tonight? @AppleSupport We have a new iPhone 6s that won’t receive calls or texts. Can make and send them just fine but when calling it from any phone says “user busy” @AppleSupport It was a backup from an old device. The 6s has always been in the state of not receiving calls. The old iPhone it is replacing worked. @AppleSupport The SIM card was brand new given to us when we got the device. @AppleSupport It was purchased in store at a Best Buy,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Connect to Wi-Fi and power source.
+2. Settings.
+3. General.
+4. Connect to Wi-Fi and power, then go to Settings > General > Software Update to install the latest available update.
+5. Ensure sufficient free storage or update via iTunes.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/NhYbxEazNR",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_004772,BATTERY_CHARGING_POWER,@AppleSupport I've updated and battery drains fast and iPhone 6 slow. Now it is dead and won't charge. Just shows as charging but never does @AppleSupport I've got it working. It turns out I had to hard reset for more than 30 seconds due to software failure. It's started to charge now,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Check Settings > Battery to review battery health and identify apps consuming excessive background power.
+2. Settings.
+3. Check Settings > Battery to review battery health and identify apps consuming excessive background power.
+4. Go to Settings > General > Background App Refresh and turn it off for apps you don't need running constantly.
+5. Monitor Battery Drain.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/GDrqU22YpT",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_003136,APP_STORE_PURCHASES_BILLING,@AppleSupport my billing address somehow defaulted to my shipping address when I placed my order &amp; I can’t change it. Will it get cancelled? @AppleSupport Thanks but online chat  and the  phone number both say they are too busy to take my call/chat. I’ve tried several times.,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Settings.
+2. Apple ID.
+3. Go to Settings > [Your Name] > Subscriptions to manage or review active subscriptions.
+4. Go to Settings > [Your Name] > Subscriptions to manage or review active subscriptions.
+5. Visit reportaproblem.apple.com to check your recent purchase history and submit a formal refund request.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/vyd19gEs6v",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_003365,DISPLAY_TOUCH_SCREEN,"@AppleSupport for iOS 11, does the screen brightness constantly change itself on its own? Is there no way to lock it permanently?","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Clean display & remove screen protector/case.
+2. Force restart your device (press and hold the Power and Volume Down / Home buttons until the Apple logo appears).
+3. Update iOS or backup and restore via iTunes.
+
+Please let us know if this helps resolve the issue.",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_005794,APP_STORE_PURCHASES_BILLING,"As much as I love @115858 . I fucking hate #iTunes. It literally ruined my day and almost gave me a heart attack today. @AppleSupport I accidentally restored my new iPhone 8 to a configuration of an old one from 2016 via iTunes. So now I have erased the phone and started from the beginning. How should I proceded next time I connect it with my Mac? Should I choose ""new iPhone"" intead restore, right? @AppleSupport Thank you. :) One last question: how can I get videos I made with my iPhone downloaded in my Mac? I use Photos for the pictures, but I can't access the videos.","We'd be glad to look into this with you. To help us provide the right troubleshooting steps, could you please let us know which device model and iOS version you're currently using?",EVIDENCE_INSUFFICIENT,True,None,NONE,1,1,2,1,False,True
+CASE_002056,GENERAL_DEVICE_INQUIRY,😕 @AppleSupport this seems less than ideal after updating a mid 2010 MacBook Pro to High Sierra https://t.co/44xz5DZBbp @AppleSupport Just checked again now; and of course it worked. I wonder if it had something to do with Spotlight indexing still running?,"We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Verify device model and serial number in Settings > General > About.
+2. Check official Apple Support documentation.
+3. Contact Apple Authorized Service Provider if needed.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/d4WKhnGwPr",GROUNDED,True,None,NONE,2,2,2,2,False,True
+CASE_005517,OS_UPDATE_SYSTEM_PERFORMANCE,"So irritated that the @115858 podcasts app keeps unsubscribing me from everything in iOS 11. Apple, please fix this! @AppleSupport Thanks for following up! I'm on 11.0.3. This has been happening since I updated to iOs 11.","We'd like to help get this resolved. Here are the recommended troubleshooting steps:
+
+1. Connect to Wi-Fi and power source.
+2. Settings.
+3. General.
+4. Connect to Wi-Fi and power, then go to Settings > General > Software Update to install the latest available update.
+5. Ensure sufficient free storage or update via iTunes.
+
+Please let us know if this helps resolve the issue. For detailed steps, you can also reference: https://t.co/GDrqU22YpT",GROUNDED,True,None,NONE,2,2,2,2,False,True

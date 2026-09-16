@@ -1,0 +1,44 @@
+{
+  "layer_name": "LAYER_2_RESOLUTION_KNOWLEDGE",
+  "total_resolution_cases": 7922,
+  "total_resolution_steps": 4608,
+  "resolution_status_distribution": {
+    "CLEARLY_RESOLVED": 3692,
+    "PARTIALLY_RESOLVED": 4230
+  },
+  "resolution_quality_distribution": {
+    "HIGH": 3692,
+    "MEDIUM": 4230
+  },
+  "split_distribution": {
+    "train": 5545,
+    "test": 1189,
+    "validation": 1188
+  },
+  "cases_per_intent": {
+    "BATTERY_CHARGING_POWER": 743,
+    "ACCOUNT_APPLEID_ICLOUD": 401,
+    "OS_UPDATE_SYSTEM_PERFORMANCE": 1403,
+    "CONNECTIVITY_WIFI_BLUETOOTH": 587,
+    "AUDIO_SOUND_SPEAKER": 328,
+    "DISPLAY_TOUCH_SCREEN": 654,
+    "KEYBOARD_TYPING_AUTOCORRECT": 585,
+    "GENERAL_DEVICE_INQUIRY": 2259,
+    "APP_STORE_PURCHASES_BILLING": 558,
+    "APP_CRASH_AND_DOWNLOAD": 192,
+    "HOW_TO_SETTINGS_CONFIGURATION": 212
+  },
+  "patterns_synthesized_count": 11,
+  "top_canonical_support_actions": {
+    "Check iOS Version": 1180,
+    "Restart Device": 357,
+    "Update iOS Software": 331,
+    "Manage iCloud Storage": 57,
+    "Force Restart Device": 27,
+    "Check Battery Usage": 26,
+    "Toggle Wi-Fi / Bluetooth": 24,
+    "Text Replacement Workaround": 9,
+    "Force Close and Reopen App": 6,
+    "Reinstall App": 3
+  }
+}

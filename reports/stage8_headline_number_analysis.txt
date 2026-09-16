@@ -1,0 +1,45 @@
+============================================================
+STAGE 8 CRITICAL ANALYSIS: WHAT IS MISLEADING ABOUT MY HEADLINE NUMBER?
+============================================================
+
+1. The Danger of the 97.70% Headline Precision
+------------------------------------------------------------
+A naive summary of this project might proclaim:
+  'The AppleSupport AI Agent achieves 97.70% Auto-Handle Precision!'
+
+Presenting this number without its denominator is deeply misleading.
+Here is why:
+ - 97.70% precision is measured ONLY on the 174 inquiries (14.63% of the test set) that passed
+   all 7 strict deterministic safety gates.
+ - It does NOT mean the AI can automatically solve 97.70% of customer support requests.
+ - In fact, 85.37% of all incoming customer requests (1,015 / 1,189) are ESCALATED to human agents.
+
+2. The Safety vs. Automation Coverage Tradeoff
+------------------------------------------------------------
+The system is intentionally conservative by design:
+ - Auto-Handle Rate (Deflection) : 14.63% (174 cases)
+ - Escalation Rate (Human Queue) : 85.37% (1,015 cases)
+ - False Auto-Handle Rate        : 2.30% (4 / 174 auto-handles)
+ - Escalation Recall             : 98.24% (98.24% of uncertain/unsafe cases are intercepted)
+
+In customer support, sending an ungrounded, hallucinated, or incorrect automated reply causes
+immediate brand damage, customer churn, and escalated support costs. Therefore, a low automation rate (14.63%)
+with high precision (97.70%) and minimal false auto-handles (2.30%) is an intentional, defensible tradeoff.
+
+3. Dataset Selection & Resolution Bias
+------------------------------------------------------------
+ - The retrieval index and ground-truth validation/test sets originate from historical AppleSupport conversations.
+ - As documented in Stage 3, resolved Twitter threads exhibit an inherent selection bias (longer dialogues, active user confirmations).
+ - Production deployment would encounter novel hardware releases, zero-day iOS bugs, and angry customer disputes
+   that lack exact historical analogues, necessitating robust human fallback.
+
+4. Human Agreement Nuance (62.00%, Kappa = 0.2792)
+------------------------------------------------------------
+ - On the N=50 human review sample, human agreement is 62.00% with Cohen's Kappa = 0.2792.
+ - This modest Kappa reflects the system's deliberate conservatism: human reviewers are willing to take
+   educated guesses on ambiguous customer queries, whereas the AI strictly escalates when similarity < 0.65
+   or intent confidence < 0.60.
+
+============================================================
+END OF HEADLINE ANALYSIS
+============================================================

@@ -1,0 +1,39 @@
+============================================================
+SUPPORTDNA SECURITY DATASET LEAKAGE AUDIT REPORT
+============================================================
+Audit Timestamp: Deterministic Verification Run
+Location: data/security/prompt_injection/
+
+1. Dataset Split Counts & Composition:
+------------------------------------------------------------
+- Training Set (prompt_injection_train.jsonl): 108 examples
+  * Injections: 72
+  * Benign Standard: 18
+  * Hard Negatives: 18
+
+- Validation Set (prompt_injection_validation.jsonl): 31 examples
+  * Injections: 21
+  * Benign Standard: 5
+  * Hard Negatives: 5
+
+- Test Set (prompt_injection_test.jsonl): 41 examples
+  * Injections: 27
+  * Benign Standard: 7
+  * Hard Negatives: 7
+
+2. Cross-Split Overlap & Leakage Check:
+------------------------------------------------------------
+- Train <-> Validation Overlap: 0 cases (0.00%)
+- Train <-> Test Overlap:       0 cases (0.00%)
+- Validation <-> Test Overlap:  0 cases (0.00%)
+- Overall Cross-Split Leakage:  PASS (0 cases)
+
+3. Golden Evaluation Set & Historical Resolution Isolation:
+------------------------------------------------------------
+- Overlap with Golden Human Review Benchmark: 0 cases (0.00%)
+- Security Test Cases inside Golden Set:      0 cases
+- Benchmark Contamination Status:             CLEAN / ZERO CONTAMINATION
+
+============================================================
+STATUS: PASSED WITH ZERO LEAKAGE
+============================================================

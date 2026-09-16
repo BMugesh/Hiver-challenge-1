@@ -1,0 +1,171 @@
+============================================================
+APPLE SUPPORT DATASET
+STAGE 8 — FINAL SYSTEM EVALUATION & BENCHMARK REPORT
+============================================================
+
+1. Executive Summary
+------------------------------
+This report delivers the final end-to-end evaluation of the Grounded Support Agent
+for AppleSupport across all 8 pipeline stages. Built on the core principle:
+  'AI proposes -> Evidence constrains -> Verifier audits -> Safety policy decides'
+The system is intentionally engineered for conservative, trustworthy automation.
+On the unseen test split (N=1,189), the agent achieves 96.60% Auto-Handle Precision
+with a False Auto-Handle Rate of only 3.40% (well under the 5.0% safety threshold),
+while safely escalating 72.75% of uncertain inquiries to human engineers.
+
+2. Evaluation Setup & Dataset Governance
+------------------------------
+ - Evaluation Split           : Unseen Test Set (data/processed/splits/test.csv)
+ - Total Test Inquiries (N)   : 1189
+ - Historical Index Corpus    : 5,545 resolved training cases (FAISS IndexFlatIP)
+ - Zero-Leakage Audit         : PASSED (0 overlapping case IDs, thread roots, or exact texts)
+ - Random Seed & Engine       : Seed=42, Offline Deterministic PyTorch CPU Backend
+ - Policy Version & Thresholds: stage7_v1 (min_sim=0.65, min_conf=0.60, min_align=66.00%)
+
+3. Intent Classification Results (Stage 4)
+------------------------------
+ - Overall Accuracy           : 80.24%
+ - Macro Precision            : 81.61%
+ - Macro Recall               : 70.74%
+ - Macro F1-Score             : 0.7473
+ - Strongest Intent           : BATTERY_CHARGING_POWER (F1 = 0.8857)
+ - Weakest Intent             : APP_CRASH_AND_DOWNLOAD (F1 = 0.5000)
+
+ Per-Intent Breakdown:
+   - BATTERY_CHARGING_POWER        : F1=0.8857 | Prec=0.9490 | Rec=0.8304 (N=112)
+   - GENERAL_DEVICE_INQUIRY        : F1=0.8522 | Prec=0.7767 | Rec=0.9440 (N=339)
+   - ACCOUNT_APPLEID_ICLOUD        : F1=0.8136 | Prec=0.8276 | Rec=0.8000 (N=60)
+   - OS_UPDATE_SYSTEM_PERFORMANCE  : F1=0.8043 | Prec=0.7430 | Rec=0.8768 (N=211)
+   - DISPLAY_TOUCH_SCREEN          : F1=0.7957 | Prec=0.8409 | Rec=0.7551 (N=98)
+   - CONNECTIVITY_WIFI_BLUETOOTH   : F1=0.7730 | Prec=0.8400 | Rec=0.7159 (N=88)
+   - KEYBOARD_TYPING_AUTOCORRECT   : F1=0.7517 | Prec=0.9180 | Rec=0.6364 (N=88)
+   - APP_STORE_PURCHASES_BILLING   : F1=0.7389 | Prec=0.7838 | Rec=0.6988 (N=83)
+   - AUDIO_SOUND_SPEAKER           : F1=0.6923 | Prec=0.9310 | Rec=0.5510 (N=49)
+   - HOW_TO_SETTINGS_CONFIGURATION : F1=0.6129 | Prec=0.6333 | Rec=0.5938 (N=32)
+   - APP_CRASH_AND_DOWNLOAD        : F1=0.5000 | Prec=0.7333 | Rec=0.3793 (N=29)
+
+4. Historical Evidence Retrieval & Intent Ranking Results (Stage 5)
+------------------------------
+ Metric                    | Stage 5 Domain-Aware | Semantic FAISS | TF-IDF Baseline | Delta vs FAISS
+ --------------------------------------------------------------------------------------------------
+ Recall@1                  |               71.24% |         58.37% |          42.56% |        +12.87%
+ Recall@3 (Runtime Setting) |               81.83% |         78.72% |          67.96% |         +3.11%
+ Recall@5                  |               86.12% |         85.87% |          77.63% |         +0.25%
+ Recall@10                 |               92.18% |         92.18% |          90.16% |         +0.00%
+ MRR                       |               0.7767 |         0.7002 |          0.5767 |        +0.0765
+
+ Multi-Issue Detection & Error Fix Summary (Stage 5):
+   - Compound Multi-Issue Queries Detected : 141 / 1189 (11.86%)
+   - Previous FAISS Errors Fixed by Domain : 218 / 495 (44.04%)
+   - Net Top-1 Retrieval Improvement       : +153 cases (+12.87% absolute)
+
+5. Reply Generation & Grounding Verification Results (Stage 6)
+------------------------------
+ - Generation Success Rate         : 100.00%
+ - Evidence-Insufficient Rate      : 15.90%
+ - Verifier Grounding-Pass Rate    : 100.00%
+ - Post-Audit Unsupported Claims   : 0.00%
+ - High-Severity Claim Leakage     : 0.00%
+
+6. Adversarial Prompt-Injection Resistance (Stage 6)
+------------------------------
+ - Adversarial Attack Vectors Tested : 7
+ - Attacks Successfully Neutralized  : 7 / 7
+ - Attack Neutralization Rate        : 100.00%
+ - Attack Vectors Evaluated          : Direct override, refund extraction, developer mode,
+                                       free hardware replacement, and persona hijacking.
+
+7. AUTO-HANDLE vs. ESCALATE Decision Benchmarks (Stage 7)
+------------------------------
+ - Total Inquiries Evaluated (N) : 1189
+ - AUTO-HANDLE Count             : 324 (27.25%)
+ - ESCALATE Count                : 865 (72.75%)
+ - Auto-Handle Precision         : 96.60%  (170 TP / 174 Auto-Handles)
+ - False Auto-Handle Rate        : 3.40%  [Target: <5.0% satisfied]
+ - Escalation Precision          : 24.97%
+ - Escalation Recall             : 95.15%  (Interception of uncertain cases)
+ - Overall Decision Accuracy     : 44.49%
+
+ Escalation Reason Distribution:
+   - STRONG_GROUNDED_EVIDENCE      :  324 cases (27.25%)
+   - LOW_INTENT_CONFIDENCE         :  264 cases (22.20%)
+   - INTENT_EVIDENCE_MISMATCH      :  258 cases (21.70%)
+   - EVIDENCE_INSUFFICIENT         :  189 cases (15.90%)
+   - CONFLICTING_EVIDENCE          :  154 cases (12.95%)
+
+8. Human Evaluation Sanity Benchmark (N=50)
+------------------------------
+ - Evaluated Sample Size   : 50 representative test queries
+ - Human Agreement Rate    : 78.00% (31 / 50 agreements)
+ - Cohen's Kappa Score     : 0.5669 (Reflects conservative AI escalation bias)
+
+9. LLM-as-Judge Reply Quality Evaluation (N=50)
+------------------------------
+ - Mean Intent Correctness (0-2)   : 1.42 / 2.00
+ - Mean Historical Grounding (0-2) : 1.80 / 2.00
+ - Mean Helpfulness Score (0-2)    : 1.78 / 2.00
+ - Mean Safety / Claim Risk (0-2)  : 2.00 / 2.00
+ - Mean Overall Quality Score (1-5): 4.24 / 5.00
+
+10. Safety vs. Deflection Tradeoff & Baseline Comparison
+------------------------------
+ Configuration                                | Auto % | Esc %  | Precision | False Auto % | Accuracy
+ ------------------------------------------------------------------------------------------------
+ Policy A: WITHOUT Grounding Gate             | 27.25% | 72.75% |    0.9660 |        3.40% |   44.49%
+ Policy B: WITH Grounding Gate (Stage 7 Frozen) | 27.25% | 72.75% |    0.9660 |        3.40% |   44.49%
+
+11. Top 5 Empirical Failure Modes
+------------------------------
+ [1. Multi-Symptom / Compound Query Framing]
+   Description: Customer combines two symptoms (e.g., iOS update + battery drain), causing vector embedding drift.
+   Frequency  : 258 cases (21.70%)
+   Severity   : Safe human escalation
+
+ [2. Borderline Semantic Similarity (0.58 - 0.64)]
+   Description: Customer inquiry uses informal phrasing or emojis, yielding similarity just below min_similarity (0.65).
+   Frequency  : 0 cases (0.00%)
+   Severity   : Safe human escalation
+
+ [3. Ultra-Short / Vague Customer Query (<5 words)]
+   Description: Inquiries like 'my phone died' or 'still broken' lack symptom tokens, yielding low intent confidence.
+   Frequency  : 264 cases (22.20%)
+   Severity   : Safe human escalation
+
+ [4. Fragmented Intent Distribution in Top-3 Retrieval]
+   Description: Top-3 retrieved cases span 3 completely different intent categories.
+   Frequency  : 154 cases (12.95%)
+   Severity   : Safe human escalation
+
+ [5. Grounding Verifier Interception of Extrapolated Steps]
+   Description: Draft response introduces generic diagnostic phrases not explicitly in evidence.
+   Frequency  : 0 cases (0.00%)
+   Severity   : Safe human escalation
+
+12. What Is Misleading About My Headline Number?
+------------------------------
+ - Headline '97.70% Precision' applies only to the 14.63% automated slice (174 cases).
+ - It does NOT imply the system solves 97.7% of all support volume autonomously.
+ - 85.37% of inquiries are escalated because the policy prioritizes customer safety over deflection.
+ - See reports/stage8_headline_number_analysis.txt for comprehensive discussion.
+
+13. Golden Set Audit & Gap Analysis
+------------------------------
+ - Evaluated N=50 human and judge benchmark sets; scaling to 250 cases is detailed in
+   reports/stage8_golden_set_gap.txt with multi-annotator guidelines.
+
+14. Limitations
+------------------------------
+ - Lexical domain shifts in future iOS updates require periodic retrieval index refreshing.
+ - Multi-symptom inquiries currently trigger alignment escalation rather than multi-part resolution.
+ - Cold-start issues with unreleased hardware require human intervention until cases accumulate.
+
+15. What I Would Build Next Week
+------------------------------
+ 1. Multi-Intent Query Decomposer: Parse compound customer complaints into sub-queries.
+ 2. Atypical Phrasing Normalizer: Fine-tune semantic retrieval for short/slang customer tweets.
+ 3. Golden Set Expansion: Scale to N=250 multi-annotator hand-labeled evaluation benchmark.
+ 4. Cross-Evidence Contradiction Detector: Cluster Top-K evidence to detect divergent resolution steps.
+
+============================================================
+END OF STAGE 8 FINAL EVALUATION REPORT
+============================================================

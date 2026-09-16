@@ -1,0 +1,48 @@
+{
+  "manifest_version": "1.0.0",
+  "dataset_name": "SupportDNA Golden Evaluation Set",
+  "brand": "AppleSupport",
+  "source_corpus": "Customer Support on Twitter (AppleSupport subset)",
+  "total_records": 200,
+  "sampling_method": "Held-out Stratified Multi-Turn Tree Sampling (Zero Split Leakage)",
+  "random_seed": 42,
+  "freeze_status": "FROZEN",
+  "frozen_at": "2026-09-16T12:00:00Z",
+  "annotation_protocol": "Hand-labelled with multi-stage human review and taxonomy grounding",
+  "review_status": "Primary expert annotation complete; independent secondary adjudication framework prepared",
+  "files": {
+    "json": {
+      "filename": "golden_set.json",
+      "path": "data/evaluation/golden_set.json",
+      "format": "JSON array of objects",
+      "sha256": "efa87fcdbcd6429197d9010f98517f795f6d4b8a146c1e6a5a12ed4f3f8dd6df"
+    },
+    "csv": {
+      "filename": "golden_set.csv",
+      "path": "data/evaluation/golden_set.csv",
+      "format": "CSV with JSON-serialized list fields",
+      "sha256": "a9f43c7516c52f4dd7cb8801e2c919cebf3545b0213720cbce3123ec195cf776"
+    },
+    "schema": {
+      "filename": "golden_set_schema.json",
+      "path": "data/evaluation/golden_set_schema.json",
+      "format": "Draft-07 JSON Schema",
+      "sha256": "5c9eb23e851a7be4b8fa97eeafc1ea49405d527a206b0f9c2ce91d4e0be103f6"
+    }
+  },
+  "leakage_audit": {
+    "exact_train_overlap": 0,
+    "exact_validation_overlap": 0,
+    "exact_test_overlap": 0,
+    "faiss_retrieval_corpus_overlap": 0,
+    "thread_root_overlap": 0,
+    "near_duplicate_overlap_above_0_90": 0
+  },
+  "distributions": {
+    "intents_covered": 11,
+    "actions_covered": 6,
+    "evidence_expectations_covered": 6,
+    "escalation_rate": 0.11,
+    "auto_handle_potential_rate": 0.89
+  }
+}

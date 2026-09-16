@@ -1,0 +1,219 @@
+{
+  "BATTERY_CHARGING_POWER": {
+    "intent": "BATTERY_CHARGING_POWER",
+    "total_resolved_cases": 743,
+    "canonical_resolution_workflow": [
+      "Check iOS Version",
+      "Update iOS Software",
+      "Check Battery Usage",
+      "Restart Device",
+      "Toggle Wi-Fi / Bluetooth",
+      "Force Restart Device"
+    ],
+    "common_action_frequencies": {
+      "Check iOS Version": 167,
+      "Update iOS Software": 36,
+      "Check Battery Usage": 22,
+      "Restart Device": 17,
+      "Toggle Wi-Fi / Bluetooth": 6,
+      "Force Restart Device": 4
+    }
+  },
+  "OS_UPDATE_SYSTEM_PERFORMANCE": {
+    "intent": "OS_UPDATE_SYSTEM_PERFORMANCE",
+    "total_resolved_cases": 1403,
+    "canonical_resolution_workflow": [
+      "Check iOS Version",
+      "Update iOS Software",
+      "Restart Device",
+      "Manage iCloud Storage",
+      "Text Replacement Workaround",
+      "Check Battery Usage"
+    ],
+    "common_action_frequencies": {
+      "Check iOS Version": 264,
+      "Update iOS Software": 86,
+      "Restart Device": 78,
+      "Manage iCloud Storage": 6,
+      "Text Replacement Workaround": 3,
+      "Check Battery Usage": 2,
+      "Force Restart Device": 2,
+      "Reinstall App": 1
+    }
+  },
+  "CONNECTIVITY_WIFI_BLUETOOTH": {
+    "intent": "CONNECTIVITY_WIFI_BLUETOOTH",
+    "total_resolved_cases": 587,
+    "canonical_resolution_workflow": [
+      "Check iOS Version",
+      "Restart Device",
+      "Update iOS Software",
+      "Toggle Wi-Fi / Bluetooth",
+      "Manage iCloud Storage",
+      "Force Close and Reopen App"
+    ],
+    "common_action_frequencies": {
+      "Check iOS Version": 66,
+      "Restart Device": 29,
+      "Update iOS Software": 10,
+      "Toggle Wi-Fi / Bluetooth": 9,
+      "Manage iCloud Storage": 5,
+      "Force Close and Reopen App": 2,
+      "Check Battery Usage": 1,
+      "Reset Network Settings": 1
+    }
+  },
+  "GENERAL_DEVICE_INQUIRY": {
+    "intent": "GENERAL_DEVICE_INQUIRY",
+    "total_resolved_cases": 2259,
+    "canonical_resolution_workflow": [
+      "Check iOS Version",
+      "Update iOS Software",
+      "Restart Device",
+      "Manage iCloud Storage",
+      "Force Restart Device",
+      "Toggle Wi-Fi / Bluetooth"
+    ],
+    "common_action_frequencies": {
+      "Check iOS Version": 332,
+      "Update iOS Software": 109,
+      "Restart Device": 61,
+      "Manage iCloud Storage": 8,
+      "Force Restart Device": 5,
+      "Toggle Wi-Fi / Bluetooth": 4,
+      "Force Close and Reopen App": 2,
+      "Reinstall App": 2
+    }
+  },
+  "AUDIO_SOUND_SPEAKER": {
+    "intent": "AUDIO_SOUND_SPEAKER",
+    "total_resolved_cases": 328,
+    "canonical_resolution_workflow": [
+      "Check iOS Version",
+      "Restart Device",
+      "Update iOS Software",
+      "Force Restart Device"
+    ],
+    "common_action_frequencies": {
+      "Check iOS Version": 55,
+      "Restart Device": 27,
+      "Update iOS Software": 8,
+      "Force Restart Device": 4
+    }
+  },
+  "KEYBOARD_TYPING_AUTOCORRECT": {
+    "intent": "KEYBOARD_TYPING_AUTOCORRECT",
+    "total_resolved_cases": 585,
+    "canonical_resolution_workflow": [
+      "Check iOS Version",
+      "Update iOS Software",
+      "Restart Device",
+      "Text Replacement Workaround",
+      "Manage iCloud Storage",
+      "Force Close and Reopen App"
+    ],
+    "common_action_frequencies": {
+      "Check iOS Version": 79,
+      "Update iOS Software": 36,
+      "Restart Device": 23,
+      "Text Replacement Workaround": 3,
+      "Manage iCloud Storage": 2,
+      "Force Close and Reopen App": 1
+    }
+  },
+  "APP_CRASH_AND_DOWNLOAD": {
+    "intent": "APP_CRASH_AND_DOWNLOAD",
+    "total_resolved_cases": 192,
+    "canonical_resolution_workflow": [
+      "Check iOS Version",
+      "Update iOS Software",
+      "Restart Device",
+      "Force Restart Device"
+    ],
+    "common_action_frequencies": {
+      "Check iOS Version": 59,
+      "Update iOS Software": 12,
+      "Restart Device": 9,
+      "Force Restart Device": 2
+    }
+  },
+  "DISPLAY_TOUCH_SCREEN": {
+    "intent": "DISPLAY_TOUCH_SCREEN",
+    "total_resolved_cases": 654,
+    "canonical_resolution_workflow": [
+      "Check iOS Version",
+      "Restart Device",
+      "Update iOS Software",
+      "Force Restart Device",
+      "Manage iCloud Storage",
+      "Toggle Wi-Fi / Bluetooth"
+    ],
+    "common_action_frequencies": {
+      "Check iOS Version": 75,
+      "Restart Device": 60,
+      "Update iOS Software": 17,
+      "Force Restart Device": 8,
+      "Manage iCloud Storage": 5,
+      "Toggle Wi-Fi / Bluetooth": 3,
+      "Force Close and Reopen App": 1,
+      "Check Battery Usage": 1
+    }
+  },
+  "ACCOUNT_APPLEID_ICLOUD": {
+    "intent": "ACCOUNT_APPLEID_ICLOUD",
+    "total_resolved_cases": 401,
+    "canonical_resolution_workflow": [
+      "Manage iCloud Storage",
+      "Restart Device",
+      "Check iOS Version",
+      "Update iOS Software",
+      "Force Restart Device",
+      "Reset Apple ID Password"
+    ],
+    "common_action_frequencies": {
+      "Manage iCloud Storage": 18,
+      "Restart Device": 16,
+      "Check iOS Version": 15,
+      "Update iOS Software": 4,
+      "Force Restart Device": 2,
+      "Reset Apple ID Password": 1,
+      "Toggle Wi-Fi / Bluetooth": 1
+    }
+  },
+  "APP_STORE_PURCHASES_BILLING": {
+    "intent": "APP_STORE_PURCHASES_BILLING",
+    "total_resolved_cases": 558,
+    "canonical_resolution_workflow": [
+      "Check iOS Version",
+      "Restart Device",
+      "Manage iCloud Storage",
+      "Update iOS Software",
+      "Toggle Wi-Fi / Bluetooth"
+    ],
+    "common_action_frequencies": {
+      "Check iOS Version": 53,
+      "Restart Device": 30,
+      "Manage iCloud Storage": 12,
+      "Update iOS Software": 11,
+      "Toggle Wi-Fi / Bluetooth": 1
+    }
+  },
+  "HOW_TO_SETTINGS_CONFIGURATION": {
+    "intent": "HOW_TO_SETTINGS_CONFIGURATION",
+    "total_resolved_cases": 212,
+    "canonical_resolution_workflow": [
+      "Check iOS Version",
+      "Restart Device",
+      "Text Replacement Workaround",
+      "Update iOS Software",
+      "Manage iCloud Storage"
+    ],
+    "common_action_frequencies": {
+      "Check iOS Version": 15,
+      "Restart Device": 7,
+      "Text Replacement Workaround": 2,
+      "Update iOS Software": 2,
+      "Manage iCloud Storage": 1
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "dataset_name": "SupportDNA Golden Evaluation Set",
+  "dataset_version": "v1.0.0",
+  "freeze_date": "2026-09-16 11:48:50",
+  "status": "FROZEN_HELD_OUT_EVALUATION_BENCHMARK",
+  "brand": "AppleSupport",
+  "random_seed": 42,
+  "sample_size": 200,
+  "sha256_checksums": {
+    "golden_set_json": "a1c774d8b56a182a9d8baba1070a3bd361b70c749c3e540c57fd24d09544ce3a",
+    "golden_set_csv": "2768a1e42a15bf8b2708af9ca68336575dabbd82245b9e8b1d78597b0e7d4946"
+  },
+  "leakage_audit": {
+    "exact_train_overlap": 0,
+    "exact_val_overlap": 0,
+    "exact_test_overlap": 0,
+    "faiss_source_overlap": 0,
+    "normalized_text_overlap": 0,
+    "thread_root_leakage": 0,
+    "near_duplicate_cross_matches": 0,
+    "leakage_status": "ZERO_LEAKAGE_CONFIRMED"
+  },
+  "distributions": {
+    "intent_distribution": {
+      "OS_UPDATE_SYSTEM_PERFORMANCE": 24,
+      "BATTERY_CHARGING_POWER": 22,
+      "CONNECTIVITY_WIFI_BLUETOOTH": 20,
+      "DISPLAY_TOUCH_SCREEN": 20,
+      "KEYBOARD_TYPING_AUTOCORRECT": 18,
+      "APP_STORE_PURCHASES_BILLING": 18,
+      "ACCOUNT_APPLEID_ICLOUD": 18,
+      "HOW_TO_SETTINGS_CONFIGURATION": 16,
+      "AUDIO_SOUND_SPEAKER": 16,
+      "APP_CRASH_AND_DOWNLOAD": 14,
+      "GENERAL_DEVICE_INQUIRY": 14
+    },
+    "action_distribution": {
+      "GUIDE": 85,
+      "ANSWER": 77,
+      "ESCALATE": 21,
+      "CLARIFY": 14,
+      "SAFE_REFUSAL": 3
+    },
+    "escalation_distribution": {
+      "False": 179,
+      "True": 21
+    },
+    "evidence_expectation_distribution": {
+      "STRONG_HISTORICAL_EVIDENCE": 163,
+      "MODERATE_HISTORICAL_EVIDENCE": 13,
+      "INSUFFICIENT_HISTORICAL_EVIDENCE": 13,
+      "WEAK_HISTORICAL_EVIDENCE": 7,
+      "NO_HISTORICAL_EVIDENCE_REQUIRED": 4
+    },
+    "edge_case_distribution": {
+      "CLEAR_INTENT": 159,
+      "STRONG_EVIDENCE": 158,
+      "ESCALATION_SENSITIVE": 31,
+      "SHORT_VAGUE": 16,
+      "INSUFFICIENT_EVIDENCE": 13,
+      "FOLLOW_UP": 12,
+      "SAFETY_SENSITIVE": 11,
+      "UNRESOLVED_FOLLOW_UP": 10,
+      "MULTI_ISSUE": 9,
+      "UNUSUAL_WORDING": 7,
+      "WEAK_EVIDENCE": 2
+    }
+  },
+  "validation_passed": true
+}

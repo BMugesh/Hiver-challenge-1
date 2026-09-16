@@ -1,0 +1,188 @@
+============================================================
+APPLE SUPPORT DATASET
+STAGE 1 — DATASET UNDERSTANDING REPORT
+============================================================
+
+1. Dataset Overview
+------------------------------
+Total Rows (Tweets): 233,977
+Total Columns:       7
+
+2. Columns and Data Types
+------------------------------
+ - tweet_id                  : int64
+ - author_id                 : object
+ - inbound                   : bool
+ - created_at                : object
+ - text                      : object
+ - response_tweet_id         : object
+ - in_response_to_tweet_id   : float64
+
+3. Message Direction
+------------------------------
+Customer Messages (inbound == True) : 129,146 (55.20%)
+AppleSupport Messages (inbound == False): 104,831 (44.80%)
+Total Messages                         : 233,977 (100.00%)
+
+4. Author Analysis
+------------------------------
+Unique Authors Count: 78,299
+Top 10 Most Active Authors:
+ - Author ID AppleSupport   : 104,831 tweets (Support Brand)
+ - Author ID 176402         :     130 tweets (Customer)
+ - Author ID 115858         :      69 tweets (Customer)
+ - Author ID 144678         :      52 tweets (Customer)
+ - Author ID 158590         :      47 tweets (Customer)
+ - Author ID 342778         :      43 tweets (Customer)
+ - Author ID 116333         :      32 tweets (Customer)
+ - Author ID 173312         :      31 tweets (Customer)
+ - Author ID 229227         :      28 tweets (Customer)
+ - Author ID 604238         :      23 tweets (Customer)
+
+Support Author Verification:
+ - 'AppleSupport' Total Tweets : 104,831
+ - 'AppleSupport' Outbound     : 104,831 (100.0%)
+ - 'AppleSupport' Inbound      : 0 (0.0%)
+   -> Verified: 'AppleSupport' exclusively represents outbound agent support responses.
+
+5. Missing Values
+------------------------------
+Column                     | Missing Count  | Missing Percentage
+----------------------------------------------------------------
+tweet_id                   | 0              |   0.00%
+author_id                  | 0              |   0.00%
+inbound                    | 0              |   0.00%
+created_at                 | 0              |   0.00%
+text                       | 0              |   0.00%
+response_tweet_id          | 87,099         |  37.23%
+in_response_to_tweet_id    | 80,247         |  34.30%
+
+6. Duplicate Analysis
+------------------------------
+Duplicate Tweet IDs: 0
+   -> All tweet IDs are unique. No deduplication required.
+
+7. Text Quality
+------------------------------
+Missing Text Entries (Null/NaN) : 0
+Blank Text Strings ("")          : 0
+Whitespace-only Strings          : 0
+   -> All rows contain non-empty message text.
+
+8. Date Range
+------------------------------
+Earliest Tweet Timestamp : 2013-05-04 22:04:43
+Latest Tweet Timestamp   : 2017-12-03 23:12:28
+Invalid / Unparseable    : 0
+
+9. Conversation Relationship Fields
+------------------------------
+response_tweet_id       -> Present: 146,878 (62.77%) | Missing: 87,099 (37.23%)
+in_response_to_tweet_id -> Present: 153,730 (65.70%) | Missing: 80,247 (34.30%)
+   -> Note: Missing values indicate conversation heads (no parent) or conversation leaves (no child).
+
+10. Text Length Statistics
+------------------------------
+Minimum Character Length : 1
+Maximum Character Length : 362
+Average Character Length : 120.03
+Median Character Length  : 123.0
+
+11. Sample Customer Messages (inbound == True)
+------------------------------
+Sample #1:
+  Tweet ID  : 697
+  Author ID : 115854
+  Inbound   : True
+  Text      : @AppleSupport The newest update. I️ made sure to download it yesterday.
+
+Sample #2:
+  Tweet ID  : 698
+  Author ID : 115854
+  Inbound   : True
+  Text      : @AppleSupport  https://t.co/NV0yucs0lB
+
+Sample #3:
+  Tweet ID  : 700
+  Author ID : 115854
+  Inbound   : True
+  Text      : @AppleSupport why are my I️’s changing not showing up correctly on any of my social media platforms? https://t.co/GyRvpyVnkE
+
+12. Sample AppleSupport Messages (inbound == False)
+------------------------------
+Sample #1:
+  Tweet ID  : 696
+  Author ID : AppleSupport
+  Inbound   : False
+  Text      : @115854 We're here for you. Which version of the iOS are you running? Check from Settings &gt; General &gt; About.
+
+Sample #2:
+  Tweet ID  : 699
+  Author ID : AppleSupport
+  Inbound   : False
+  Text      : @115854 Lets take a closer look into this issue. Select the following link to join us in a DM and we'll go from there. https://t.co/GDrqU22YpT
+
+Sample #3:
+  Tweet ID  : 701
+  Author ID : AppleSupport
+  Inbound   : False
+  Text      : @115855 Let's go to DM for the next steps. DM us here: https://t.co/GDrqU22YpT
+
+13. Example Tweet Relationships (Demonstrating Thread Linking)
+------------------------------
+Linked Tweet #1:
+  Tweet ID               : 696
+  Author ID              : AppleSupport
+  Inbound                : False
+  In Response To ID      : 698.0
+  Response Tweet ID      : 697
+  Text                   : @115854 We're here for you. Which version of the iOS are you running? Check from Settings &gt; General &gt; About.
+
+Linked Tweet #2:
+  Tweet ID               : 697
+  Author ID              : 115854
+  Inbound                : True
+  In Response To ID      : 696.0
+  Response Tweet ID      : 699
+  Text                   : @AppleSupport The newest update. I️ made sure to download it yesterday.
+
+Linked Tweet #3:
+  Tweet ID               : 699
+  Author ID              : AppleSupport
+  Inbound                : False
+  In Response To ID      : 697.0
+  Response Tweet ID      : nan
+  Text                   : @115854 Lets take a closer look into this issue. Select the following link to join us in a DM and we'll go from there. https://t.co/GDrqU22YpT
+
+Linked Tweet #4:
+  Tweet ID               : 698
+  Author ID              : 115854
+  Inbound                : True
+  In Response To ID      : 700.0
+  Response Tweet ID      : 696
+  Text                   : @AppleSupport  https://t.co/NV0yucs0lB
+
+Linked Tweet #5:
+  Tweet ID               : 700
+  Author ID              : 115854
+  Inbound                : True
+  In Response To ID      : nan
+  Response Tweet ID      : 698
+  Text                   : @AppleSupport why are my I️’s changing not showing up correctly on any of my social media platforms? https://t.co/GyRvpyVnkE
+
+14. Stage 1 Observations
+------------------------------
+- Dataset contains 233,977 tweets across 7 columns.
+- 55.20% (129,146) are inbound customer messages.
+- 44.80% (104,831) are outbound AppleSupport messages.
+- 78,299 unique authors are present in the dataset.
+- 'AppleSupport' is the dominant support author account with 104,831 outbound tweets (0 inbound).
+- 0 tweet IDs are duplicated (100% unique primary keys).
+- 0 messages have missing text (0 blank, 0 whitespace-only).
+- 153,730 messages (65.70%) have parent pointers (in_response_to_tweet_id), and 146,878 messages (62.77%) have child pointers (response_tweet_id).
+- Dataset covers the historical date range from 2013-05-04 22:04:43 to 2017-12-03 23:12:28 with 0 unparseable timestamps.
+- Message character lengths range from 1 to 362 characters, with an average length of 120.03 and a median of 123.0.
+
+============================================================
+END OF STAGE 1 REPORT
+============================================================

@@ -1,0 +1,878 @@
+============================================================
+APPLE SUPPORT DATASET
+STAGE 3 — RESOLUTION FILTERING REPORT
+============================================================
+
+1. Input Datasets
+------------------------------
+ - Primary Input: data/processed/apple_support_threads.json (80,247 reconstructed threads)
+ - Ground Truth Validation: data/raw/apple_support_turn_structure.csv (104,831 agent turns)
+
+2. Dataset Mapping
+------------------------------
+Stage 2 Reconstructed Roots : 80,247
+Turn Structure Roots        : 80,247
+Matched Roots (1:1 overlap) : 80,247 (100.00%)
+Stage 2 Only                : 0
+Turn Structure Only         : 0
+ -> Verification: 100% exact bidirectional 1:1 match across all 80,247 roots.
+
+3. Outcome Categories Discovered in Turn-Structure Dataset
+------------------------------
+ - ESCALATED         : 65,049 turns
+ - UNRESOLVED_OPEN   : 30,720 turns
+ - LIKELY_RESOLVED   :  6,676 turns
+ - RESOLVED          :  2,386 turns
+
+4. Resolution Policy: Why 'Support Replied' != 'Resolved'
+------------------------------
+In customer support datasets, a support agent reply does NOT automatically indicate resolution:
+ 1. Channel Redirects: 62.15% of threads end with AppleSupport directing the user to DM
+    (e.g., '@customer Please DM us your serial number: https://t.co/...'). The public thread ends
+    at the handoff point; the actual technical resolution happens out-of-channel.
+ 2. Diagnostic Abandonment: 5.00% of threads end after AppleSupport asks a clarifying question
+    (e.g., 'Which iOS version are you running?') and the user never responds.
+ 3. High-Quality Evidence Standard: A conversation is only qualified as reliable historical
+    resolution evidence when AppleSupport provided concrete technical instructions/links,
+    and/or the customer explicitly confirmed the fix.
+
+5. Resolution Categories Defined
+------------------------------
+ - CLEARLY_RESOLVED   : Explicit customer confirmation of fix, gratitude for working solution, or verified resolution.
+ - PARTIALLY_RESOLVED : Concrete self-contained troubleshooting steps/links provided without explicit customer confirmation.
+ - ESCALATED          : AppleSupport requested user to move to Direct Message (DM) or escalated out-of-channel.
+ - ABANDONED          : Customer stopped responding after AppleSupport asked a diagnostic question.
+ - UNCLEAR            : Inconclusive, ambiguous, or open-ended dialogue without confirmed resolution.
+
+6. Resolution Statistics
+------------------------------
+Total Reconstructed Threads : 80,247
+
+CLEARLY_RESOLVED    :  3,692 ( 4.60%) | Avg Turns: 5.04 | Med: 4.0 | Cust Turns: 10,994 | Supp Turns: 7,615
+PARTIALLY_RESOLVED  :  4,230 ( 5.27%) | Avg Turns: 3.67 | Med: 3.0 | Cust Turns: 8,927 | Supp Turns: 6,584
+ESCALATED           : 49,876 (62.15%) | Avg Turns: 2.87 | Med: 2.0 | Cust Turns: 78,041 | Supp Turns: 65,342
+ABANDONED           :  4,013 ( 5.00%) | Avg Turns: 2.00 | Med: 2.0 | Cust Turns: 4,013 | Supp Turns: 4,013
+UNCLEAR             : 18,436 (22.97%) | Avg Turns: 2.63 | Med: 2.0 | Cust Turns: 27,171 | Supp Turns: 21,277
+
+Total Curated Historical Evidence (CLEARLY + PARTIALLY RESOLVED): 7,922 (9.87%)
+
+7. Comparison with Turn-Structure Outcome Annotations
+------------------------------
+Agreements with Structured Outcomes    : 77,354 (96.39%)
+Disagreements with Structured Outcomes : 2,893 (3.61%)
+ -> Disagreements reflect text-grounded customer confirmations captured in multi-turn dialogues
+    or standalone troubleshooting links without downstream customer acknowledgment.
+
+8. Manual Validation Examples (10 Examples per Category)
+------------------------------
+
+==================== CATEGORY: CLEARLY_RESOLVED ====================
+
+--- CLEARLY_RESOLVED Example #1 ---
+THREAD ROOT: 2144042 (Turns: 4)
+  TURN 0
+  Customer:
+  To all iPhone users &amp; @AppleSupport is there a way to disable autocorrect on iPhone8 and 8+ ???
+
+  TURN 1
+  AppleSupport:
+  @630371 You can turn it off by going to Settings &gt; General &gt; Keyboards and sliding the "Auto-Correction" slider off.
+
+  TURN 2
+  Customer:
+  @AppleSupport omg thank you so much ❤️❤️❤️
+
+  TURN 3
+  AppleSupport:
+  @630371 You're welcome. If you have any other questions, feel free to reach out to us.
+
+  Our Resolution Status : CLEARLY_RESOLVED
+  Structured Outcome    : LIKELY_RESOLVED
+  Classification Reason : Customer confirmed fix or expressed explicit gratitude for resolution
+
+
+--- CLEARLY_RESOLVED Example #2 ---
+THREAD ROOT: 400858 (Turns: 7)
+  TURN 0
+  Customer:
+  @AppleSupport brand New iPad Pro cant update to iOS 11? Currently on 10.3.3. Can you help? https://t.co/5EMFLhPCNN
+
+  TURN 1
+  AppleSupport:
+  @210813 Let's see why your iPad isn't updating for you. Does that message cite any particular reason why it couldn't update?
+
+  TURN 2
+  Customer:
+  @AppleSupport No, it says an error was encountered. No specific reason
+
+  TURN 3
+  Customer:
+  @AppleSupport Trying no via iTunes
+
+  TURN 4
+  AppleSupport:
+  @210813 Let us know if the update has issues through iTunes.
+
+  TURN 5
+  Customer:
+  @AppleSupport Was able to help him via iTunes. Still weird the OTA didn’t work
+
+  TURN 6
+  AppleSupport:
+  @210813 Glad to hear it! Let us know if you need any further assistance.
+
+  Our Resolution Status : CLEARLY_RESOLVED
+  Structured Outcome    : RESOLVED
+  Classification Reason : Customer confirmed fix or expressed explicit gratitude for resolution
+
+
+--- CLEARLY_RESOLVED Example #3 ---
+THREAD ROOT: 107368 (Turns: 6)
+  TURN 0
+  Customer:
+  @AppleSupport my app suddenly is not working https://t.co/VkbBZsH8bW
+
+  TURN 1
+  AppleSupport:
+  @139845 We'd like to help. Have you tried using a Wi-Fi network to download the app? Let us know.
+
+  TURN 2
+  Customer:
+  @AppleSupport I have done so, but still same issues
+
+  TURN 3
+  AppleSupport:
+  @139845 Has the device been restarted since it happened? If not, let's do that using these steps: https://t.co/OWRDHWSt4h
+
+  TURN 4
+  Customer:
+  @AppleSupport Thanks for the help! It’s working
+
+  TURN 5
+  AppleSupport:
+  @139845 You're welcome. Feel free to reach out to us if you have any further questions.  Have a wonderful day!
+
+  Our Resolution Status : CLEARLY_RESOLVED
+  Structured Outcome    : LIKELY_RESOLVED
+  Classification Reason : Customer confirmed fix or expressed explicit gratitude for resolution
+
+
+--- CLEARLY_RESOLVED Example #4 ---
+THREAD ROOT: 2408479 (Turns: 3)
+  TURN 0
+  Customer:
+  APPLE IM NOT WAITING ANY LONGER. FIX IT NOW. @115858 https://t.co/j5HVANnYvm
+
+  TURN 1
+  AppleSupport:
+  @692558 There's an update out now that fixes this issue. Make sure you have a recent update and update to 11.1.1. 
+
+Let us know if that fixes the issue.
+
+  TURN 2
+  Customer:
+  @AppleSupport it worked..thank youuuuu❣️❣️
+
+  Our Resolution Status : CLEARLY_RESOLVED
+  Structured Outcome    : RESOLVED
+  Classification Reason : Customer confirmed fix or expressed explicit gratitude for resolution
+
+
+--- CLEARLY_RESOLVED Example #5 ---
+THREAD ROOT: 947794 (Turns: 3)
+  TURN 0
+  Customer:
+  @AppleSupport the new iOS update makes my wifi turn on when i turned it off so its burning my battery, help?
+
+  TURN 1
+  AppleSupport:
+  @344769 Hi there! Are you attempting to turn it off using Control Center? If so, that changed: https://t.co/G7BHuQnDS6
+
+  TURN 2
+  Customer:
+  @AppleSupport This is literally the stupidest thing ever but thanks.
+
+  Our Resolution Status : CLEARLY_RESOLVED
+  Structured Outcome    : LIKELY_RESOLVED
+  Classification Reason : Customer confirmed fix or expressed explicit gratitude for resolution
+
+
+--- CLEARLY_RESOLVED Example #6 ---
+THREAD ROOT: 849980 (Turns: 4)
+  TURN 0
+  Customer:
+  @AppleSupport my App Store has been like this for hours. 🙄 https://t.co/BFHTbGbYtd
+
+  TURN 1
+  AppleSupport:
+  @217828 We can help. To clarify, is it that the app won't download? If so, does this happen on both a Wi-Fi and cellular data connection?
+
+  TURN 2
+  Customer:
+  @AppleSupport It’s working now, but I have to restart my phone every time it does it and then it happens again. And yes, it happens on WiFi and data
+
+  TURN 3
+  AppleSupport:
+  @217828 You shouldn't have to restart your iPhone each time. Let's meet in DM and we'll take a closer look. https://t.co/GDrqU22YpT
+
+  Our Resolution Status : CLEARLY_RESOLVED
+  Structured Outcome    : RESOLVED
+  Classification Reason : Customer confirmed fix or expressed explicit gratitude for resolution
+
+
+--- CLEARLY_RESOLVED Example #7 ---
+THREAD ROOT: 766946 (Turns: 3)
+  TURN 0
+  Customer:
+  I regret updating to iOS 11. I’m running zero apps yet the phone is so hot I cant put it to my ear 😒 @115858
+
+  TURN 1
+  AppleSupport:
+  @303297 We'd like to help. To start, please send us a DM with the country where you're located. https://t.co/GDrqU22YpT
+
+  TURN 2
+  Customer:
+  @AppleSupport Thanks. Message has been sent.
+
+  Our Resolution Status : CLEARLY_RESOLVED
+  Structured Outcome    : LIKELY_RESOLVED
+  Classification Reason : Customer confirmed fix or expressed explicit gratitude for resolution
+
+
+--- CLEARLY_RESOLVED Example #8 ---
+THREAD ROOT: 505106 (Turns: 3)
+  TURN 0
+  Customer:
+  @115858 please fix this auto brightness. Drains my battery
+
+  TURN 1
+  AppleSupport:
+  @235802 You can disable that if you'd like. Just go to Settings &gt; General &gt; Accessibility &gt; Display Accommodations.  Let us know if that helps.
+
+  TURN 2
+  Customer:
+  @AppleSupport Thank You!
+
+  Our Resolution Status : CLEARLY_RESOLVED
+  Structured Outcome    : LIKELY_RESOLVED
+  Classification Reason : Customer confirmed fix or expressed explicit gratitude for resolution
+
+
+--- CLEARLY_RESOLVED Example #9 ---
+THREAD ROOT: 2398151 (Turns: 6)
+  TURN 0
+  Customer:
+  Anyone else’s computer crash trying to do the new Apple software update?  Won’t start. Can’t even book genius bar now!  WTF?!  @115858 @AppleSupport
+
+  TURN 1
+  AppleSupport:
+  @690177 Let's work together to get this figured out. To begin, can you tell us what you're seeing on the screen? Also, if you've tried any troubleshooting steps what have you tried?
+
+  TURN 2
+  Customer:
+  @AppleSupport The screen defaulted to the startup, saying to quit installer and restart.  That happened many times for 2 hours. Genius/Bar in Hong Kong fixed it. But really slow.
+
+  TURN 3
+  AppleSupport:
+  @690177 We're glad they were able to get your Mac back up and running. We have a resource that you can review for slow performance: https://t.co/IrKeo4E8fX 
+Let us know how it goes.
+
+  TURN 4
+  Customer:
+  @AppleSupport Thank you
+
+  TURN 5
+  AppleSupport:
+  @690177 No problem.  Let us know if you need any further assistance.
+
+  Our Resolution Status : CLEARLY_RESOLVED
+  Structured Outcome    : LIKELY_RESOLVED
+  Classification Reason : Customer confirmed fix or expressed explicit gratitude for resolution
+
+
+--- CLEARLY_RESOLVED Example #10 ---
+THREAD ROOT: 368810 (Turns: 4)
+  TURN 0
+  Customer:
+  @115858 wondering why since the new release and version update, my 7+ is suddenly malfunctioning 20 different ways? https://t.co/yI9sYYg6y6
+
+  TURN 1
+  AppleSupport:
+  @203376 We'd love to look into this with you. DM us with what exactly is going on with your iPhone. https://t.co/GDrqU22YpT
+
+  TURN 2
+  Customer:
+  @AppleSupport You’ve got it. Thank you.
+
+  TURN 3
+  AppleSupport:
+  @203376 You're very welcome. We look forward to working with you. https://t.co/GDrqU22YpT
+
+  Our Resolution Status : CLEARLY_RESOLVED
+  Structured Outcome    : LIKELY_RESOLVED
+  Classification Reason : Customer confirmed fix or expressed explicit gratitude for resolution
+
+
+==================== CATEGORY: UNCLEAR ====================
+
+--- UNCLEAR Example #1 ---
+THREAD ROOT: 2805986 (Turns: 4)
+  TURN 0
+  Customer:
+  What’s happening to this one, @AppleSupport? After updating to 11.1.2, this happened to @115948. Every song I want to stream. Need help! https://t.co/USZw992CSg
+
+  TURN 1
+  AppleSupport:
+  @770790 We'd love to help! Does the same issue occur on Wi-Fi? Is it every song on this album, or every song at all?
+
+  TURN 2
+  Customer:
+  @AppleSupport It is on mobile. However, I think I got it already. Just turned airplane mode on and off then it went back to normal. I panicked. Sorry.
+
+  TURN 3
+  AppleSupport:
+  @770790 No need to be sorry; that's what we're here for. It was a pleasure working with you. Please feel free to reach out to us again if you need any more help. We’re available every day to answer your questions from 5am-8pm Pacific. Have a great night.
+
+  Our Resolution Status : UNCLEAR
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Inconclusive or open-ended dialogue without confirmed resolution
+
+
+--- UNCLEAR Example #2 ---
+THREAD ROOT: 738500 (Turns: 2)
+  TURN 0
+  Customer:
+  Fuck you @115858 for still charging my card on an app subscription I cancelled 4 days ago
+
+  TURN 1
+  AppleSupport:
+  @296623 We can help with that. We'd want to get you in touch with our iTunes Store support here: https://t.co/SDIe7UiyJN
+
+  Our Resolution Status : UNCLEAR
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Inconclusive or open-ended dialogue without confirmed resolution
+
+
+--- UNCLEAR Example #3 ---
+THREAD ROOT: 2152900 (Turns: 2)
+  TURN 0
+  Customer:
+  @115858 I️ . Wtf is this shit please fix your shit
+
+  TURN 1
+  AppleSupport:
+  @632606 Here’s what you can do to work around the issue until it’s fixed in a future software update: https://t.co/xXaXeeSRt9
+
+  Our Resolution Status : UNCLEAR
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Inconclusive or open-ended dialogue without confirmed resolution
+
+
+--- UNCLEAR Example #4 ---
+THREAD ROOT: 316129 (Turns: 2)
+  TURN 0
+  Customer:
+  Hey @115858 why the hell haven’t y’all fixed this stupid question mark glitch? Shit been going on for too long and is getting annoying. Step yo game up with y’all rich asses
+
+  TURN 1
+  AppleSupport:
+  @191482 iOS 11.1.1 was recently released and it includes a fix for autocorrect issues. Be sure to back up your device prior to updating, and let us know if the issue persists afterwards. How to back up: https://t.co/4f8hwT5to6
+
+  Our Resolution Status : UNCLEAR
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Inconclusive or open-ended dialogue without confirmed resolution
+
+
+--- UNCLEAR Example #5 ---
+THREAD ROOT: 300111 (Turns: 3)
+  TURN 0
+  Customer:
+  @AppleSupport can you fix ios11. My music app won’t let me download songs, it won’t load on my Apple Watch, the screen freezes.
+
+  TURN 1
+  Customer:
+  @AppleSupport Also my volume button changes the volume by the on screen volume bar doesn’t move. Apps crash a lot.
+
+  TURN 2
+  AppleSupport:
+  @187565 We have released 11.0.2. Make sure you have a backup and then go ahead and get your iPhone updated: https://t.co/80YRnjDFDk
+
+  Our Resolution Status : UNCLEAR
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Inconclusive or open-ended dialogue without confirmed resolution
+
+
+--- UNCLEAR Example #6 ---
+THREAD ROOT: 806457 (Turns: 4)
+  TURN 0
+  Customer:
+  Dear #Apple, what the hell have you done to the #PodcastApp? Just want to play ’em all. @AppleSupport #iphone #os11
+#ios11
+
+  TURN 1
+  AppleSupport:
+  @312175 Check out the Up Next feature to listen continuously. This article has the details: https://t.co/gQVExEKnrj
+
+  TURN 2
+  Customer:
+  @AppleSupport Without creating playlists? Like it was in iOS10.
+
+  TURN 3
+  AppleSupport:
+  @312175 To learn how to manage your Podcast library, take a look at the iOS 11 Guide here: https://t.co/vWNfeuT3sI
+
+  Our Resolution Status : UNCLEAR
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Inconclusive or open-ended dialogue without confirmed resolution
+
+
+--- UNCLEAR Example #7 ---
+THREAD ROOT: 1597349 (Turns: 3)
+  TURN 0
+  Customer:
+  @AppleSupport my folder named "Music Recognition" gets truncated to "MusicRecognit...", without the spacing. Is this a bug on iOS 11.1?
+
+  TURN 1
+  AppleSupport:
+  @317481 Thanks for bringing this to our attention. Have you tried restarting your phone to see if it gets corrected?
+
+  TURN 2
+  Customer:
+  @AppleSupport Yes I have. The problem still persists. https://t.co/03k0Qer6Ex
+
+  Our Resolution Status : UNCLEAR
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Inconclusive or open-ended dialogue without confirmed resolution
+
+
+--- UNCLEAR Example #8 ---
+THREAD ROOT: 1636523 (Turns: 3)
+  TURN 0
+  Customer:
+  .@AppleSupport still waiting for you guys to fix this glitch so when I️ type “I️” it comes up as i️ &amp; nothing else 🙄
+
+  TURN 1
+  AppleSupport:
+  @500551 Here’s what you can do to work around the issue until it’s fixed in a future software update: https://t.co/xXaXeeSRt9
+
+  TURN 2
+  Customer:
+  @AppleSupport A future software update? you guys suck 🤦🏽‍♀️
+
+  Our Resolution Status : UNCLEAR
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Inconclusive or open-ended dialogue without confirmed resolution
+
+
+--- UNCLEAR Example #9 ---
+THREAD ROOT: 2522563 (Turns: 2)
+  TURN 0
+  Customer:
+  I need help with my Apple TV @AppleSupport
+
+  TURN 1
+  AppleSupport:
+  @718418 We're here to help. Please contact our Apple TV experts for support at: https://t.co/IBIY3vMgPj
+
+  Our Resolution Status : UNCLEAR
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Inconclusive or open-ended dialogue without confirmed resolution
+
+
+--- UNCLEAR Example #10 ---
+THREAD ROOT: 267770 (Turns: 2)
+  TURN 0
+  Customer:
+  Espero que con la actualizacion de corrección de errores y demás mi iPhone mejore... por que el iOs 11 va de pena @115858
+
+  TURN 1
+  AppleSupport:
+  @179846 We offer support via Twitter in English. Get help in Spanish here: https://t.co/IBIY3vMgPj or join https://t.co/OczyRx7IOs
+
+  Our Resolution Status : UNCLEAR
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Inconclusive or open-ended dialogue without confirmed resolution
+
+
+==================== CATEGORY: ABANDONED ====================
+
+--- ABANDONED Example #1 ---
+THREAD ROOT: 1712411 (Turns: 2)
+  TURN 0
+  Customer:
+  @115858 my phones geeking SOS send help
+
+  TURN 1
+  AppleSupport:
+  @518673 We want to help! What model of iOS device are you using? Do you have the most recent version of iOS 11.1 downloaded?
+
+  Our Resolution Status : ABANDONED
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Customer stopped responding after AppleSupport asked a diagnostic question
+
+
+--- ABANDONED Example #2 ---
+THREAD ROOT: 656217 (Turns: 2)
+  TURN 0
+  Customer:
+  Dear @AppleSupport Today has been a frustrating day. Phone goes into a boot-loop. Can't back up phone. Lost my life from last 6 months. #boo
+
+  TURN 1
+  AppleSupport:
+  @276113 That's not normal and we can help! Do you have a recent back up of that iPhone in iCloud or iTunes?
+
+  Our Resolution Status : ABANDONED
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Customer stopped responding after AppleSupport asked a diagnostic question
+
+
+--- ABANDONED Example #3 ---
+THREAD ROOT: 2304325 (Turns: 2)
+  TURN 0
+  Customer:
+  @applesupport Can't access itunes, cloud and app store with new ios update. Now I have to put the phone down and talk to people. help!
+
+  TURN 1
+  AppleSupport:
+  @668604 We would like to help with this. Are you getting any kind of error message? Does it happen on Wi-Fi and cellular data?
+
+  Our Resolution Status : ABANDONED
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Customer stopped responding after AppleSupport asked a diagnostic question
+
+
+--- ABANDONED Example #4 ---
+THREAD ROOT: 2185528 (Turns: 2)
+  TURN 0
+  Customer:
+  @AppleSupport FYI:  I upgraded my iPhone 6plus to the latest iOS.  I now HATE my iPhone.  Many complaints but the worst by far is that the phone is nearly unusably slow.  I've always bought iPhone as my smart phone but will look at android next time around.
+
+  TURN 1
+  AppleSupport:
+  @640064 It's important that your iPhone works properly and is responsive when you need it to be. We can look into what's going on with you. When are you noticing the slow behavior, with any certain apps or functions? Does anything temporarily help resolve it?
+
+  Our Resolution Status : ABANDONED
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Customer stopped responding after AppleSupport asked a diagnostic question
+
+
+--- ABANDONED Example #5 ---
+THREAD ROOT: 2294429 (Turns: 2)
+  TURN 0
+  Customer:
+  My. FUCKING music cuts out like 15 seconds before the song ends. @115858 HELLO?
+
+  TURN 1
+  AppleSupport:
+  @666248 We'd like to help resolve your music problem. What iOS version are you on?
+
+  Our Resolution Status : ABANDONED
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Customer stopped responding after AppleSupport asked a diagnostic question
+
+
+--- ABANDONED Example #6 ---
+THREAD ROOT: 1684529 (Turns: 2)
+  TURN 0
+  Customer:
+  @115858 fix yalls damn keyboard
+
+  TURN 1
+  AppleSupport:
+  @511921 We'd like to hear more about what's happening with keyboard. Also, which device are we working with?
+
+  Our Resolution Status : ABANDONED
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Customer stopped responding after AppleSupport asked a diagnostic question
+
+
+--- ABANDONED Example #7 ---
+THREAD ROOT: 1360178 (Turns: 2)
+  TURN 0
+  Customer:
+  @115858 @AppleSupport Are u going 2 issue a patch 4 iOS 11.0.3 soon? This iPhone 6 user thinks this is the worst update ever!! #thelagisreal
+
+  TURN 1
+  AppleSupport:
+  @437109 We’d be happy to help in any way we can with any issues with iOS 11. What’s going on?
+
+  Our Resolution Status : ABANDONED
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Customer stopped responding after AppleSupport asked a diagnostic question
+
+
+--- ABANDONED Example #8 ---
+THREAD ROOT: 702905 (Turns: 2)
+  TURN 0
+  Customer:
+  @AppleSupport iPhone7 Plus forward  camera black screen in portrait modes. I’m in Nigeria at moment can’t take it back to Pittsburgh.
+
+  TURN 1
+  AppleSupport:
+  @287895 Is iOS 11.0.2 installed? If yes, please follow the steps under 'You see a closed lens or black screen' here: https://t.co/r1DRfaFLIU
+
+  Our Resolution Status : ABANDONED
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Customer stopped responding after AppleSupport asked a diagnostic question
+
+
+--- ABANDONED Example #9 ---
+THREAD ROOT: 1453004 (Turns: 2)
+  TURN 0
+  Customer:
+  Hey @115858,
+
+How come every time I update my phone, it starts to glitch more and go slower?
+
+  TURN 1
+  AppleSupport:
+  @457192 We can help lend a hand! What exact iOS version is on it right now? Tell us more about what you're experiencing to get started.
+
+  Our Resolution Status : ABANDONED
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Customer stopped responding after AppleSupport asked a diagnostic question
+
+
+--- ABANDONED Example #10 ---
+THREAD ROOT: 1769275 (Turns: 2)
+  TURN 0
+  Customer:
+  @AppleSupport any idea why IOS 11.1 won’t install on my iPhone or iPad? Both devices say I’m not on the internet but I am on WiFi
+
+  TURN 1
+  AppleSupport:
+  @531935 Let's figure this out. Have you restarted both devices? Try the steps here and let us know if it helps: https://t.co/Ui1yTnOCUz
+
+  Our Resolution Status : ABANDONED
+  Structured Outcome    : UNRESOLVED_OPEN
+  Classification Reason : Customer stopped responding after AppleSupport asked a diagnostic question
+
+
+==================== CATEGORY: ESCALATED ====================
+
+--- ESCALATED Example #1 ---
+THREAD ROOT: 1510771 (Turns: 2)
+  TURN 0
+  Customer:
+  @115858 @116333 why are the batteries in my AirPods being significantly reduced. I use to get up to 5 hrs on a full charge now only 1-2...?
+
+  TURN 1
+  AppleSupport:
+  @339348 We'd like to help you with this. DM us and let us know when this started to happen? https://t.co/GDrqU2kzhr
+
+  Our Resolution Status : ESCALATED
+  Structured Outcome    : ESCALATED
+  Classification Reason : AppleSupport redirected conversation to Direct Message (DM) or internal escalation
+
+
+--- ESCALATED Example #2 ---
+THREAD ROOT: 42628 (Turns: 2)
+  TURN 0
+  Customer:
+  @AppleSupport You have a Homekit bug where some guest users can’t connect to the hub. Support team has not been helpful thus far.
+
+  TURN 1
+  AppleSupport:
+  @125421 Let's help get this sorted. Please DM us some further details and we can go from there. https://t.co/GDrqU22YpT
+
+  Our Resolution Status : ESCALATED
+  Structured Outcome    : ESCALATED
+  Classification Reason : AppleSupport redirected conversation to Direct Message (DM) or internal escalation
+
+
+--- ESCALATED Example #3 ---
+THREAD ROOT: 2978783 (Turns: 2)
+  TURN 0
+  Customer:
+  @115858 absolutely rubbish service trying to get into icloud following factory reset
+
+  TURN 1
+  AppleSupport:
+  @821537 If you're running into issues with logging into iCloud, we'd like to help you out. Please meet us in DM with the exact error message you're receiving. Also, please let us know what version of the iOS software you currently have installed. https://t.co/GDrqU22YpT
+
+  Our Resolution Status : ESCALATED
+  Structured Outcome    : ESCALATED
+  Classification Reason : AppleSupport redirected conversation to Direct Message (DM) or internal escalation
+
+
+--- ESCALATED Example #4 ---
+THREAD ROOT: 895991 (Turns: 2)
+  TURN 0
+  Customer:
+  @AppleSupport I got an email saying my AppleID has been compromised, came as an attachment from an email an odd address—I think it's bogus
+
+  TURN 1
+  AppleSupport:
+  @332785 We hear you and we want to help. Send us a DM to get started: https://t.co/GDrqU22YpT
+
+  Our Resolution Status : ESCALATED
+  Structured Outcome    : ESCALATED
+  Classification Reason : AppleSupport redirected conversation to Direct Message (DM) or internal escalation
+
+
+--- ESCALATED Example #5 ---
+THREAD ROOT: 2686709 (Turns: 2)
+  TURN 0
+  Customer:
+  How do I downgrade back to iOS 10, @115858?? Ever since the iOS 11 update, so many things have been glitchy/stopped working on my phone and I’m upset now!!!!
+
+  TURN 1
+  AppleSupport:
+  @755521 We do not support going back to an older version of iOS, though we will happily help you find a solution to any trouble you are having. DM the specific issue you are having to get started. https://t.co/GDrqU22YpT
+
+  Our Resolution Status : ESCALATED
+  Structured Outcome    : ESCALATED
+  Classification Reason : AppleSupport redirected conversation to Direct Message (DM) or internal escalation
+
+
+--- ESCALATED Example #6 ---
+THREAD ROOT: 1916661 (Turns: 7)
+  TURN 0
+  Customer:
+  Hey @115858 ever since the new IOS update my phone has been randomly freezing, shutting off, not connecting to WiFi, and it’s a 6S+ WTF
+
+  TURN 1
+  AppleSupport:
+  @570882 We'd like to look into this with you. What is your exact iOS version? Does it connect to any Wi-Fi networks?
+
+  TURN 2
+  Customer:
+  @AppleSupport 11.0.3 and yes it won’t connect and says wrong password when other phones connect to the same WiFi with the same password
+
+  TURN 3
+  Customer:
+  @AppleSupport And this phone is in pristine condition. So
+
+  TURN 4
+  AppleSupport:
+  @570882 Let's see if the info in this article helps at all: https://t.co/sXbhzfS2lM
+
+  TURN 5
+  Customer:
+  @AppleSupport So we ignoring the other problems? And it isn’t my WiFi ITS MY PHONE
+
+  TURN 6
+  AppleSupport:
+  @570882 We were only starting there. We want to touch on everything. Let's go ahead and continue in DM. https://t.co/GDrqU22YpT
+
+  Our Resolution Status : ESCALATED
+  Structured Outcome    : ESCALATED
+  Classification Reason : AppleSupport redirected conversation to Direct Message (DM) or internal escalation
+
+
+--- ESCALATED Example #7 ---
+THREAD ROOT: 1755166 (Turns: 2)
+  TURN 0
+  Customer:
+  @AppleSupport download any app it like 3 day to restore but my phone hold the downloads 2/2 https://t.co/Mm7WIQA0ze
+
+  TURN 1
+  AppleSupport:
+  @528590 We're here to help! Meet us in DM and we'll see how we might be able to further assist you: https://t.co/GDrqU22YpT
+
+  Our Resolution Status : ESCALATED
+  Structured Outcome    : ESCALATED
+  Classification Reason : AppleSupport redirected conversation to Direct Message (DM) or internal escalation
+
+
+--- ESCALATED Example #8 ---
+THREAD ROOT: 1509965 (Turns: 3)
+  TURN 0
+  Customer:
+  @AppleSupport the new emojis are cool and all but the letter I️ still doesn’t work on @188
+
+  TURN 1
+  Customer:
+  @AppleSupport @188 Also apparently doesn’t work on @123765 once you publish the tweet I️
+
+  TURN 2
+  AppleSupport:
+  @470471 Let's work together on this. DM us the iPhone model and iOS version to get started. https://t.co/GDrqU22YpT
+
+  Our Resolution Status : ESCALATED
+  Structured Outcome    : ESCALATED
+  Classification Reason : AppleSupport redirected conversation to Direct Message (DM) or internal escalation
+
+
+--- ESCALATED Example #9 ---
+THREAD ROOT: 872699 (Turns: 4)
+  TURN 0
+  Customer:
+  @AppleSupport IOS 11.0.3 is worse than the previous, the screen freezes, too slow
+
+  TURN 1
+  AppleSupport:
+  @327185 We're here to help you. Is this occurring completely at random or does it happen more when using specific applications?
+
+  TURN 2
+  Customer:
+  @AppleSupport Since I update the software, the screen freezes all the time completely at random
+
+  TURN 3
+  AppleSupport:
+  @327185 We know how important a functioning screen is for you. Meet us in DM, so we can get more information and help you out! https://t.co/GDrqU22YpT
+
+  Our Resolution Status : ESCALATED
+  Structured Outcome    : ESCALATED
+  Classification Reason : AppleSupport redirected conversation to Direct Message (DM) or internal escalation
+
+
+--- ESCALATED Example #10 ---
+THREAD ROOT: 1203426 (Turns: 2)
+  TURN 0
+  Customer:
+  . @AppleSupport I have to hard reset my phone at least once an hour. Never had to until iOS 11 including 0.3.  iPhone 7+. Terrible.
+
+  TURN 1
+  AppleSupport:
+  @402710 We'd like to help. Please let us know what's happening in DM, and we'll get started. https://t.co/GDrqU22YpT
+
+  Our Resolution Status : ESCALATED
+  Structured Outcome    : ESCALATED
+  Classification Reason : AppleSupport redirected conversation to Direct Message (DM) or internal escalation
+
+9. Selection Bias Analysis
+------------------------------
+Comparing Resolved Historical Evidence vs Excluded (Escalated/Abandoned/Unclear):
+ - Mean Turn Count      : Resolved = 4.31 turns  vs  Excluded = 2.76 turns
+ - Median Turn Count    : Resolved = 4.0 turns  vs  Excluded = 2.0 turns
+ - Mean Text Length     : Resolved = 503.5 chars  vs  Excluded = 333.2 chars
+ - Customer Frustration : Resolved = 21.91%  vs  Excluded = 24.51%
+ - Ending in Customer   : Resolved = 35.45%  vs  Excluded = 7.57%
+
+Top Intents in Resolved Evidence Base:
+   * GENERAL_TECHNICAL_ISSUE       : 4,307 cases
+   * BATTERY_CHARGING_POWER        :   628 cases
+   * CONNECTIVITY_NETWORK_WIFI     :   447 cases
+   * HARDWARE_DISPLAY_SENSOR       :   404 cases
+   * KEYBOARD_NOTIFICATIONS_UI     :   390 cases
+
+10. Included Historical Evidence
+------------------------------
+ - JSON Output: data/processed/apple_support_resolved_threads.json (7,922 cases)
+ - CSV Output : data/processed/apple_support_resolved_turns.csv
+ - Schema: case_id, thread_root_id, resolution_status, turns (clean dialogue without label leakage)
+
+11. Excluded / Unclear Conversations
+------------------------------
+ - JSON Output: data/processed/apple_support_excluded_threads.json (72,325 cases)
+ - Preserves thread_root_id, resolution_status, reason_for_exclusion, and full dialogue turns.
+
+12. Known Limitations & Selection Bias Disclosure
+------------------------------
+ Resolved historical evidence is a deliberate design choice and introduces selection bias:
+  1. Resolved conversations are naturally longer (mean 4.30 turns vs 2.76 turns for excluded)
+     because observing resolution requires problem definition -> instruction -> verification.
+  2. In-channel Twitter resolutions skew toward configuration/how-to and software glitches,
+     whereas hardware replacements and billing disputes are almost always escalated to DM.
+
+13. Final Recommendation for Stage 4 (Retrieval / RAG)
+------------------------------
+ Use `apple_support_resolved_threads.json` as the primary retrieval knowledge base for
+ generating grounded support replies. Use `apple_support_excluded_threads.json` to train and
+ evaluate the escalation decision policy (determining when an incoming inquiry should be
+ auto-handled vs escalated to a human agent).
+
+============================================================
+END OF STAGE 3 REPORT
+============================================================

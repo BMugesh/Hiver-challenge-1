@@ -1,0 +1,2 @@
+dataset_split,sample_size,min_similarity_threshold,min_intent_confidence_threshold,min_intent_alignment_threshold,auto_handle_count,escalate_count,auto_handle_pct,escalate_pct,auto_handle_precision,auto_handle_recall,escalation_precision,escalation_recall,false_auto_handle_rate,overall_accuracy
+test,1189,0.65,0.6,0.66,174,1015,14.63,85.37,0.977,0.1767,0.2197,0.9824,2.3,33.05

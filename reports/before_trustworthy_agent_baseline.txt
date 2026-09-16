@@ -1,0 +1,129 @@
+================================================================================
+BASELINE & SAFETY CHECKPOINT REPORT (BEFORE TRUSTWORTHY AGENT REDESIGN)
+SupportDNA / AppleSupport Grounded Support Agent
+================================================================================
+Audit Timestamp: 2026-09-15
+Evaluation Split: Unseen Test Set (N=1,189)
+Corpus: 7,922 Resolved Conversations (5,545 Train / 1,188 Val / 1,189 Test)
+Git Status: Not a git repository (standalone workspace)
+================================================================================
+
+1. EXISTING ARCHITECTURE & STAGE WORKFLOW
+================================================================================
+The existing pipeline operates sequentially as follows:
+
+  [Customer Query]
+        │
+        ├─► [Prompt Injection Defense] (regex contextual detector)
+        │
+        ├─► [Multi-Issue Detection] (cross-domain symptom regex scanner)
+        │
+        ▼
+  [Stage 4 / 7: Calibrated Intent Classifier]
+        │ TF-IDF (1-3 n-grams) + Class-Weighted Logistic Regression (C=2.0)
+        │ + Dense Prototype Centroids (all-MiniLM-L6-v2) + Diagnostic Rule Bonuses
+        ▼
+  [Stage 5: Dense FAISS Retrieval]
+        │ IndexFlatIP (384-d, 5,545 indexed training cases) -> Top-10 Candidate Pool
+        ▼
+  [Stage 5: Domain-Aware Intent Ranker]
+        │ Reranks Top-10 using Symptom Alignment, Prototype Centroid Proximity & De-biasing
+        │ Selects Top-3 Aligned Historical Evidence Cases
+        ▼
+  [Resolution Pattern Extraction]
+        │ Canonical resolution sequence mapping + historical action pattern extraction
+        ▼
+  [Stage 6: Grounded Reply Generation]
+        │ Explicit Generation Modes: EVIDENCE_BACKED_ACTION / CLARIFY_OR_ESCALATE / SAFE_ESCALATION
+        │ Synthesizes structured numbered troubleshooting steps from evidence
+        ▼
+  [Stage 6: Independent Grounding Verifier]
+        │ Checks: Claim divergence, high-risk policy promises, and RESOLUTION_FAITHFULNESS
+        ▼
+  [Stage 7: Decision Engine & Frozen Safety Policy]
+        │ Deterministic evaluation of safety gates:
+        │ 1. High-risk grounding failure -> ESCALATE
+        │ 2. Unsupported claims -> ESCALATE
+        │ 3. Evidence insufficient / conflicting -> ESCALATE
+        │ 4. Intent confidence < 0.60 -> ESCALATE
+        │ 5. Retrieval similarity < 0.65 -> ESCALATE
+        │ 6. Intent-evidence alignment < 0.66 -> ESCALATE
+        │ 7. Prompt injection detected -> ESCALATE
+        │ 8. Multi-issue detected -> ESCALATE
+        │ Otherwise -> AUTO-HANDLE
+        ▼
+  [FastAPI Backend (api.py:8000) -> React Dark Chatbot UI (frontend:5173)]
+
+================================================================================
+2. IMPORTANT REPOSITORY FILES
+================================================================================
+- `src/stage1_dataset_understanding.py`: Raw dataset loading, tweet cleaning, and dialogue parsing.
+- `src/stage2_conversation_reconstruction.py`: Directed conversation tree reconstruction and cycle resolution.
+- `src/stage3_resolution_filter.py`: Ground-truth resolution filtering (7,922 validated resolved threads).
+- `src/stage4_intent_discovery.py`: 11-class customer-centric intent taxonomy definitions and n-gram rules.
+- `src/stage5_retrieval.py`: Dense sentence-transformer embeddings (all-MiniLM-L6-v2) and FAISS IndexFlatIP.
+- `src/stage5_domain_ranking.py`: Domain-aware candidate reranking, prototype centroids, and contextual scoring.
+- `src/stage5_multi_issue.py`: Rule-based multi-issue detection across distinct problem domains.
+- `src/stage5_error_analysis.py`: Systematic error taxonomy and confusion matrix diagnostic tooling.
+- `src/stage6_grounded_reply.py`: GroundedReplyGenerator, canonical resolution patterns, IndependentGroundingVerifier.
+- `src/stage7_decision.py`: CalibratedIntentClassifier, DecisionPolicy, DecisionEngine, EscalationReasonCodes.
+- `src/stage8_evaluation.py`: Master deterministic evaluation harness for all metrics, charts, and reports.
+- `src/api.py`: FastAPI server serving `/api/support/analyze` for live customer chatbot interaction.
+- `frontend/`: React + Vite dark minimalist chatbot interface with AI Analysis Technical Panel.
+
+================================================================================
+3. CURRENT BENCHMARK METRICS & FROZEN THRESHOLDS
+================================================================================
+Dataset Splits:
+  - Training Cases   : 5,545
+  - Validation Cases : 1,188
+  - Unseen Test Cases: 1,189 (Zero cross-split leakage verified)
+
+Intent Classification Metrics (Unseen Test Set N=1,189):
+  - Accuracy         : 80.24% (954 / 1,189 correct)
+  - Macro Precision  : 75.82%
+  - Macro Recall     : 74.31%
+  - Macro F1         : 0.7473
+
+Retrieval Quality Metrics (Unseen Test Set N=1,189):
+  - TF-IDF Baseline Recall@1 : 45.33% | Recall@3: 67.96% | MRR: 0.5891
+  - Semantic FAISS Recall@1  : 58.37% | Recall@3: 78.72% | MRR: 0.7002
+  - Domain-Aware Recall@1    : 71.24% | Recall@3: 84.10% | MRR: 0.7767
+
+Safety Policy & Decision Metrics (Frozen Policy):
+  - min_similarity           : 0.65
+  - min_intent_confidence    : 0.60
+  - min_intent_alignment     : 0.66
+  - enforce_grounding_gate   : True
+  - AUTO-HANDLE Precision    : 96.60% (Safety target: >= 95.0%)
+  - False Auto-Handle Rate   : 3.40%  (Safety target: < 5.0%)
+  - Escalation Recall        : 97.30% (Safety target: >= 95.0%)
+  - AUTO-HANDLE Coverage     : 27.25% (324 / 1,189 cases)
+  - Human Review Agreement   : 78.00% (Cohen's Kappa: 0.5669)
+  - LLM Judge Mean Score     : 4.24 / 5.0
+
+Prompt Injection Resistance:
+  - Tested Attack Vectors    : 7 vectors
+  - Neutralization Rate      : 100.0% (7/7)
+  - False Positive Rate      : 0.0% on legitimate customer inquiries
+
+================================================================================
+4. TEST SUITE BASELINE RUN (RECORDED PRE-MODIFICATION)
+================================================================================
+Command: pytest tests/ -v
+Total Tests Collected : 66 items across 9 test files
+Tests Passed          : 66
+Tests Failed          : 0
+Test Suite Breakdown:
+  - tests/test_stage2_reconstruction.py   : 6 passed
+  - tests/test_stage3_resolution_filter.py: 6 passed
+  - tests/test_stage4_intent_discovery.py : 6 passed
+  - tests/test_stage5_domain_ranking.py   : 5 passed
+  - tests/test_stage5_error_analysis.py   : 6 passed
+  - tests/test_stage5_retrieval.py        : 6 passed
+  - tests/test_stage6_grounded_reply.py   : 10 passed
+  - tests/test_stage7_decision.py         : 12 passed
+  - tests/test_stage8_evaluation.py       : 9 passed
+Total Runtime: 521.01s (Headless CPU with Transformer Inferences)
+Status: CLEAN BASELINE VERIFIED
+================================================================================

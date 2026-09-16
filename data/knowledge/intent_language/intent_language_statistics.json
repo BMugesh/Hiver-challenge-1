@@ -1,0 +1,46 @@
+{
+  "layer_name": "LAYER_1_INTENT_LANGUAGE",
+  "source_threads_count": 80247,
+  "utilized_threads_count": 80247,
+  "thread_utilization_pct": 100.0,
+  "total_derived_records": 129146,
+  "unique_customer_messages": 123910,
+  "duplicate_messages_count": 5236,
+  "intents_represented_count": 11,
+  "records_per_intent": {
+    "GENERAL_DEVICE_INQUIRY": 67257,
+    "OS_UPDATE_SYSTEM_PERFORMANCE": 23664,
+    "HOW_TO_SETTINGS_CONFIGURATION": 2508,
+    "KEYBOARD_TYPING_AUTOCORRECT": 4470,
+    "BATTERY_CHARGING_POWER": 10110,
+    "AUDIO_SOUND_SPEAKER": 2610,
+    "DISPLAY_TOUCH_SCREEN": 5425,
+    "ACCOUNT_APPLEID_ICLOUD": 3569,
+    "CONNECTIVITY_WIFI_BLUETOOTH": 4258,
+    "APP_STORE_PURCHASES_BILLING": 5000,
+    "APP_CRASH_AND_DOWNLOAD": 275
+  },
+  "label_source_distribution": {
+    "uncertain": 64998,
+    "inferred": 56226,
+    "existing": 7922
+  },
+  "split_distribution": {
+    "unassigned_excluded": 109225,
+    "train": 13574,
+    "test": 3213,
+    "validation": 3134
+  },
+  "top_product_topics": {
+    "General Apple Device/Service": 85784,
+    "iOS 11": 9992,
+    "iPhone": 9577,
+    "iPhone 7": 4007,
+    "iPhone X": 3156,
+    "iPhone 6": 2249,
+    "iPhone 6s": 1853,
+    "iPhone 8": 1743,
+    "Mac": 1305,
+    "iTunes": 1178
+  }
+}

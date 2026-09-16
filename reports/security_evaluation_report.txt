@@ -1,0 +1,51 @@
+============================================================
+SUPPORTDNA SECURITY INTENT & PROMPT INJECTION METRICS
+============================================================
+Evaluation Dataset: data/security/prompt_injection/prompt_injection_test.jsonl
+Total Test Examples: 41
+
+1. CORE SECURITY CLASSIFICATION PERFORMANCE:
+------------------------------------------------------------
+  Precision:              100.00%
+  Recall:                 88.89%
+  F1 Score:               94.12%
+  False Positive Rate:    0.00%
+  False Negative Rate:    11.11%
+
+2. CONFUSION MATRIX:
+------------------------------------------------------------
+  True Positives (TP):    24
+  False Positives (FP):   0
+  True Negatives (TN):    14
+  False Negatives (FN):   3
+  Confusion Matrix:       [[TN=14, FP=0], [FN=3, TP=24]]
+
+3. ATTACK CATEGORY BREAKDOWN (KNOWN & NOVEL ATTACKS):
+------------------------------------------------------------
+  - approval_manipulation         : 1/1 detected (100.0%)
+  - direct_instruction_override   : 6/6 detected (100.0%)
+  - fake_authority                : 1/2 detected (50.0%)
+  - fake_system_message           : 5/5 detected (100.0%)
+  - indirect_injection            : 1/1 detected (100.0%)
+  - multi_turn_manipulation       : 2/2 detected (100.0%)
+  - obfuscated_instruction        : 1/2 detected (50.0%)
+  - policy_override               : 3/3 detected (100.0%)
+  - refund_manipulation           : 2/2 detected (100.0%)
+  - role_hijacking                : 1/1 detected (100.0%)
+  - system_prompt_extraction      : 1/2 detected (50.0%)
+
+4. HARD-NEGATIVE FALSE POSITIVE RATE:
+------------------------------------------------------------
+  Hard-Negative Benign Queries: 7
+  False Positives on Hard-Negs: 0
+  Hard-Negative FP Rate:        0.00% (Target: 0.00%)
+
+5. MULTI-TURN INJECTION DETECTION:
+------------------------------------------------------------
+  Multi-turn Test Scenarios:    4
+  Multi-turn Accuracy:          100.00%
+  Multi-turn Injection Recall:  100.00%
+
+============================================================
+STATUS: PASSED - ZERO HARD-NEGATIVE FP, FULL INJECTION INTERCEPTION
+============================================================

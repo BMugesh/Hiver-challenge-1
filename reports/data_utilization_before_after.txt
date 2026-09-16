@@ -1,0 +1,53 @@
+================================================================================
+SUPPORTDNA DATA UTILIZATION: BEFORE vs. AFTER TRANSFORMATION
+================================================================================
+
+PREVIOUS ARCHITECTURE (WASTEFUL FILTER & DISCARD):
+--------------------------------------------------------------------------------
+  80,247 Reconstructed Threads (100.0%)
+       │
+       ├── 72,325 Excluded Threads (90.13%) ──> DISCARDED / UNUSED
+       │
+       └── 7,922 Curated Resolution Cases (9.87%)
+                │
+                ├── 2,377 Val/Test Cases (2.96%) ──> Evaluation queries only
+                │
+                └── 5,545 Training Cases (6.91%) ──> FAISS Vector Index
+
+  Deficiency: 72,325 real-world support dialogues (90.13% of all customer data)
+  were completely discarded because they did not contain clean resolution evidence,
+  losing valuable customer language, escalation triggers, and safety edge cases.
+
+CURRENT MULTI-LAYER ARCHITECTURE (COMPREHENSIVE KNOWLEDGE UTILIZATION):
+--------------------------------------------------------------------------------
+  80,247 Reconstructed Threads
+       │
+       ├── LAYER 1: Intent & Language Knowledge
+       │     Records: 129,146 customer phrasing instances
+       │     Threads Utilized: 80,247 (100.0%)
+       │     Purpose: Natural customer phrasing, topic discovery, intent patterns
+       │
+       ├── LAYER 2: Resolution Knowledge (Evidence-Constrained)
+       │     Records: 7,922 curated cases (4,608 actionable steps)
+       │     Threads Utilized: 7,922 (9.87% of threads, strictly high quality)
+       │     Active FAISS Index: 5,545 training cases (100% preserved)
+       │     Purpose: Grounded diagnostic steps and verified troubleshooting answers
+       │
+       ├── LAYER 3: Escalation Knowledge
+       │     Records: 72,325 escalation cases
+       │     Threads Utilized: 72,325 (90.13% of threads)
+       │     DM Redirects: 47,741 instances
+       │     Purpose: Recognizing when public troubleshooting should cease
+       │
+       └── LAYER 4: Safety & Edge-Case Knowledge
+             Records: 24,329 edge cases and hazards
+             Threads Scanned: 80,247 (100.0%)
+             Purpose: Identifying ambiguous, ultra-short, multi-issue, and risky queries
+
+CRITICAL ASSURANCE ON DATA INTEGRITY:
+--------------------------------------------------------------------------------
+- High-quality resolution evidence is strictly isolated to the 7,922 curated cases.
+- No excluded or noisy conversations were injected into the 5,545 FAISS index.
+- Split boundaries (train / validation / test) are strictly maintained with 0 leakage.
+- Multi-purpose utilization preserves authentic customer signals across all stages.
+================================================================================

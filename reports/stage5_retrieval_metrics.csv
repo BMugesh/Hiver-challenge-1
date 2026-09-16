@@ -1,0 +1,5 @@
+system,split,Recall@1,Recall@3,Recall@5,Recall@10,MRR,Mean_Top1_Sim
+TF-IDF Baseline,Validation,44.95,69.61,80.81,90.66,0.5981,0.3247
+TF-IDF Baseline,Test,42.56,67.96,77.63,90.16,0.5767,0.3237
+Semantic FAISS (all-MiniLM-L6-v2),Validation,56.73,79.8,85.52,92.09,0.6943,0.742
+Semantic FAISS (all-MiniLM-L6-v2),Test,58.37,78.72,85.87,92.18,0.7002,0.7409

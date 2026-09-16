@@ -1,0 +1,32 @@
+{
+  "layer_name": "LAYER_4_SAFETY_EDGE_CASE_KNOWLEDGE",
+  "total_source_threads_scanned": 80247,
+  "total_edge_cases_identified": 24329,
+  "edge_case_prevalence_pct": 30.32,
+  "category_distribution": {
+    "AMBIGUOUS": 5466,
+    "NO_RESOLUTION": 3487,
+    "MULTI_ISSUE": 12608,
+    "UNUSUAL_PHRASING": 815,
+    "ULTRA_SHORT": 1286,
+    "INSUFFICIENT_CONTEXT": 142,
+    "ESCALATION_SENSITIVE": 525
+  },
+  "ambiguity_level_distribution": {
+    "HIGH": 7419,
+    "MEDIUM": 16910
+  },
+  "intents_affected": {
+    "GENERAL_DEVICE_INQUIRY": 7029,
+    "KEYBOARD_TYPING_AUTOCORRECT": 1498,
+    "DISPLAY_TOUCH_SCREEN": 1994,
+    "HOW_TO_SETTINGS_CONFIGURATION": 227,
+    "BATTERY_CHARGING_POWER": 5163,
+    "AUDIO_SOUND_SPEAKER": 1237,
+    "OS_UPDATE_SYSTEM_PERFORMANCE": 2850,
+    "ACCOUNT_APPLEID_ICLOUD": 1163,
+    "APP_STORE_PURCHASES_BILLING": 1520,
+    "CONNECTIVITY_WIFI_BLUETOOTH": 1607,
+    "APP_CRASH_AND_DOWNLOAD": 41
+  }
+}

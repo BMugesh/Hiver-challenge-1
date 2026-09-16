@@ -1,0 +1,338 @@
+======================================================================
+STAGE 5: TOP-1 RETRIEVAL ERROR & FAILURE MODE ANALYSIS
+======================================================================
+
+1. Overview
+------------------------------
+ - Total Test Inquiries Evaluated  : 1,189
+ - Correct Top-1 Retrievals        : 694 (Recall@1 = 58.37%)
+ - Incorrect Top-1 Retrievals      : 495 (Error Rate = 41.63%)
+ - Scope of Analysis               : Deep diagnosis of exactly the 495 wrong Top-1 cases.
+ - Model & Pipeline Integrity      : Dense FAISS IndexFlatIP (all-MiniLM-L6-v2, 384-d).
+                                     Strictly zero changes to embeddings, splits, or index.
+
+2. Error Category Distribution
+------------------------------
+Category                             | Count | % of Errors | % of Test Set
+--------------------------------------------------------------------------------
+SEMANTICALLY_SIMILAR_INTENTS         |   156 |      31.52% |        13.12%
+MULTI_ISSUE_QUERY                    |   129 |      26.06% |        10.85%
+WRONG_KNOWLEDGE_REPRESENTATION       |    64 |      12.93% |         5.38%
+POST_UPDATE_OR_CONTEXT_MISMATCH      |    64 |      12.93% |         5.38%
+TERMINOLOGY_MISMATCH                 |    47 |       9.49% |         3.95%
+INSUFFICIENT_TRAINING_EXAMPLES       |    19 |       3.84% |         1.60%
+OTHER                                |    13 |       2.63% |         1.09%
+SHORT_OR_AMBIGUOUS_QUERY             |     3 |       0.61% |         0.25%
+
+ Key Insights:
+  * SEMANTICALLY_SIMILAR_INTENTS is the largest failure mode (31.52% of errors),
+    where the bi-encoder successfully finds the correct problem domain but selects an adjacent intent class.
+  * MULTI_ISSUE_QUERY represents 26.06% of errors, where compound symptoms blend vector embeddings.
+  * POST_UPDATE_OR_CONTEXT_MISMATCH accounts for 12.93% of errors due to 'iOS 11' anchor bias.
+
+3. Top Intent Confusions
+------------------------------
+The 495 errors reveal strong directional confusion patterns across intent clusters.
+
+Top 5 Most Problematic Confusion Pairs:
+ 1. GENERAL_DEVICE_INQUIRY -> OS_UPDATE_SYSTEM_PERFORMANCE: 47 errors (9.49%)
+ 2. OS_UPDATE_SYSTEM_PERFORMANCE -> GENERAL_DEVICE_INQUIRY: 47 errors (9.49%)
+ 3. KEYBOARD_TYPING_AUTOCORRECT -> OS_UPDATE_SYSTEM_PERFORMANCE: 22 errors (4.44%)
+ 4. GENERAL_DEVICE_INQUIRY -> KEYBOARD_TYPING_AUTOCORRECT: 20 errors (4.04%)
+ 5. DISPLAY_TOUCH_SCREEN -> GENERAL_DEVICE_INQUIRY: 16 errors (3.23%)
+
+Top Intent Confusion Summary Table:
+Expected Intent                 -> Predicted Intent                | Count | % of Errors
+--------------------------------------------------------------------------------
+GENERAL_DEVICE_INQUIRY          -> OS_UPDATE_SYSTEM_PERFORMANCE   |    47 |       9.49%
+OS_UPDATE_SYSTEM_PERFORMANCE    -> GENERAL_DEVICE_INQUIRY         |    47 |       9.49%
+KEYBOARD_TYPING_AUTOCORRECT     -> OS_UPDATE_SYSTEM_PERFORMANCE   |    22 |       4.44%
+GENERAL_DEVICE_INQUIRY          -> KEYBOARD_TYPING_AUTOCORRECT    |    20 |       4.04%
+DISPLAY_TOUCH_SCREEN            -> GENERAL_DEVICE_INQUIRY         |    16 |       3.23%
+KEYBOARD_TYPING_AUTOCORRECT     -> GENERAL_DEVICE_INQUIRY         |    15 |       3.03%
+DISPLAY_TOUCH_SCREEN            -> OS_UPDATE_SYSTEM_PERFORMANCE   |    13 |       2.63%
+HOW_TO_SETTINGS_CONFIGURATION   -> GENERAL_DEVICE_INQUIRY         |    12 |       2.42%
+GENERAL_DEVICE_INQUIRY          -> HOW_TO_SETTINGS_CONFIGURATION  |    12 |       2.42%
+CONNECTIVITY_WIFI_BLUETOOTH     -> GENERAL_DEVICE_INQUIRY         |    11 |       2.22%
+APP_STORE_PURCHASES_BILLING     -> OS_UPDATE_SYSTEM_PERFORMANCE   |    11 |       2.22%
+GENERAL_DEVICE_INQUIRY          -> APP_STORE_PURCHASES_BILLING    |    10 |       2.02%
+
+4. Similarity Score Analysis
+------------------------------
+Comparison of Top-1 Cosine Similarity Scores between Correct and Wrong predictions:
+
+Metric   | Correct Top-1 (N=694) | Wrong Top-1 (N=495) | Separation (Delta)
+---------------------------------------------------------------------------
+Mean     |                0.7555 |              0.7205 |           +0.0350
+Median   |                0.7628 |              0.7266 |           +0.0362
+Min      |                0.4051 |              0.4445 |           -0.0394
+Max      |                0.9947 |              0.9231 |           +0.0716
+P25      |                0.7010 |              0.6636 |           +0.0374
+P75      |                0.8200 |              0.7890 |           +0.0310
+
+Confidence Tier Breakdown Among the 495 Wrong Predictions:
+ - High Confidence (Similarity >= 0.75) : 198 cases (40.00%) -> High-confidence semantic confusion.
+ - Moderate Confidence (0.65 <= Sim < 0.75): 193 cases (38.99%) -> Dense vector competition.
+ - Low Confidence (Similarity < 0.65)  : 104 cases (21.01%) -> True weak retrieval / lexical drift.
+
+ Diagnostic Interpretation:
+  40.00% of errors occur with high similarity (>=0.75). This proves the model is NOT merely producing weak,
+  random retrievals; rather, it confidently matches semantically adjacent but distinct intent cases.
+
+5. Correct Case Rank Analysis
+------------------------------
+Determining whether the 495 errors represent a RETRIEVAL FAILURE or a RANKING FAILURE:
+
+ - Correct Case in Top 3 (Rank 2 or 3)  : 242 cases (48.89% of errors)
+ - Correct Case in Top 5 (Rank 2 to 5)  : 327 cases (66.06% of errors)
+ - Correct Case in Top 10 (Rank 2 to 10): 402 cases (81.21% of errors)
+ - Completely Missing from Top 10       :  93 cases (18.79% of errors)
+
+ Cumulative Test-Set Recall Trajectory (N=1,189):
+  * Recall@1  = 694 / 1189 = 58.37%
+  * Recall@3  = (694 + 242) / 1189 = 78.72%
+  * Recall@5  = (694 + 327) / 1189 = 85.87%
+  * Recall@10 = (694 + 402) / 1189 = 92.18%
+  * Completely Missing from Top-10 = 93 / 1189 = 7.82%
+
+ Fundamental Diagnostic Finding:
+  * 81.21% of all Top-1 failures (402 / 495) are RANKING FAILURES: the correct intent case WAS successfully
+    retrieved within the top 10 candidates, but was ranked behind a distractor case.
+  * 48.89% (242 / 495) are sitting right at Rank 2 or Rank 3!
+  * Only 18.79% (93 / 495, or 7.82% of the total test set) are true RETRIEVAL FAILURES.
+
+6. Training Data / Intent Analysis
+------------------------------
+Intent                           | Train Count | Test Count | Recall@1 | Error Rate | Primary Failure Mode
+---------------------------------------------------------------------------------------------------------------
+HOW_TO_SETTINGS_CONFIGURATION    |         148 |         32 |   28.12% |     71.88% | INSUFFICIENT_TRAINING_EXAMPLES
+APP_CRASH_AND_DOWNLOAD           |         134 |         29 |   44.83% |     55.17% | MULTI_ISSUE_QUERY
+DISPLAY_TOUCH_SCREEN             |         458 |         98 |   44.90% |     55.10% | MULTI_ISSUE_QUERY
+KEYBOARD_TYPING_AUTOCORRECT      |         409 |         88 |   48.86% |     51.14% | POST_UPDATE_OR_CONTEXT_MISMATCH
+CONNECTIVITY_WIFI_BLUETOOTH      |         411 |         88 |   54.55% |     45.45% | MULTI_ISSUE_QUERY
+ACCOUNT_APPLEID_ICLOUD           |         281 |         60 |   56.67% |     43.33% | MULTI_ISSUE_QUERY
+OS_UPDATE_SYSTEM_PERFORMANCE     |         982 |        211 |   57.82% |     42.18% | SEMANTICALLY_SIMILAR_INTENTS
+APP_STORE_PURCHASES_BILLING      |         391 |         83 |   60.24% |     39.76% | WRONG_KNOWLEDGE_REPRESENTATION
+GENERAL_DEVICE_INQUIRY           |        1581 |        339 |   64.01% |     35.99% | SEMANTICALLY_SIMILAR_INTENTS
+AUDIO_SOUND_SPEAKER              |         230 |         49 |   67.35% |     32.65% | MULTI_ISSUE_QUERY
+BATTERY_CHARGING_POWER           |         520 |        112 |   72.32% |     27.68% | MULTI_ISSUE_QUERY
+
+ Correlation & Data Imbalance Insights:
+  - The lowest performing intent is HOW_TO_SETTINGS_CONFIGURATION (Recall@1 = 28.12%, Error Rate = 71.88%).
+    It has only 148 training examples, indicating data sparsity directly impairs fine-grained configuration recall.
+  - APP_CRASH_AND_DOWNLOAD (134 train cases) also shows a high error rate (55.17%).
+  - However, DISPLAY_TOUCH_SCREEN (458 train cases) still exhibits a 55.10% error rate, and
+    KEYBOARD_TYPING_AUTOCORRECT (409 train cases) exhibits a 51.14% error rate.
+  - Conclusion: Training sample count has a moderate correlation with performance on extreme tail intents,
+    but intent semantic boundary overlap (e.g. touch/display vs general hardware) is the primary driver of errors.
+
+7. Top 20 Representative Failures
+------------------------------
+ [Example 1] Category: SEMANTICALLY_SIMILAR_INTENTS
+  Query: "@115858 please fix this 👉🏽 I️ I️ I️ I️ @AppleSupport Thanks @AppleSupport my bug is fixed ❤️❤️"
+  Expected Intent: GENERAL_DEVICE_INQUIRY | Predicted Top-1 Intent: OS_UPDATE_SYSTEM_PERFORMANCE
+  Top-1 Similarity: 0.8867 | Correct Case Rank: 2
+  Top-3 Intents: [OS_UPDATE_SYSTEM_PERFORMANCE, GENERAL_DEVICE_INQUIRY, GENERAL_DEVICE_INQUIRY]
+  Diagnosis: Expected GENERAL_DEVICE_INQUIRY shares dense vocabulary with OS_UPDATE_SYSTEM_PERFORMANCE; bi-encoder ranked related intent top-1 (correct case at Rank 2).
+
+ [Example 2] Category: SEMANTICALLY_SIMILAR_INTENTS
+  Query: "The @115858 store at #TheGrove has the worst customer service I’ve EVER experienced in my life! I don’t like to make things racial but a white guy wen"
+  Expected Intent: CONNECTIVITY_WIFI_BLUETOOTH | Predicted Top-1 Intent: GENERAL_DEVICE_INQUIRY
+  Top-1 Similarity: 0.5499 | Correct Case Rank: 3
+  Top-3 Intents: [GENERAL_DEVICE_INQUIRY, APP_CRASH_AND_DOWNLOAD, CONNECTIVITY_WIFI_BLUETOOTH]
+  Diagnosis: Expected CONNECTIVITY_WIFI_BLUETOOTH shares dense vocabulary with GENERAL_DEVICE_INQUIRY; bi-encoder ranked related intent top-1 (correct case at Rank 3).
+
+ [Example 3] Category: SEMANTICALLY_SIMILAR_INTENTS
+  Query: "Dear Apple...... FIX THIS!!! I️ I️ I️ I️ @AppleSupport THANKS! @AppleSupport Thanks so much. 11.0.3 is the version. @AppleSupport Thank You! The updat"
+  Expected Intent: OS_UPDATE_SYSTEM_PERFORMANCE | Predicted Top-1 Intent: GENERAL_DEVICE_INQUIRY
+  Top-1 Similarity: 0.8744 | Correct Case Rank: 3
+  Top-3 Intents: [GENERAL_DEVICE_INQUIRY, GENERAL_DEVICE_INQUIRY, OS_UPDATE_SYSTEM_PERFORMANCE]
+  Diagnosis: Expected OS_UPDATE_SYSTEM_PERFORMANCE shares dense vocabulary with GENERAL_DEVICE_INQUIRY; bi-encoder ranked related intent top-1 (correct case at Rank 3).
+
+ [Example 4] Category: SEMANTICALLY_SIMILAR_INTENTS
+  Query: "@115858 @AppleSupport how do I fix the “I.t” I just want to type “it” 😭😭"
+  Expected Intent: HOW_TO_SETTINGS_CONFIGURATION | Predicted Top-1 Intent: GENERAL_DEVICE_INQUIRY
+  Top-1 Similarity: 0.8006 | Correct Case Rank: 2
+  Top-3 Intents: [GENERAL_DEVICE_INQUIRY, HOW_TO_SETTINGS_CONFIGURATION, GENERAL_DEVICE_INQUIRY]
+  Diagnosis: Expected HOW_TO_SETTINGS_CONFIGURATION shares dense vocabulary with GENERAL_DEVICE_INQUIRY; bi-encoder ranked related intent top-1 (correct case at Rank 2).
+
+ [Example 5] Category: MULTI_ISSUE_QUERY
+  Query: "Dear @AppleSupport: how do I fully reset an old iPhone that is mildly functional but so broken I can’t unlock it or actually reset it? @AppleSupport Y"
+  Expected Intent: DISPLAY_TOUCH_SCREEN | Predicted Top-1 Intent: ACCOUNT_APPLEID_ICLOUD
+  Top-1 Similarity: 0.6649 | Correct Case Rank: 2
+  Top-3 Intents: [ACCOUNT_APPLEID_ICLOUD, DISPLAY_TOUCH_SCREEN, AUDIO_SOUND_SPEAKER]
+  Diagnosis: Query describes multiple issues; embedding vector averaged symptoms and matched ACCOUNT_APPLEID_ICLOUD instead of primary intent DISPLAY_TOUCH_SCREEN.
+
+ [Example 6] Category: MULTI_ISSUE_QUERY
+  Query: "@AppleSupport I am a technician helping a iPad user retrieve her Apple ID password. Does not have recovery email password and forgets the security que"
+  Expected Intent: ACCOUNT_APPLEID_ICLOUD | Predicted Top-1 Intent: CONNECTIVITY_WIFI_BLUETOOTH
+  Top-1 Similarity: 0.7213 | Correct Case Rank: 2
+  Top-3 Intents: [CONNECTIVITY_WIFI_BLUETOOTH, ACCOUNT_APPLEID_ICLOUD, DISPLAY_TOUCH_SCREEN]
+  Diagnosis: Query describes multiple issues; embedding vector averaged symptoms and matched CONNECTIVITY_WIFI_BLUETOOTH instead of primary intent ACCOUNT_APPLEID_ICLOUD.
+
+ [Example 7] Category: MULTI_ISSUE_QUERY
+  Query: "@AppleSupport Trying to install the free SAMs app but iTunes won’t let me. This is crazy, and my card is good. https://t.co/q58j2A0Ktf @AppleSupport J"
+  Expected Intent: CONNECTIVITY_WIFI_BLUETOOTH | Predicted Top-1 Intent: APP_STORE_PURCHASES_BILLING
+  Top-1 Similarity: 0.6579 | Correct Case Rank: Missing (>10)
+  Top-3 Intents: [APP_STORE_PURCHASES_BILLING, APP_STORE_PURCHASES_BILLING, APP_STORE_PURCHASES_BILLING]
+  Diagnosis: Query describes multiple issues; embedding vector averaged symptoms and matched APP_STORE_PURCHASES_BILLING instead of primary intent CONNECTIVITY_WIFI_BLUETOOTH.
+
+ [Example 8] Category: MULTI_ISSUE_QUERY
+  Query: "Photos in #macOS High Sierra is SO buggy — I can't imagine it was in a hand of a single QA. And I even waited till 10.13.1. @AppleSupport you either c"
+  Expected Intent: BATTERY_CHARGING_POWER | Predicted Top-1 Intent: GENERAL_DEVICE_INQUIRY
+  Top-1 Similarity: 0.8044 | Correct Case Rank: Missing (>10)
+  Top-3 Intents: [GENERAL_DEVICE_INQUIRY, APP_CRASH_AND_DOWNLOAD, OS_UPDATE_SYSTEM_PERFORMANCE]
+  Diagnosis: Query describes multiple issues; embedding vector averaged symptoms and matched GENERAL_DEVICE_INQUIRY instead of primary intent BATTERY_CHARGING_POWER.
+
+ [Example 9] Category: WRONG_KNOWLEDGE_REPRESENTATION
+  Query: "So @AppleSupport, I thought login screens were a solved problem https://t.co/jsrq8i1aQA @AppleSupport Restart resolves it, but as a developer, loads o"
+  Expected Intent: ACCOUNT_APPLEID_ICLOUD | Predicted Top-1 Intent: OS_UPDATE_SYSTEM_PERFORMANCE
+  Top-1 Similarity: 0.6146 | Correct Case Rank: 4
+  Top-3 Intents: [OS_UPDATE_SYSTEM_PERFORMANCE, KEYBOARD_TYPING_AUTOCORRECT, OS_UPDATE_SYSTEM_PERFORMANCE]
+  Diagnosis: Correct case exists in Top-10 (Rank 4), but single customer problem text bi-encoder representation lacked nuance to outscore distractor.
+
+ [Example 10] Category: WRONG_KNOWLEDGE_REPRESENTATION
+  Query: "@AppleSupport you should be ashamed. My Mac downloaded High Sierra &amp; now I can’t log into it. After trying to fix it myself I took it to an author"
+  Expected Intent: GENERAL_DEVICE_INQUIRY | Predicted Top-1 Intent: ACCOUNT_APPLEID_ICLOUD
+  Top-1 Similarity: 0.6733 | Correct Case Rank: 2
+  Top-3 Intents: [ACCOUNT_APPLEID_ICLOUD, GENERAL_DEVICE_INQUIRY, OS_UPDATE_SYSTEM_PERFORMANCE]
+  Diagnosis: Correct case exists in Top-10 (Rank 2), but single customer problem text bi-encoder representation lacked nuance to outscore distractor.
+
+ [Example 11] Category: WRONG_KNOWLEDGE_REPRESENTATION
+  Query: "Hey @115858 fix this I️ @AppleSupport I️ don’t want to do this. I️ want my phone to work. I️ pay all this money &amp; I️ can’t even talk about myself."
+  Expected Intent: GENERAL_DEVICE_INQUIRY | Predicted Top-1 Intent: APP_STORE_PURCHASES_BILLING
+  Top-1 Similarity: 0.8158 | Correct Case Rank: 3
+  Top-3 Intents: [APP_STORE_PURCHASES_BILLING, OS_UPDATE_SYSTEM_PERFORMANCE, GENERAL_DEVICE_INQUIRY]
+  Diagnosis: Correct case exists in Top-10 (Rank 3), but single customer problem text bi-encoder representation lacked nuance to outscore distractor.
+
+ [Example 12] Category: POST_UPDATE_OR_CONTEXT_MISMATCH
+  Query: "@115858 this new update is so bad, it might be time to switch over to a Galaxy. @115858 11.1 and 6S. Everything is slow. Messenger locks up. Display/s"
+  Expected Intent: DISPLAY_TOUCH_SCREEN | Predicted Top-1 Intent: OS_UPDATE_SYSTEM_PERFORMANCE
+  Top-1 Similarity: 0.7061 | Correct Case Rank: Missing (>10)
+  Top-3 Intents: [OS_UPDATE_SYSTEM_PERFORMANCE, OS_UPDATE_SYSTEM_PERFORMANCE, OS_UPDATE_SYSTEM_PERFORMANCE]
+  Diagnosis: Query anchored on 'iOS update' keyword, biasing retrieval toward general OS update cases instead of the specific underlying DISPLAY_TOUCH_SCREEN issue.
+
+ [Example 13] Category: POST_UPDATE_OR_CONTEXT_MISMATCH
+  Query: "Has anyone else noticed since updating your #iOS that your alarm is sooo quiet?? I’m afraid I’m going to sleep through it even though my volume is all"
+  Expected Intent: AUDIO_SOUND_SPEAKER | Predicted Top-1 Intent: OS_UPDATE_SYSTEM_PERFORMANCE
+  Top-1 Similarity: 0.7479 | Correct Case Rank: 4
+  Top-3 Intents: [OS_UPDATE_SYSTEM_PERFORMANCE, OS_UPDATE_SYSTEM_PERFORMANCE, GENERAL_DEVICE_INQUIRY]
+  Diagnosis: Query anchored on 'iOS update' keyword, biasing retrieval toward general OS update cases instead of the specific underlying AUDIO_SOUND_SPEAKER issue.
+
+ [Example 14] Category: POST_UPDATE_OR_CONTEXT_MISMATCH
+  Query: "@AppleSupport, your last 2 updates have made my phone useless. Get your 💩 together and fix it"
+  Expected Intent: GENERAL_DEVICE_INQUIRY | Predicted Top-1 Intent: OS_UPDATE_SYSTEM_PERFORMANCE
+  Top-1 Similarity: 0.8051 | Correct Case Rank: Missing (>10)
+  Top-3 Intents: [OS_UPDATE_SYSTEM_PERFORMANCE, OS_UPDATE_SYSTEM_PERFORMANCE, OS_UPDATE_SYSTEM_PERFORMANCE]
+  Diagnosis: Query anchored on 'iOS update' keyword, biasing retrieval toward general OS update cases instead of the specific underlying GENERAL_DEVICE_INQUIRY issue.
+
+ [Example 15] Category: TERMINOLOGY_MISMATCH
+  Query: "@AppleSupport Why the hell do you STILL require people to give you a card number to get FREE god damn apps?"
+  Expected Intent: GENERAL_DEVICE_INQUIRY | Predicted Top-1 Intent: APP_STORE_PURCHASES_BILLING
+  Top-1 Similarity: 0.7309 | Correct Case Rank: Missing (>10)
+  Top-3 Intents: [APP_STORE_PURCHASES_BILLING, APP_STORE_PURCHASES_BILLING, APP_STORE_PURCHASES_BILLING]
+  Diagnosis: Query used colloquial slang, non-English terms, or emotional phrasing with low cosine similarity to standard technical case phrasing.
+
+ [Example 16] Category: TERMINOLOGY_MISMATCH
+  Query: "My phone just deleted my entire camera roll.........  I’m devasted 😭😭😭😭😭 Update - my pictures randomly are downloading back to my phone from iCloud. W"
+  Expected Intent: DISPLAY_TOUCH_SCREEN | Predicted Top-1 Intent: GENERAL_DEVICE_INQUIRY
+  Top-1 Similarity: 0.7552 | Correct Case Rank: 5
+  Top-3 Intents: [GENERAL_DEVICE_INQUIRY, GENERAL_DEVICE_INQUIRY, ACCOUNT_APPLEID_ICLOUD]
+  Diagnosis: Query used colloquial slang, non-English terms, or emotional phrasing with low cosine similarity to standard technical case phrasing.
+
+ [Example 17] Category: TERMINOLOGY_MISMATCH
+  Query: "@AppleSupport aye Snapchat tripping I don’t know if it’s on y’all end or theirs but that shit needs to be fixed NOW ❗️❗️❗️ @AppleSupport It’s working "
+  Expected Intent: GENERAL_DEVICE_INQUIRY | Predicted Top-1 Intent: KEYBOARD_TYPING_AUTOCORRECT
+  Top-1 Similarity: 0.6883 | Correct Case Rank: 2
+  Top-3 Intents: [KEYBOARD_TYPING_AUTOCORRECT, GENERAL_DEVICE_INQUIRY, APP_CRASH_AND_DOWNLOAD]
+  Diagnosis: Query used colloquial slang, non-English terms, or emotional phrasing with low cosine similarity to standard technical case phrasing.
+
+ [Example 18] Category: INSUFFICIENT_TRAINING_EXAMPLES
+  Query: "@AppleSupport how do I delete podcasts easily, now that edit button is gone? @AppleSupport Thanks"
+  Expected Intent: HOW_TO_SETTINGS_CONFIGURATION | Predicted Top-1 Intent: GENERAL_DEVICE_INQUIRY
+  Top-1 Similarity: 0.6314 | Correct Case Rank: Missing (>10)
+  Top-3 Intents: [GENERAL_DEVICE_INQUIRY, OS_UPDATE_SYSTEM_PERFORMANCE, OS_UPDATE_SYSTEM_PERFORMANCE]
+  Diagnosis: Intent HOW_TO_SETTINGS_CONFIGURATION has very small training corpus support, leading to sparse index coverage for this specific inquiry.
+
+ [Example 19] Category: SHORT_OR_AMBIGUOUS_QUERY
+  Query: "my phone has been so laggy today @115858 fix this"
+  Expected Intent: GENERAL_DEVICE_INQUIRY | Predicted Top-1 Intent: OS_UPDATE_SYSTEM_PERFORMANCE
+  Top-1 Similarity: 0.8864 | Correct Case Rank: 7
+  Top-3 Intents: [OS_UPDATE_SYSTEM_PERFORMANCE, OS_UPDATE_SYSTEM_PERFORMANCE, OS_UPDATE_SYSTEM_PERFORMANCE]
+  Diagnosis: Query is brief (<8 tokens) and lacks diagnostic symptoms; embedding drifted to generic support inquiry clusters.
+
+ [Example 20] Category: OTHER
+  Query: "#IphoneXPreOrder #iPhoneX @AppleSupport still no confirmation email in regards to my ‘reserved’ iPhone because of ‘couldn’t reach carrier’ @432099 @Ap"
+  Expected Intent: CONNECTIVITY_WIFI_BLUETOOTH | Predicted Top-1 Intent: HOW_TO_SETTINGS_CONFIGURATION
+  Top-1 Similarity: 0.7779 | Correct Case Rank: Missing (>10)
+  Top-3 Intents: [HOW_TO_SETTINGS_CONFIGURATION, GENERAL_DEVICE_INQUIRY, GENERAL_DEVICE_INQUIRY]
+  Diagnosis: Divergent phrasing and edge-case symptom representation led to mismatched intent ranking.
+
+8. Root Cause Analysis
+------------------------------
+Based on direct measurement of all 495 errors, here are the empirical answers to the key questions:
+
+Q1: What causes most Top-1 errors?
+A1: Most Top-1 errors (57.58% combined) are caused by Semantic Confusion (SEMANTICALLY_SIMILAR_INTENTS at 31.52%)
+    and Multi-Issue Compound Queries (26.06%). In both cases, the bi-encoder vector similarity is dominated
+    by secondary tokens or overlapping intent vocabulary.
+
+Q2: Are most errors semantic confusion?
+A2: YES. 156 errors (31.52%) are pure semantic adjacency confusions (e.g., General Device Inquiry <-> OS Update <-> Settings),
+    and an additional 40.00% of all wrong predictions have high cosine similarity (>= 0.75), indicating the model
+    confidently matched semantically related historical cases.
+
+Q3: Are correct cases usually present in Top-3/Top-5?
+A3: YES. Out of 495 errors, 242 (48.89%) have a correct case in Top-3, 327 (66.06%) in Top-5, and 402 (81.21%) in Top-10.
+
+Q4: Is the problem mainly retrieval or ranking?
+A4: RANKING. 81.21% of errors have a correct case retrieved in Top-10 (48.89% in Top-3). The first-stage retrieval
+    candidate generator succeeds at finding relevant cases, but the bi-encoder cosine similarity lacks the fine-grained
+    token-level cross-attention needed to rank the exact intent #1.
+
+Q5: Which intents are hardest?
+A5: 1. HOW_TO_SETTINGS_CONFIGURATION (71.88% error rate, 28.12% Recall@1)
+    2. APP_CRASH_AND_DOWNLOAD (55.17% error rate, 44.83% Recall@1)
+    3. DISPLAY_TOUCH_SCREEN (55.10% error rate, 44.90% Recall@1)
+    4. KEYBOARD_TYPING_AUTOCORRECT (51.14% error rate, 48.86% Recall@1)
+
+Q6: Are short queries a significant problem?
+A6: No, short queries (<=8 tokens) represent only 0.61% of Top-1 errors (3 cases). Because conversational turns were
+    reconstructed across full threads, customer inquiries in the test set average 18+ words and provide sufficient context.
+
+Q7: Does training-data imbalance appear relevant?
+A7: Partially. The two smallest intents (HOW_TO_SETTINGS with 148 cases and APP_CRASH with 134 cases) suffered the highest
+    error rates. However, intents with 400-500 cases also suffered 50%+ error rates due to semantic ambiguity,
+    showing imbalance is a secondary factor behind semantic overlap.
+
+9. What This Suggests We Should Improve
+------------------------------
+1. Cross-Encoder Reranker on Top-K Candidates (Single Most Promising Improvement):
+   Since 48.89% of failed queries already contain a correct case in Top-3 (and 66.06% in Top-5), passing the top-3/5
+   candidates through a cross-encoder model with full token cross-attention (query + candidate pair) can resolve
+   the fine-grained lexical differences and elevate the correct case to Rank 1.
+
+2. Multi-Issue and Query Context Disambiguation:
+   De-biasing queries that mention 'iOS 11 update' when asking about battery or screen issues will prevent premature
+   collapse into the OS_UPDATE_SYSTEM_PERFORMANCE centroid.
+
+3. Dual Representation (Problem + Support Action):
+   Currently, retrieval embeds only `customer_problem`. Including a distilled `resolution_action` summary in the candidate
+   representation will improve discrimination between how-to troubleshooting vs general hardware failures.
+
+10. Conclusion
+------------------------------
+Explicit Answer to 'Why is Recall@1 only 58.37%?':
+Recall@1 is 58.37% because bi-encoder embeddings (all-MiniLM-L6-v2) compress entire customer inquiries into a single
+384-dimensional vector without cross-attention between query tokens and case tokens. In Apple customer support, inquiries
+frequently contain overlapping technical vocabulary ('update', 'iOS 11', 'screen', 'settings', 'iPhone'), leading to high-confidence
+cosine similarity matches against adjacent intent clusters.
+
+Explicit Answer to 'Is the correct answer actually being retrieved but ranked incorrectly?':
+YES. Exactly 402 out of the 495 errors (81.21%) have a correct historical case successfully retrieved in the Top-10,
+and 242 errors (48.89%) have a correct case in the Top-3. This proves Stage 5 is primarily a RANKING FAILURE,
+not a retrieval failure.
+
+======================================================================
+END OF ERROR ANALYSIS REPORT
+======================================================================

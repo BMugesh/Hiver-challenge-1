@@ -1,0 +1,51 @@
+================================================================================
+SUPPORTDNA KNOWLEDGE LAYER DATA LEAKAGE AUDIT REPORT
+================================================================================
+Final Status                     : PASS
+Strict Zero-Leakage Policy       : ENFORCED
+
+1. SPLIT BOUNDARY INTEGRITY (TRAIN vs. VALIDATION vs. TEST)
+--------------------------------------------------------------------------------
+Train Cases (N)                  : 5,545
+Validation Cases (N)             : 1,188
+Test Cases (N)                   : 1,189
+Case ID Overlap (Train vs Val)   : 0 (Expected: 0)
+Case ID Overlap (Train vs Test)  : 0 (Expected: 0)
+Case ID Overlap (Val vs Test)    : 0 (Expected: 0)
+Thread Root Overlap (Train/Val)  : 0 (Expected: 0)
+Thread Root Overlap (Train/Test) : 0 (Expected: 0)
+Thread Root Overlap (Val/Test)   : 0 (Expected: 0)
+
+2. LAYER 2 (RESOLUTION KNOWLEDGE) PARTITIONING
+--------------------------------------------------------------------------------
+Total Resolution Cases           : 7,922
+Resolution Train Partition       : 5,545 cases
+Resolution Validation Partition  : 1,188 cases
+Resolution Test Partition        : 1,189 cases
+Cross-Partition Contamination    : 0 cases
+Partition Integrity Check        : PASS
+
+3. LAYER 3 (ESCALATION KNOWLEDGE) PARTITIONING
+--------------------------------------------------------------------------------
+Total Excluded Threads           : 72,325
+Overlap with Curated Resolved    : 0 (Expected: 0)
+Resolution Isolation Check       : PASS
+
+4. EXISTING RETRIEVAL (FAISS) CORPUS INTEGRITY
+--------------------------------------------------------------------------------
+FAISS Indexed Cases              : 5,545 (Expected: 5,545)
+Validation Leakage into FAISS    : 0 (Expected: 0)
+Test Leakage into FAISS          : 0 (Expected: 0)
+FAISS Preservation Status        : PASS
+
+5. TEXT OVERLAP AUDIT
+--------------------------------------------------------------------------------
+Train Unique Queries             : 5,545
+Test Unique Queries              : 1,189
+Identical Customer Phrasing      : 0 phrases
+Note: Real-world customer queries may independently use common generic phrases
+(e.g. 'battery is dying fast'), but thread IDs and conversation trees are 100% disjoint.
+
+================================================================================
+VERDICT: PASS — No evaluation or test data contaminated training knowledge.
+================================================================================
